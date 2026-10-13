@@ -23,6 +23,12 @@ const input = {
 };
 const started = Date.now();
 let result = await request<RoomView>("/api/rooms/" + created.room.id + "/messages", created.token, input);
+for (let recovery = 0; recovery < 2 && result.run?.status === "recovery" && result.run.recovery?.code === "EXECUTION_INTERRUPTED"; recovery++) {
+  console.info(JSON.stringify({ gate: "transient-recovery", attempt: recovery + 1, savedMessages: result.messages.length, owner: result.outcomes.at(-1)?.owner }));
+  const previousMessages = result.messages;
+  result = await request<RoomView>("/api/rooms/" + created.room.id + "/resume", created.token, {});
+  assert.deepEqual(result.messages.slice(0, previousMessages.length), previousMessages, "Recovery must preserve already committed messages");
+}
 for (let humanTurn = 0; humanTurn < 2 && result.outcomes.at(-1)?.status === "waiting"; humanTurn++) {
   const waiting = result.outcomes.at(-1)!;
   console.info(JSON.stringify({ gate: "human-input", owner: waiting.owner, question: waiting.gate?.question }));

@@ -34,3 +34,8 @@
 - Real release Gate passed on revision fishmarket-00005-txk: six-message Gemini collaboration, independent review, direct Firestore document read, idempotent replay, private access negative check and directed reply-only question.
 - The Chinese browser scenario resumed its saved review checkpoint successfully, preserving Sail as owner and the original five messages, then committed Harbor's independent review.
 - Final input-integrity audit preserved accepted human input and complete formal contribution bodies in the bounded model projection; added a trailing-constraint regression.
+- Final runtime source 8f40da135d37c507800ce08ae809b9b33ad86bb6 deployed as fishmarket-00006-46w. Both branch and main CI passed (23 offline tests, typecheck and builds).
+- Final production Gate passed: six real Gemini messages, satisfied/achieved independently reviewed delivery, independent Firestore REST read, idempotent replay, access denial and targeted reply-only question. Recorded workflow latency was 46.072 seconds for this single verification case.
+- One earlier final-version call returned Gemini 504 and correctly persisted recovery; this is an observed service limitation, not a claim of continuous model availability.
+- Chinese group was refreshed and still showed six original messages, Sail as owner, Reef/Beacon contributions and Harbor review. Saved the actual screenshot and kept the public app tab open for user acceptance.
+- Recorded complete release evidence and per-file changes. PPT, video and competition submission were not performed.

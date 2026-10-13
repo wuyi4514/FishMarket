@@ -1,49 +1,68 @@
-# FishMarket deployment evidence
+# FishMarket verified release
 
-## Current status
+## Public entry
 
-Initial Cloud Run source deployment completed: fishmarket-00001-br9. Live workflow verification is in progress; this is not yet the final verified release.
+https://fishmarket-893821979623.asia-northeast1.run.app
 
-- Public URL: https://fishmarket-893821979623.asia-northeast1.run.app
-- Project: fishmarket-abc-2026-4514
-- Region: asia-northeast1
-- Store: Firestore Native, default database, same region
-- Model: Gemini 3.5 Flash-Lite via Vertex AI global endpoint
-- Runtime identity: dedicated fishmarket-runtime service account
-- Cloud Run: one CPU, 512 MiB, zero minimum/two maximum instances, concurrency ten, request timeout ten minutes
-- Daily demo model-call limit: 300, enforced with Firestore transactions
+Public source: https://github.com/wuyi4514/FishMarket
 
-## Completed local evidence
+The implementation/deployment request is complete and ready for user acceptance. This does not represent competition submission or acceptance of the product by the user. PPT and video remain deferred.
 
-- 19 offline tests passed, including production SDK request/response serialization and HTTP composition.
-- TypeScript and web/server production builds passed.
-- Real Vertex AI probe returned a valid model response from the dedicated project.
-- Browser fixture path displayed the human, owner, contributors, immutable delivery and independent review. It is explicitly marked offline and does not count as live-model evidence.
+## Running source and infrastructure
 
-## Required release evidence still pending
+- Runtime source commit: 8f40da135d37c507800ce08ae809b9b33ad86bb6.
+- Cloud Run revision: fishmarket-00006-46w, serving 100% of traffic.
+- Project: fishmarket-abc-2026-4514; region: asia-northeast1.
+- One container serves both built web and API; no separate worker checkout.
+- Firestore Native default database in asia-northeast1.
+- Vertex AI global endpoint; Gemini 3.5 Flash-Lite.
+- Dedicated runtime service account with datastore.user and aiplatform.user.
+- One CPU, 512 MiB, zero minimum/two maximum instances, concurrency ten, ten-minute HTTP timeout.
+- Atomic daily model-call budget: 300. Per-room budget: 80; per-execution budget: 16.
+- No credential files, API keys or private room tokens are committed or sent to Gemini.
 
-- Full deployed Gemini group workflow and independently retrieved Firestore document.
-- Idempotent request replay and unauthorized-room access negative check.
-- A second live scenario and member-targeted reply-only behavior.
-- Public browser send, progressive messages and reload durability.
-- Final committed source SHA, successful CI and deployed revision matching that source.
+Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-## Operational boundaries
+## Verification results (2026-10-13, Asia/Shanghai)
 
-Only report-writing collaboration is supported. No external business actions are executed. A reviewed plan can be a satisfied deliverable without proving that proposed actions were carried out. Persistent agent identities exist in the group; private long-term agent memory, staffing, owner transfer and plugin runtime are deferred.
+| Gate | Actual evidence |
+|---|---|
+| Offline release | 23 tests, TypeScript, web build and server build passed |
+| GitHub CI | Runtime source passed on main and codex/group-chat-v1; main run https://github.com/wuyi4514/FishMarket/actions/runs/38376001606 |
+| Production health | Firestore ready; Vertex AI; model name and exact runtime source SHA returned |
+| Live English collaboration | Human → Harbor owner → Reef contributor → Sail contributor → Harbor delivery → Beacon independent review; six messages; satisfied deliverable with achieved/independently_reviewed result |
+| Final live scenario latency | 46.072 seconds in the recorded production Gate; not a benchmark or latency guarantee |
+| Independent Firestore read | Real document 4becc8d3-eaa7-4fdc-aa7a-37c887f288f4 retrieved through Firestore REST with developer auth; six stored messages |
+| Idempotent request replay | Existing messages/outcomes unchanged; unauthorized access without capability denied |
+| Directed ordinary question | Reef answered; two messages; no outcome; real Gemini |
+| Live Chinese professional-owner case | Sail remained owner; Reef and Beacon contributed; Harbor independently reviewed the immutable delivery |
+| Real checkpoint resume | Previously saved Chinese review checkpoint resumed without repeating the original five messages; one review appended |
+| Browser refresh | Same six-message group and reviewed terminal result returned after reload; no model replay |
+| Responsive UI | Desktop and 390px mobile layout checked in an actual browser |
+| Screenshot | docs/screenshots/live-collaboration.png |
 
-The room access token remains in the visitor's browser. The server stores its hash and never includes it in a model projection or public room snapshot. There are no credential files in the repository.
+The earlier source candidates were rejected honestly on contract/action/criterion mismatches. Those failed test room facts were preserved. The shared production boundaries were corrected and regression tests added; none of those failures were turned into successful historical records.
 
-## Source deployment
+One final-release model call returned a real 504 DEADLINE_EXCEEDED and correctly left durable recovery. A later complete Gate passed. Gemini availability is external; the product exposes an explicit Resume action. The production verification script only performs bounded recovery for interrupted execution and never hides schema failures.
 
-```sh
-gcloud run deploy fishmarket --source=. --project=fishmarket-abc-2026-4514 --region=asia-northeast1 --service-account=fishmarket-runtime@fishmarket-abc-2026-4514.iam.gserviceaccount.com --allow-unauthenticated --memory=512Mi --cpu=1 --min-instances=0 --max-instances=2 --concurrency=10 --timeout=600 --set-env-vars=GOOGLE_CLOUD_PROJECT=fishmarket-abc-2026-4514,ROOM_STORE=firestore,GEMINI_MODEL=gemini-3.5-flash-lite,DAILY_MODEL_CALL_LIMIT=300,RELEASE_SHA=COMMITTED_SHA
-```
+## Implemented and deferred
 
-## Production gate
+Implemented: persistent group identities, member targeting, reply-only admission, unique outcome owner, on-demand bounded contributions, human input gate, immutable goal revisions/deliveries, independent review, explicit attainment and durable recovery.
+
+Deferred: owner transfer, external business actions, scheduled waits, staffing, plugins, private long-term agent memory, multiple simultaneous runs in one room, comparative A/B benchmark, deck/video/submission.
+
+A reviewed report is not proof that the proposed business actions were executed. Visitors receive an isolated capability-protected room without login. This is the limited V3-inspired prototype, not the complete NeoOrg platform.
+
+## Reproduce the production Gate
 
 ```sh
 FISHMARKET_URL=https://fishmarket-893821979623.asia-northeast1.run.app pnpm smoke:production
 ```
 
-This gate uses the public HTTP API, real deployed Gemini adapter, and an independent authenticated Firestore infrastructure read. It must be run from an authorized developer environment with gcloud authentication; no token is printed or saved.
+Uses the public API, real deployed model adapter and independent Firestore read. Run from a developer environment with authorized gcloud access. Tokens are neither logged nor saved.
+
+## Deploy from a committed source
+
+```sh
+gcloud run deploy fishmarket --source=. --project=fishmarket-abc-2026-4514 --region=asia-northeast1 --service-account=fishmarket-runtime@fishmarket-abc-2026-4514.iam.gserviceaccount.com --allow-unauthenticated --memory=512Mi --cpu=1 --min-instances=0 --max-instances=2 --concurrency=10 --timeout=600 --set-env-vars=GOOGLE_CLOUD_PROJECT=fishmarket-abc-2026-4514,ROOM_STORE=firestore,GEMINI_MODEL=gemini-3.5-flash-lite,DAILY_MODEL_CALL_LIMIT=300,RELEASE_SHA=COMMITTED_SHA
+```

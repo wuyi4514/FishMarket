@@ -12,7 +12,7 @@
 | src/web/App.tsx | Human/Agent group timeline, targeting, owner/contributor/reviewer labels, outcome details, gates, polling, persisted room session and resume controls |
 | src/web/styles.css | Original paper-and-sage visual design; desktop/mobile layouts; reduced-motion support |
 | src/web/main.tsx | React entry with bundled Archivo and Newsreader fonts |
-| tests/collaboration.test.ts | Twenty offline Evals across contracts, domain transitions, persistence, recovery, actual SDK boundaries and HTTP composition |
+| tests/collaboration.test.ts | Twenty-three offline Evals across contracts, domain transitions, persistence, recovery, actual SDK boundaries, concurrent idempotency, full business inputs and HTTP composition |
 | scripts/production-smoke.ts | Live public API workflow, independent Firestore infrastructure read, request replay, access denial and reply-only verification |
 | package.json | Pinned SDK/runtime/build dependencies and dev, verify, build and live smoke scripts |
 | pnpm-lock.yaml | Reproducible dependency lock |
@@ -33,5 +33,6 @@
 | findings.md | Architecture reference, live tooling facts and provider-boundary findings |
 | progress.md | Implementation and verification milestones |
 | docs/change-summary.md | This per-file change record |
+| docs/screenshots/live-collaboration.png | Actual deployed Chinese collaboration and independent-review screenshot |
 
 Removed uncommitted launch-report scaffold: src/contracts/mission.ts; src/server/ports.ts, store.ts, gemini.ts, orchestrator.ts, app.ts; tests/contracts.test.ts and orchestrator.test.ts; docs/architecture.md; firebase.json and firestore.indexes.json. They were replaced by the independent group implementation and the single-service Cloud Run deployment. No NeoOrg files, data or running services were changed.

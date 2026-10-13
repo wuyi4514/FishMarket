@@ -6,7 +6,7 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Current phase
 
-Cloud release verification. The independent implementation is committed and pushed; the final runtime release and live semantic Gate are pending.
+Implementation and production verification complete. Ready for user acceptance; competition materials and submission remain deferred.
 
 ## Phase 1: Architecture and cloud foundation
 
@@ -29,27 +29,27 @@ Status: complete_offline
 - [x] Atomic Firestore message/state checkpoints and request idempotency
 - [x] Fenced execution and explicit checkpoint recovery
 - [x] Version envelopes owned by engineering and supported Vertex schema projection
-- [x] Twenty offline Evals, TypeScript and production builds
+- [x] Twenty-three offline Evals, TypeScript and production builds
 
 ## Phase 3: Deploy and verify
 
-Status: in_progress
+Status: complete
 
 - [x] Deploy initial full-stack Cloud Run image with Firestore and Vertex AI
 - [x] Verify live service health and basic model access
-- [ ] Complete real multi-agent outcome through independent review
-- [ ] Independently read the stored Firestore document
-- [ ] Prove idempotent replay, private room access and targeted reply-only behavior
-- [ ] Validate a second live business scenario, browser interaction and reload durability
-- [ ] Verify deployed source SHA, revision, service account, logs and CI
+- [x] Complete real multi-agent outcome through independent review
+- [x] Independently read the stored Firestore document
+- [x] Prove idempotent replay, private room access and targeted reply-only behavior
+- [x] Validate a second live business scenario, browser interaction and reload durability
+- [x] Verify deployed source SHA, revision, service account, logs and CI
 
 ## Phase 4: Handoff
 
-Status: pending
+Status: complete
 
-- [ ] Save release evidence and per-file changes
-- [ ] Push final documentation and verify public repository accessibility
-- [ ] Open the verified deployed app for user acceptance
+- [x] Save release evidence and per-file changes
+- [x] Push implementation and verify public repository accessibility; final evidence documents are being committed
+- [x] Open the verified deployed app for user acceptance
 
 ## Deferred scope
 
@@ -87,8 +87,8 @@ PPT, video and final competition submission are out of this turn. Owner transfer
 
 ## Evidence
 
-Implementation: source commit e7717e1 (full hash available from Git).
-Local Gate: 20 tests + typecheck + web/server build passed.
+Runtime implementation: source commit 8f40da135d37c507800ce08ae809b9b33ad86bb6.
+Local Gate: 23 tests + typecheck + web/server build passed.
 Cloud project: fishmarket-abc-2026-4514.
 Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
 Final release evidence belongs in docs/release.md.
