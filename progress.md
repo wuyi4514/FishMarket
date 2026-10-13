@@ -28,3 +28,4 @@
 - Initial deployed full workflow failed closed on an invalid model-generated protocol version. Fixed the shared boundary by excluding that field from wire schemas and having the adapter construct the authoritative envelope. Existing failed room facts remain unchanged.
 - Added read-side expiry detection to persist an actionable recovery case for a crashed request, and filtered review issues to the current goal revision.
 - Desktop offline collaboration UI and deployed 390-pixel mobile landing/composer layouts were visually verified. Corrected source deployment is in progress.
+- Real model Gate exposed repeated delegation after two contributions committed. Restricted the current owner action schema from the persisted snapshot instead of relying on Prompt instructions; added a shared serialization/input-output negative Eval.

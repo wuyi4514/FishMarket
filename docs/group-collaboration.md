@@ -32,6 +32,8 @@ Model facts: current goal and criteria, current role, bounded relevant messages,
 
 The Gemini output wire schema contains semantic fields only. The adapter validates that wire payload and constructs its fixed protocol-version envelope before the application contract is checked. The model never generates or copies the engineering-owned protocol version.
 
+The current action schema is also constructed from the frozen snapshot: already-committed delegation is absent from the owner's provider action set, and linked admission cannot open a duplicate outcome. The same restricted schema validates the response; domain guards still independently recheck before commit.
+
 ## Prototype policies
 
 - One active execution per room; concurrent human sends receive a visible busy response and preserve the draft.

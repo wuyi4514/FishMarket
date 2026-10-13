@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { Collaboration } from "../src/server/collaboration";
 import { MemoryRoomStore } from "../src/server/room-store";
 import { FixtureModel } from "../src/server/fixture-model";
-import { buildModelContext, GeminiGateway, type ModelContext, type ModelGateway } from "../src/server/model";
+import { buildModelContext, buildGeminiRequest, GeminiGateway, type ModelContext, type ModelGateway } from "../src/server/model";
 import { admissionSchema, contributionSchema, projectRoom, assertRoom, type HumanMessageInput } from "../src/contracts/group";
 import { buildApp } from "../src/server/http";
 
@@ -142,6 +142,20 @@ describe("V3-derived group collaboration", () => {
 });
 
 describe("actual Gemini SDK serialization boundary", () => {
+  it("the current provider action set excludes already-committed delegation and duplicate outcome opening", async () => {
+    const contexts: ModelContext[] = [];
+    const capture = new TransformModel((context, value) => { contexts.push(context); return value; });
+    const { engine, room } = await setup(capture); await engine.send(room.id, message());
+    const { ownerActionSchema } = await import("../src/contracts/group");
+    const initial = contexts.find(context => context.scope === "owner")!;
+    const integrated = contexts.findLast(context => context.scope === "owner")!;
+    expect(JSON.stringify(buildGeminiRequest(initial, ownerActionSchema, "model").config!.responseJsonSchema)).toContain("request_contributions");
+    expect(JSON.stringify(buildGeminiRequest(integrated, ownerActionSchema, "model").config!.responseJsonSchema)).not.toContain("request_contributions");
+    const gateway = new GeminiGateway("project", "model", async () => ({ text: JSON.stringify({ action: "request_contributions", body: "Repeat the work", requests: [{ memberRef: "M2", goal: "Repeat the evidence check" }] }) }));
+    await expect(gateway.respond(integrated, ownerActionSchema)).rejects.toThrow();
+    const admission = { ...initial, scope: "admission" as const };
+    expect(JSON.stringify(buildGeminiRequest(admission, admissionSchema, "model").config!.responseJsonSchema)).not.toContain("open_outcome");
+  });
   it("the adapter constructs fixed protocol versions for all execution scopes", async () => {
     const recorded: ModelContext[] = [];
     const capture = new TransformModel((context, value) => { recorded.push(context); return value; });
