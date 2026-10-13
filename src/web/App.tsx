@@ -143,26 +143,23 @@ export function App() {
       <p className="side-label">YOUR WORKSPACE</p>
       <nav className="room-list" aria-label="Working rooms">{workspace?.rooms.map(entry => <button key={entry.id} className={"room-nav" + (entry.id === session?.id ? " active" : "")} aria-current={entry.id === session?.id ? "page" : undefined} disabled={navigationDisabled} onClick={() => void switchRoom(entry.id)}><span className="room-symbol">#</span><span className="room-label">{entry.title}<small>{entry.id === session?.id ? "Your current working room" : "Return to this conversation"}</small></span>{entry.id === session?.id && <span className="active-dot"/>}</button>)}</nav>
       <button className="new-room" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/> Start a fresh room</button>
-      <p className="workspace-local-note">Rooms remembered in this browser</p>
-      <div className="team-section"><p className="side-label">YOUR TEAM <span>4 AGENTS + YOU</span></p>
+      <div className="team-section"><p className="side-label">YOUR TEAM</p>
         <div className="member-row"><Avatar id="human" small/><div>You<small>The human in the loop</small></div><span className="human-tag">Human</span></div>
         {members.map(member => <button key={member.id} aria-label={"View " + member.name + " profile"} className={"member-row member-button" + (target === member.id ? " selected" : "")} onClick={() => setProfileId(member.id)}>
           <Avatar id={member.id} small/><div>{member.name}<small>{member.role}</small></div><span className="member-online"/>
         </button>)}
       </div>
-      <div className="sidebar-note"><span className="note-line"/><p>Many perspectives.<br/><strong>One accountable owner.</strong></p><small>Persistent teammates. Shared context.<br/>A clear path to a reviewed result.</small></div>
       <a className="source-link" href="https://github.com/wuyi4514/FishMarket" target="_blank" rel="noreferrer">Open source <span>↗</span></a>
     </aside>
     <main className="chat-shell">
-      <header className="chat-header"><div className="header-title"><p className="eyebrow">A HUMAN + AI WORKSPACE</p><h1>{room?.title ?? "Your workspace"} <span>↗</span></h1></div>
-        <div className="header-right"><div className="avatar-stack"><Avatar id="human" small/>{members.map(member => <span key={member.id}>{profileAvatar(member.id, true)}</span>)}</div><span className={"live-badge" + (mode !== "live" ? " fixture" : "")}><i/>{mode === "live" ? "Gemini · Live" : "Offline preview"}</span></div>
+      <header className="chat-header"><div className="header-title"><h1>{room?.title ?? "Your workspace"} <span>↗</span></h1></div>
+        <div className="header-right"><div className="avatar-stack"><Avatar id="human" small/>{members.map(member => <span key={member.id}>{profileAvatar(member.id, true)}</span>)}</div></div>
       </header>
       <div className="mobile-workspace"><select aria-label="Working room" value={session?.id ?? ""} disabled={navigationDisabled} onChange={event => void switchRoom(event.target.value)}>{workspace?.rooms.map(entry => <option key={entry.id} value={entry.id}>{entry.title}</option>)}</select><button type="button" aria-label="Start a fresh room" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/> New room</button></div>
       <section className="timeline" aria-label="Group conversation" aria-live="polite">
         {!room?.messages.length ? <div className="welcome">
-          <div className="welcome-mark"><Icon type="fish"/></div><p className="eyebrow">GOOD WORK STARTS WITH A CONVERSATION</p>
+          <div className="welcome-mark"><Icon type="fish"/></div>
           <h2>Bring a goal.<br/><em>Build an outcome.</em></h2>
-          <p className="welcome-copy">You bring the context. Your AI teammates bring different perspectives. One takes ownership, brings in the right people, and follows through to a reviewed result.</p>
           <div className="example-grid">{examples.map((example, i) => <button key={example.title} onClick={() => { setDraft(example.text); setTarget("team"); draftRef.current?.focus(); }}><span className="example-number">0{i + 1}</span><strong>{example.title}</strong><Icon type="arrow"/></button>)}</div>
           <div className="welcome-team">{members.map(member => <button key={member.id} type="button" aria-label={"View " + member.name + " profile"} onClick={() => setProfileId(member.id)}><Avatar id={member.id}/><strong>{member.name}</strong><span>{member.role}</span></button>)}</div>
         </div> : <div className="messages">
@@ -185,7 +182,7 @@ export function App() {
             {activeOutcomes.length > 0 && <label><select aria-label="Work to continue" value={outcomeId ?? ""} onChange={event => setOutcomeId(event.target.value || null)}><option value="">New goal / general chat</option>{activeOutcomes.map(outcome => <option key={outcome.id} value={outcome.id}>Continue: {outcome.goals.at(-1)!.goal.slice(0, 45)}</option>)}</select></label>}
           </div>
           <textarea ref={draftRef} aria-label="Message" placeholder="Share a goal, add evidence, or ask a teammate…" value={draft} disabled={transitioning} maxLength={4000} onChange={event => setDraft(event.target.value)} onKeyDown={event => { if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) { event.preventDefault(); void send(); } }}/>
-          <div className="composer-bottom"><span>Your judgment stays at the center. <small>⌘ / Ctrl + Enter to send</small></span><button className="send-button" type="submit" disabled={!session || !draft.trim() || !!working || !!blocked || transitioning}>{working ? "Working" : "Send"}<Icon type="send"/></button></div>
+          <div className="composer-bottom"><span><small>⌘ / Ctrl + Enter to send</small></span><button className="send-button" type="submit" disabled={!session || !draft.trim() || !!working || !!blocked || transitioning}>{working ? "Working" : "Send"}<Icon type="send"/></button></div>
         </form>
         <p className="composer-footnote">{mode !== "live" ? "Offline preview uses deterministic fixtures. Production uses real Gemini." : "AI can make mistakes. Review the evidence and make the final business decision."}</p>
       </div>

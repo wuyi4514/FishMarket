@@ -64,3 +64,17 @@ Removed uncommitted launch-report scaffold: src/contracts/mission.ts; src/server
 | docs/screenshots/fresh-room-dialog.png | Real deployed mobile named-room creation prompt screenshot |
 
 Cloud revision fishmarket-00007-czj is deployed; actual browser reload/switch proof and screenshots are recorded in the iteration release document. User acceptance is still pending.
+
+## Annotated copy cleanup
+
+| File | Actual changes |
+|---|---|
+| src/web/App.tsx | Removed the eight red-box auxiliary text/badge blocks; retained room/profile controls, main headline, shortcut and safety footnote |
+| src/web/room-features.css | Footer alignment, shortcut spacing and mobile header sizing after copy removal |
+| tests/ui-copy.test.ts | Production-App render negatives and retained-control/content assertions |
+| task_plan.md | Scoped cleanup checklist and baseline failure record |
+| findings.md | Annotated targets and actual desktop/mobile observations |
+| progress.md | Implementation and validation milestones |
+| docs/change-summary.md | This cleanup's per-file record |
+
+No server, contracts, model, workspace persistence or profile dialog behavior changed. Cloud publication is pending.

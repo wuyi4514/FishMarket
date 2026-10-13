@@ -6,7 +6,7 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Current phase
 
-Named room navigation and substantive Agent identities are implemented, deployed and verified. Ready for user acceptance; competition materials and submission remain deferred.
+Red-box UI copy cleanup is in progress. Named rooms and substantive Agent identities remain implemented; competition materials and submission remain deferred.
 
 ## Phase 1: Architecture and cloud foundation
 
@@ -75,6 +75,20 @@ New rooms freeze versioned Agent profiles in their aggregate. Legacy room-v1 agg
 
 ## Guardrails
 
+### Phase 6: Annotated UI copy cleanup
+
+**Status:** in_progress
+
+- [x] Add failing render assertions for the eight annotated blocks, preserving working controls
+- [x] Remove only annotated header/welcome/sidebar/composer copy and live badge
+- [x] Verify offline Gate and desktop/mobile layout, profile and new-room interactions
+- [ ] Commit/push a development branch, deploy and verify source/revision/assets (no PR)
+- [ ] Record actual release evidence and screenshot; preserve rooms, credentials and workflow history
+
+This is a presentation-only change. No Agent context, profile, model, Firestore, workflow, permission, budget or recovery contract is changed. Keep the main welcome headline, existing safety footnote, room navigation, member identity details and send shortcut.
+
+## Existing guardrails
+
 - Independent code, prompts, schemas, tests and assets; architecture ideas and mature SDKs are reused.
 - Exactly one persistent owner per outcome. Contributions never close the parent outcome.
 - Protocol identity, versions, order, lease, transaction, retry and terminal facts are engineering-owned.
@@ -105,6 +119,7 @@ New rooms freeze versioned Agent profiles in their aggregate. Legacy room-v1 agg
 | New iteration baseline lacked workspace module and room profiles | First observed failing new Evals, then implemented the shared contracts and browser navigator; all 33 tests now pass |
 | Browser terminal-label wait timed out before polling displayed the result | Inspected the current accessibility tree; it showed all six persisted messages and the reviewed achieved result. No product change or replay was needed |
 | Initial production browser reload observed an empty shell before async retrieval | Verified the completed server GET and the later UI; original six bodies were identical. Proceeded only after the saved room was visibly available |
+| Annotated-copy render test failed on the unchanged baseline | Removed only the eight requested blocks and kept the control/safety assertions |
 
 ## Evidence
 

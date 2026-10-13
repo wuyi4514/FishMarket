@@ -63,3 +63,12 @@
 - Cloud UI named creation, selected-room refresh and old-room switch retrieval passed. All six original Chinese message bodies remained identical; new room stayed clean and retained both navigation entries.
 - Verified all four cloud header profile buttons and the deployed mobile new-room prompt/cancel; saved desktop profile and mobile creation screenshots. Reset viewport and closed the temporary local preview tab. Public app tab is retained for user acceptance.
 - Updated current release evidence and per-file summary. This iteration is complete and deployed; user acceptance remains pending. PPT/video/submission/main merge/PR were not performed.
+
+## Annotated UI copy cleanup
+
+- Read frontend-design, browser-use and planning instructions, restored prior release context and created codex/ui-copy-cleanup from the clean current checkout.
+- Mapped the eight red-box blocks to App.tsx. Recorded a presentation-only scope and preserved the unmarked safety footnote and functional controls.
+- Added production-App render assertions before editing. Updated App.tsx to remove the eight annotated blocks; adjusted room-features.css so the source footer stays at the bottom, the shortcut aligns left and mobile header collapses the removed badge space.
+- Baseline focused test failed as expected on the still-present header eyebrow; retained-content test already passed. Actual product edits are now under the offline/browser Gate.
+- Complete offline Gate passed: 38 tests, typecheck and web/server builds. Desktop copy/layout checked in the actual browser; no model or Firestore code changed.
+- Verified local mobile layout, profile dialog, new-room open/cancel, example filling and enabled Send. Reclaimed mobile title width freed by the removed badge; viewport reset afterward.

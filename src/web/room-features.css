@@ -5,7 +5,8 @@
 .room-nav:not(.active):hover { background: #f0f3eb; border-color: #dce2d5; }
 .room-label { display: block; min-width: 0; overflow-wrap: anywhere; flex: 1; }
 .room-symbol, .active-dot { flex-shrink: 0; }
-.workspace-local-note { font-size: 8px; line-height: 1.5; color: #929b88; margin: 0 8px; }
+.source-link { margin-top: auto; }
+.composer-bottom small { margin-left: 0; }
 .team-section { margin-top: 28px; }
 .header-title { min-width: 0; }
 .chat-header h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -56,12 +57,12 @@
   .sidebar { padding-top: 24px; overflow-y: auto; }
   .brand { margin-bottom: 30px; }
   .room-list { max-height: 145px; }
-  .sidebar-note { padding-top: 22px; }
 }
 @media (max-width: 700px) {
-  .chat-header { height: 106px; align-items: flex-start; gap: 10px; }
-  .chat-header h1 { max-width: 190px; font-size: 23px; }
-  .header-right { align-items: flex-end; flex-direction: column-reverse; gap: 13px; margin-left: 0; }
+  .chat-header { height: 78px; align-items: center; gap: 10px; }
+  .header-title { flex: 1; }
+  .chat-header h1 { max-width: none; font-size: 23px; }
+  .header-right { align-items: center; margin-left: 0; }
   .avatar-stack { display: flex; padding-left: 4px; }
   .avatar-stack .avatar.small { width: 23px; height: 23px; font-size: 14px; border-radius: 8px; }
   .mobile-workspace { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 17px; border-bottom: 1px solid var(--line); flex-shrink: 0; background: #edf1e7; }

@@ -70,3 +70,11 @@
 - Cloud browser submitted named Fresh collaboration via the real API. It showed no inherited conversation/result, an active new title and the preserved original room entry. Assertions on a reload/switch must wait for the selected-room heading rather than reading message nodes while a fetch is pending.
 - Final cloud UI checks: refresh restored Fresh collaboration with both remembered room entries; switching to the original room after it became selected returned all six original message bodies exactly unchanged.
 - Cloud header Harbor/Reef/Sail/Beacon dialogs each displayed the correct position plus three responsibilities and two boundaries. Saved actual cloud desktop/mobile screenshots. Public browser is retained for user acceptance; temporary preview tab and viewport overrides were cleaned up.
+
+## Annotated UI copy cleanup
+
+- User screenshot marks eight blocks: header eyebrow, live-model badge, welcome eyebrow, welcome explanatory paragraph, browser-local room note, team count, entire sidebar slogan/description, composer judgment sentence.
+- Keep the unmarked main welcome headline, room labels, team roles, examples, shortcut and bottom AI safety footnote. This is not permission to delete browser debugging UI outside the product.
+- Current source branch is based on d534dfa and runtime 8816155; worktree was clean. This change only affects rendering/styles and leaves model/persistence behavior unchanged.
+- Offline Gate passed with 38 tests, frontend/server typecheck and both builds. Desktop 1280x900 preview visibly removes the eight annotated blocks while preserving the main headline, examples, clickable Agent identities, composer shortcut and clearly labelled fixture footnote.
+- Local 390x844 mobile layout has no horizontal overflow. Header/profile entry, new-room open/cancel and example-to-composer/Send availability worked. Removed badge space is reclaimed by the title instead of keeping the previous fixed 190px maximum.
