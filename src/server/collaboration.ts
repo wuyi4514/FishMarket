@@ -33,7 +33,7 @@ export class Collaboration {
     if (!snapshot) throw new Error("ROOM_NOT_FOUND");
     if (snapshot.run?.status !== "running" || snapshot.run.leaseUntil >= Date.now()) return snapshot;
     return this.store.update(id, room => {
-      if (room.run?.status !== "running" || room.run.leaseUntil >= Date.now()) return;
+      if (room.run?.status !== "running" || room.run.leaseUntil >= Date.now()) return false;
       room.run.status = "recovery";
       room.run.recovery = { code: "EXECUTION_LEASE_EXPIRED", owner: activeOutcome(room)?.owner ?? room.run.speaker, nextAction: "The execution was interrupted. Resume the committed checkpoint; ownership and earlier messages are preserved.", retryable: true };
     });
@@ -43,7 +43,7 @@ export class Collaboration {
     const fence = randomUUID(), runId = randomUUID();
     const room = await this.store.update(id, current => {
       const receipt = current.receipts.find(item => item.key === input.requestKey);
-      if (receipt) { if (receipt.fingerprint !== fingerprint) throw new Error("REQUEST_KEY_CONFLICT"); duplicate = true; return; }
+      if (receipt) { if (receipt.fingerprint !== fingerprint) throw new Error("REQUEST_KEY_CONFLICT"); duplicate = true; return false; }
       if (current.run?.status === "running" || (current.run?.status === "recovery" && current.run.recovery?.retryable)) throw new Error("ROOM_BUSY");
       if (current.messages.length > 155 || current.outcomes.length >= 30 || current.receipts.length >= 50) throw new Error("ROOM_CAPACITY_OR_VERSION");
       if (input.outcomeId) {
@@ -96,7 +96,7 @@ export class Collaboration {
       } catch (error) {
         console.error(JSON.stringify({ event: "collaboration.recovery", room: id, error: error instanceof Error ? error.message.slice(0, 600) : "UNKNOWN" }));
         return this.store.update(id, room => {
-          if (room.run?.fence !== fence || room.run.status !== "running") return;
+          if (room.run?.fence !== fence || room.run.status !== "running") return false;
           const invalid = error instanceof ZodError || (error instanceof Error && /MODEL_|REF_|CRITERIA_|INVALID/.test(error.message));
           const budget = error instanceof Error && /BUDGET/.test(error.message);
           room.run.status = "recovery";

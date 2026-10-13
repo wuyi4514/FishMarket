@@ -1,6 +1,6 @@
 import { GoogleGenAI, type GenerateContentParameters } from "@google/genai";
 import { z } from "zod";
-import { MEMBERS, wireProtocols, type AgentId, type Room, type Scope } from "../contracts/group.js";
+import { MEMBERS, wireProtocols, assessmentSchema, type AgentId, type Room, type Scope } from "../contracts/group.js";
 
 const memberContext = z.object({ ref: z.string(), name: z.string(), capability: z.string() }).strict();
 export const modelContextSchema = z.object({
@@ -8,7 +8,7 @@ export const modelContextSchema = z.object({
   identity: z.object({ name: z.string(), capability: z.string() }).strict(),
   members: z.array(memberContext).max(4),
   history: z.array(z.object({ author: z.string(), role: z.string(), body: z.string().max(1600) }).strict()).max(12),
-  goal: z.object({ goal: z.string(), criteria: z.array(z.object({ ref: z.string(), text: z.string() }).strict()), constraints: z.array(z.string()) }).strict().nullable(),
+  goal: z.object({ goal: z.string(), criteria: z.array(z.object({ ref: z.string(), text: z.string() }).strict()).min(1).max(5), constraints: z.array(z.string()) }).strict().nullable(),
   contributionGoal: z.string().nullable(),
   contributions: z.array(z.object({ author: z.string(), goal: z.string(), body: z.string().max(1800).nullable(), resultKind: z.string().nullable() }).strict()).max(2),
   delivery: z.object({ body: z.string().max(6000), resultKind: z.string() }).strict().nullable(),
@@ -66,6 +66,13 @@ export function toGeminiSchema(value: unknown): unknown {
   return converted;
 }
 export function wireSchemaFor(context: ModelContext): z.ZodType<Record<string, unknown>> {
+  if (context.scope === "review") {
+    const refs = context.goal?.criteria.map(criterion => criterion.ref);
+    if (!refs?.length) throw new Error("REVIEW_GOAL_REQUIRED");
+    return wireProtocols.review.schema.extend({
+      assessments: z.array(assessmentSchema.extend({ criterionRef: z.enum(refs as [string, ...string[]]) })).length(refs.length)
+    });
+  }
   if (context.scope === "owner" && context.contributions.length) {
     const options = wireProtocols.owner.schema.options;
     return z.discriminatedUnion("action", [options[1], options[2]]);

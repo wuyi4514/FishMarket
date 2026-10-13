@@ -29,3 +29,5 @@
 - Added read-side expiry detection to persist an actionable recovery case for a crashed request, and filtered review issues to the current goal revision.
 - Desktop offline collaboration UI and deployed 390-pixel mobile landing/composer layouts were visually verified. Corrected source deployment is in progress.
 - Real model Gate exposed repeated delegation after two contributions committed. Restricted the current owner action schema from the persisted snapshot instead of relying on Prompt instructions; added a shared serialization/input-output negative Eval.
+- A real professional-owner browser scenario delivered its report but review coverage was rejected. Bound the review wire schema to the exact current criterion refs/count; also closed idempotent no-op version invalidation with a concurrent duplicate test.
+- Expanded the production Gate to consume a genuine Human input gate in the synthetic scenario and still require a delivered, independently reviewed result.

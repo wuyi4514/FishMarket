@@ -46,7 +46,21 @@ describe("V3-derived group collaboration", () => {
   it("request replay never duplicates messages, outcomes or provider calls", async () => {
     const { engine, room } = await setup(); const input = message(); const first = await engine.send(room.id, input); const second = await engine.send(room.id, input);
     expect(second.messages).toEqual(first.messages); expect(second.outcomes).toEqual(first.outcomes); expect(second.totalCalls).toBe(first.totalCalls);
+    expect(second.version).toBe(first.version);
     await expect(engine.send(room.id, { ...input, body: "Different payload" })).rejects.toThrow("REQUEST_KEY_CONFLICT");
+  });
+  it("a concurrent duplicate does not invalidate the in-flight provider snapshot", async () => {
+    let start!: () => void; let release!: () => void;
+    const entered = new Promise<void>(resolve => { start = resolve; });
+    const unblocked = new Promise<void>(resolve => { release = resolve; });
+    const model: ModelGateway = { respond: async (context, schema) => {
+      if (context.scope === "admission") { start(); await unblocked; }
+      return new FixtureModel(0).respond(context, schema);
+    } };
+    const { engine, room, store } = await setup(model); const input = message(); const running = engine.send(room.id, input);
+    await entered; const before = (await store.get(room.id))!; const duplicate = await engine.send(room.id, input);
+    expect(duplicate.version).toBe(before.version); release();
+    const completed = await running; expect(completed.outcomes[0]!.status).toBe("satisfied"); expect(completed.run!.recovery).toBeNull();
   });
   it("a contributor cannot become owner by publishing a message", async () => {
     const { engine, room } = await setup(); const result = await engine.send(room.id, message());
@@ -155,6 +169,10 @@ describe("actual Gemini SDK serialization boundary", () => {
     await expect(gateway.respond(integrated, ownerActionSchema)).rejects.toThrow();
     const admission = { ...initial, scope: "admission" as const };
     expect(JSON.stringify(buildGeminiRequest(admission, admissionSchema, "model").config!.responseJsonSchema)).not.toContain("open_outcome");
+    const reviewContext = contexts.find(context => context.scope === "review")!;
+    const { reviewSchema } = await import("../src/contracts/group");
+    const reviewWire = JSON.stringify(buildGeminiRequest(reviewContext, reviewSchema, "model").config!.responseJsonSchema);
+    expect(reviewWire).not.toContain('"C3"'); expect(reviewWire).toContain('"minItems":2'); expect(reviewWire).toContain('"maxItems":2');
   });
   it("the adapter constructs fixed protocol versions for all execution scopes", async () => {
     const recorded: ModelContext[] = [];

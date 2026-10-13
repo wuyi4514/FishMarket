@@ -81,6 +81,8 @@ PPT, video and final competition submission are out of this turn. Owner transfer
 | New Git repo lacked author identity | Configured only this repo with authenticated user's GitHub noreply identity |
 | Owner attempted repeated delegation after contributions committed | Restricted the current provider input/output action schema from persisted facts; retained domain guards and added a production-boundary negative Eval |
 | Restricted wire schema returned an unknown static type | Declared the object payload output type without weakening runtime schema validation |
+| Live review assessed refs outside the frozen criteria set | Compiled its exact criterion enum and assessment count from the current goal for both provider input and output validation |
+| Audit found idempotent no-op updates could bump the version of an in-flight run | Added explicit no-op transaction results and a concurrent duplicate Eval |
 
 ## Evidence
 

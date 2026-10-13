@@ -22,7 +22,15 @@ const input = {
   body: "Help us decide whether to launch a small pilot next week. Five teams tested onboarding: four completed independently; one needed operator help. No repeated recovery test is available. Produce an evidence-based pilot recommendation and practical next steps with responsible roles and exit criteria. Ask two complementary teammates to contribute, integrate their findings, and have an independent teammate review the proposal. Treat any proposed actions as not yet executed."
 };
 const started = Date.now();
-const result = await request<RoomView>("/api/rooms/" + created.room.id + "/messages", created.token, input);
+let result = await request<RoomView>("/api/rooms/" + created.room.id + "/messages", created.token, input);
+for (let humanTurn = 0; humanTurn < 2 && result.outcomes.at(-1)?.status === "waiting"; humanTurn++) {
+  const waiting = result.outcomes.at(-1)!;
+  console.info(JSON.stringify({ gate: "human-input", owner: waiting.owner, question: waiting.gate?.question }));
+  result = await request<RoomView>("/api/rooms/" + created.room.id + "/messages", created.token, {
+    contractVersion: "human-message-v1", requestKey: randomUUID(), target: "team", outcomeId: waiting.id,
+    body: "For this synthetic verification scenario, use a five-team, two-week pilot. Keep current pilot facts unchanged. Assume QA lead owns recovery testing, Product lead owns the pilot decision and Support lead owns the guide. Propose twenty repeatable recovery tests as an exit criterion and a rollback if onboarding requires help. These are planning assumptions, not executed actions. Document every remaining unknown as a caveat. This request asks only for a complete recommendation and proposed plan; do not require proof of future execution to deliver that report."
+  });
+}
 console.info(JSON.stringify({ gate: "gemini-workflow", seconds: (Date.now() - started) / 1000, status: result.run?.status, recovery: result.run?.recovery, speakers: result.messages.map(message => ({ author: message.author, role: message.role })), outcomes: result.outcomes.map(outcome => ({ owner: outcome.owner, status: outcome.status, result: outcome.result })) }));
 assert.equal(result.run?.status, "done");
 const outcome = result.outcomes.at(-1)!;
