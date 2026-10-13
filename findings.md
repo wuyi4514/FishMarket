@@ -47,3 +47,19 @@
 - Second deployed workflow committed admission and two contributions, then rejected an invalid owner action. The official Vertex structured-output documentation does not list const as supported, and explicitly says unsupported fields are ignored. Normalized string const to an equivalent one-value enum in the shared schema adapter, preserving strict application validation. Source: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/capabilities/control-generated-output
 - Production is verified on runtime source 8f40da135d37c507800ce08ae809b9b33ad86bb6, revision fishmarket-00006-46w. Evidence and operational limitations are recorded in docs/release.md.
 - The current source is a limited V3-inspired group prototype, not a full NeoOrg reconstruction. Material preparation and competition submission remain outside this turn.
+
+## Room / identity iteration baseline
+
+- User requested working fresh-room creation and clickable Agent job/responsibility information, not new competition materials or a PR.
+- Current fresh-room API already writes a real empty aggregate, but the UI keeps only one room capability in fishmarket.room.v1; new creation loses the old entry point, has no pending lock and shows a hardcoded room title.
+- Sidebar member buttons currently change the composer recipient; header avatars are non-interactive. Shared MEMBERS has a short role/capability only. The production model receives capability but no explicit job/responsibility/boundary facts.
+- Preserve the existing editorial sage/paper visual language. Native accessible dialogs provide focus trapping, Escape dismissal and named room creation. The workspace list is local to this browser, not cross-device sync.
+- Existing production source is 8f40da1; Google Cloud deployment, Firestore and IAM are not being replaced. Existing rooms, checkpoints and credentials remain intact.
+- browser-use doctor found a live daemon but no active browser connection; use the enabled in-app browser or connect an available isolated browser for UI verification.
+- Desktop 1280x900 browser now shows the room list and interactive header/sidebar/welcome Agent entries. Reef profile visibly renders the exact role, three responsibilities, two boundaries and separate Message action from the shared room projection.
+- Native profile dialog traps focus and exposes a labelled heading; explicit position identity remains distinct from per-outcome execution assignments. Local build uses the clearly labelled offline fixture, not production model evidence.
+- Local browser created named Pilot decision room, showed a clean timeline and kept the original working-room entry. New-room prompt explicitly says the previous unsent draft stays in this tab. The Message Reef action selected Reef separately from viewing the profile.
+- Browser revealed that React autoFocus ran before native showModal, leaving focus on Close. Changed the shared modal to focus the declared initial field only after showModal.
+- Switching back to the original room restored its unsent note and @Reef recipient. A local directed collaboration then committed six messages with Reef as sole owner and Beacon as independent reviewer; new profile clicks did not change outcome ownership.
+- After creating a second room, refresh restored that selected clean room. Switching back retrieved the original six messages and reviewed result. Escape closed Sail's profile and returned focus to its original Agent button. At 390px the header exposes clickable Agent avatars plus a visible room selector and fresh-room action.
+- Mobile 390x844 rendered the complete Beacon position dialog without horizontal overflow. Named-room input received initial focus, Cancel preserved the original room, and the mobile selector switched to the clean second room. Reset the temporary viewport afterward.

@@ -46,7 +46,15 @@ The current action schema is also constructed from the frozen snapshot: already-
 - Public rooms require an unguessable room capability; the browser has no Firestore write permission. Public access requires no account.
 - Bound context, message/room capacity, per-room execution budget and daily project usage protect the demo.
 
-## Deferred capabilities
+## Rooms and substantive job identity
+
+The browser keeps a strict browser-workspace-v1 directory of room IDs, capability tokens, names and the selected room. It migrates the original fishmarket.room.v1 entry without changing the server record. Named room creation keeps old entries; new rooms have distinct random IDs/capabilities and empty messages, outcomes and execution state. Creation is single-flight, pending/error states are visible, and navigation rejects stale responses. Drafts and recipients are retained separately per room in the current tab. A reload restores the selected room and retrieves its existing server facts without running Gemini. The directory is browser-local, not account-wide or cross-device synchronization; clearing browser storage can lose room access.
+
+New room aggregates freeze strict agent-profile-v1 job identities: role, capability, three responsibilities and two boundaries per member. Legacy room-v1 records without this additive field resolve against the fixed original profile-v1 catalog, without rewriting outcomes or checkpoints. The same room-bound profiles feed the public UI and group-model-context-v2. Provider context contains bounded semantic job facts, not profile versions, internal IDs or capability tokens. Unknown/malformed profile data fails closed.
+
+Native profile dialogs can be opened from member rows, header avatars, welcome cards and Agent message avatars. Viewing a profile has no dispatch or ownership effect; the explicit Message action only selects the composer recipient. Permanent position is separate from per-outcome owner, contributor and reviewer assignments. Descriptions do not confer tools or external execution rights. Original workflow schemas/checkpoints remain compatible, and no historic task is replayed during release.
+
+## Deferred capabilities (unchanged)
 
 Owner transfer, external effects, scheduled waits, dynamic staffing, tool plugins, long-term private memory, multiple simultaneous runs in one room and comparative A/B benchmarks are outside this release. They must not be claimed as implemented.
 

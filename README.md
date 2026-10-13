@@ -7,6 +7,8 @@ This is an independently implemented AI Builder Cup 2026 Future of Work prototyp
 ## What works
 
 - Persistent group with a human and four stable agent identities.
+- Named fresh rooms, preserved browser-local room history, switching and reload restoration.
+- Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
 - General chat, explicit member targeting, and Gemini-selected outcome ownership.
 - Bounded contributor requests, visible professional contributions, owner integration.
 - Frozen acceptance criteria, immutable deliveries and independent review.
@@ -43,6 +45,8 @@ pnpm start
 A long-running HTTP message request drives the workflow while the browser polls committed room state. Refreshing only retrieves state. If execution is interrupted, the lease expires; the explicit Resume action continues the persisted checkpoint without repeating committed messages.
 
 Anonymous visitors can create their own room. Each room has an unguessable capability stored in that browser. Do not enter private business data into a public demo.
+
+The workspace list is remembered only in this browser, not synchronized across devices. Creating a fresh room keeps previous rooms and their sent messages; unsent drafts stay separately in the current tab. Clearing browser storage can lose room access. Fresh rooms do not reset the project-wide daily model-call limit.
 
 ## Deliberately deferred
 

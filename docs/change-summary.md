@@ -36,3 +36,27 @@
 | docs/screenshots/live-collaboration.png | Actual deployed Chinese collaboration and independent-review screenshot |
 
 Removed uncommitted launch-report scaffold: src/contracts/mission.ts; src/server/ports.ts, store.ts, gemini.ts, orchestrator.ts, app.ts; tests/contracts.test.ts and orchestrator.test.ts; docs/architecture.md; firebase.json and firestore.indexes.json. They were replaced by the independent group implementation and the single-service Cloud Run deployment. No NeoOrg files, data or running services were changed.
+
+## Named rooms and Agent job profiles iteration
+
+| File | Actual changes |
+|---|---|
+| src/contracts/group.ts | Strict job/profile-v1 schemas, four responsibility/boundary profiles, shared room-bound resolver and legacy projection compatibility |
+| src/server/collaboration.ts | New rooms freeze the Agent profile snapshot alongside existing members |
+| src/server/model.ts | Model context-v2 reads the frozen jobs; Gemini receives semantic duties/boundaries but no profile versions or room credentials |
+| src/web/workspace.ts | Versioned browser directory, legacy migration, room access retention, single-flight creation, fenced selections and monotonic UI projections |
+| src/web/App.tsx | Named room navigation, old in-tab drafts/recipients, clickable profiles across member/Avatar surfaces and mobile controls |
+| src/web/RoomDialogs.tsx | Native accessible new-room/profile dialogs, pending/errors, initial focus and explicit message action |
+| src/web/room-features.css | Room history and editorial dialogs with mobile layouts and visible focus states |
+| src/web/main.tsx | Imports the feature stylesheet after the original visual system |
+| tests/workspace.test.ts | Creation, isolation, reload, migration, duplicate clicks, failures, selection/poll races and storage preservation Evals |
+| tests/agent-profiles.test.ts | Frozen profiles, strict contract negatives, production serialization/UI identity equality, HTTP capability isolation, legacy resume and shared daily cap Evals |
+| scripts/production-smoke.ts | Real model job introduction, independent Firestore profile equality, clean room state, isolation and unchanged old messages |
+| README.md | New capabilities and honest browser-local/draft/access limits |
+| docs/group-collaboration.md | Room/session/profile facts, ownership and additive compatibility boundaries |
+| task_plan.md | Iteration scope, release checklist and encountered errors |
+| findings.md | Current source/UI evidence and deployment compatibility observations |
+| progress.md | Actual implementation and validation milestones |
+| docs/change-summary.md | This iteration's per-file record |
+
+Cloud deployment and final release evidence are tracked separately; this list does not claim pending verification as complete.

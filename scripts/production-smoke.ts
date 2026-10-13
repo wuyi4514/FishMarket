@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { strict as assert } from "node:assert";
 import { execFileSync } from "node:child_process";
-import type { RoomView } from "../src/contracts/group.js";
+import { MEMBERS, agentProfileSchema, type RoomView } from "../src/contracts/group.js";
 
 const base = process.env.FISHMARKET_URL;
 if (!base || !base.startsWith("https://")) throw new Error("Set FISHMARKET_URL to the deployed HTTPS URL");
@@ -17,6 +17,8 @@ const health = await request<{ status: string; store: string; provider: string; 
 assert.equal(health.store, "firestore"); assert.equal(health.provider, "vertex-ai");
 console.info(JSON.stringify({ gate: "production-health", ...health }));
 const created = await request<{ room: RoomView; token: string }>("/api/rooms", undefined, { contractVersion: "create-room-v1", title: "Production release verification" });
+assert.deepEqual(created.room.agentProfiles, MEMBERS);
+for (const profile of created.room.agentProfiles) agentProfileSchema.parse(profile);
 const input = {
   contractVersion: "human-message-v1", requestKey: randomUUID(), target: "team", outcomeId: null,
   body: "Help us decide whether to launch a small pilot next week. Five teams tested onboarding: four completed independently; one needed operator help. No repeated recovery test is available. Produce an evidence-based pilot recommendation and practical next steps with responsible roles and exit criteria. Ask two complementary teammates to contribute, integrate their findings, and have an independent teammate review the proposal. Treat any proposed actions as not yet executed."
@@ -60,9 +62,21 @@ assert.ok(documentResponse.ok, "Independent Firestore read must succeed");
 const document = await documentResponse.json() as { fields: Record<string, { stringValue?: string; arrayValue?: { values?: unknown[] } }> };
 assert.equal(document.fields.id!.stringValue, created.room.id);
 assert.equal(document.fields.messages!.arrayValue!.values!.length, replay.messages.length);
+type FirestoreValue = { stringValue?: string; arrayValue?: { values?: FirestoreValue[] }; mapValue?: { fields?: Record<string, FirestoreValue> } };
+function decodeProfileValue(value: FirestoreValue): unknown {
+  if (value.stringValue !== undefined) return value.stringValue;
+  if (value.arrayValue) return (value.arrayValue.values ?? []).map(decodeProfileValue);
+  if (value.mapValue) return Object.fromEntries(Object.entries(value.mapValue.fields ?? {}).map(([key, child]) => [key, decodeProfileValue(child)]));
+  throw new Error("UNEXPECTED_PROFILE_VALUE");
+}
+assert.deepEqual(decodeProfileValue(document.fields.agentProfiles as FirestoreValue), result.agentProfiles, "Firestore and public profile facts must agree");
 console.info(JSON.stringify({ gate: "firestore-authority-and-idempotency", roomId: created.room.id, messages: replay.messages.length, independentlyRead: true, privateCapability: true, passed: true }));
 
 const ordinary = await request<{ room: RoomView; token: string }>("/api/rooms", undefined, { contractVersion: "create-room-v1", title: "Reply-only verification" });
-const answer = await request<RoomView>("/api/rooms/" + ordinary.room.id + "/messages", ordinary.token, { contractVersion: "human-message-v1", requestKey: randomUUID(), body: "Hello! In one sentence, what does a team owner do?", target: "reef", outcomeId: null });
+assert.equal(ordinary.room.messages.length, 0); assert.equal(ordinary.room.outcomes.length, 0); assert.equal(ordinary.room.run, null);
+assert.notEqual(ordinary.room.id, created.room.id); assert.notEqual(ordinary.token, created.token);
+const wrongCapability = await fetch(base + "/api/rooms/" + created.room.id, { headers: { "x-room-token": ordinary.token } }); assert.equal(wrongCapability.status, 404);
+const answer = await request<RoomView>("/api/rooms/" + ordinary.room.id + "/messages", ordinary.token, { contractVersion: "human-message-v1", requestKey: randomUUID(), body: "Hello Reef! Briefly introduce your permanent position, its three main responsibilities and your actual capability boundaries in this room. Use your supplied identity, not a generic description. This is just a quick introduction, not a new project.", target: "reef", outcomeId: null });
 assert.equal(answer.outcomes.length, 0); assert.equal(answer.messages.length, 2); assert.equal(answer.messages[1]!.author, "reef");
-console.info(JSON.stringify({ gate: "reply-only-and-member-targeting", passed: true, roomId: ordinary.room.id }));
+assert.deepEqual((await request<RoomView>("/api/rooms/" + created.room.id, created.token)).messages, result.messages, "A fresh room must not change the prior room");
+console.info(JSON.stringify({ gate: "fresh-room-isolation-and-identity", passed: true, roomId: ordinary.room.id, profile: answer.agentProfiles.find(member => member.id === "reef"), actualGeminiIntroduction: answer.messages[1]!.body }));

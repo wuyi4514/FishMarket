@@ -6,7 +6,7 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Current phase
 
-Implementation and production verification complete. Ready for user acceptance; competition materials and submission remain deferred.
+Room navigation and substantive Agent identities iteration in progress. Prior production remains unchanged until the new release Gate passes. Competition materials and submission remain deferred.
 
 ## Phase 1: Architecture and cloud foundation
 
@@ -55,6 +55,24 @@ Status: complete
 
 PPT, video and final competition submission are out of this turn. Owner transfer, external business effects, scheduled waits, staffing, plugins, private long-term memory and simultaneous executions in one room are deferred. This prototype does not claim the complete NeoOrg V3 platform or measured superiority over it.
 
+## Phase 5: Room navigation and Agent identities
+
+Status: in_progress
+
+- [x] Freeze room/session and profile boundaries, then add failing Evals
+- [x] Named new-room creation, saved browser workspace, switching, reload and legacy migration
+- [x] Accessible profile dialogs from sidebar, header and conversation; explicit message action
+- [x] Versioned room-bound job profiles consumed by the production Gemini builder
+- [x] Offline Gate and desktop/mobile browser interaction including failure and race checks
+- [ ] Commit, push development branch (no PR), deploy and verify exact running version
+- [ ] Real Gemini / Firestore identity and room-isolation verification; release evidence and handoff
+
+### Iteration boundary decision
+
+The existing create-room command and capability-protected API remain authoritative. A versioned browser-local workspace remembers room capabilities; it is not an account-wide room directory. Old access is preserved on creation and transient fetch failure. Navigation does not replay work, and in-flight responses cannot overwrite another selected room. New room creation is single-flight and exposes a pending/error state.
+
+New rooms freeze versioned Agent profiles in their aggregate. Legacy room-v1 aggregates without profiles resolve to the fixed original profile-v1 catalog without rewriting business history. Both public UI projection and model context resolve the same profile snapshot. Model-visible job responsibilities and boundaries are business facts; profile versions, room tokens, aggregate IDs and execution metadata remain engineering-only. A job profile grants no tools or real-world authority. Existing owner/contributor/reviewer state and all outcome rules remain unchanged.
+
 ## Guardrails
 
 - Independent code, prompts, schemas, tests and assets; architecture ideas and mature SDKs are reused.
@@ -84,6 +102,8 @@ PPT, video and final competition submission are out of this turn. Owner transfer
 | Live review assessed refs outside the frozen criteria set | Compiled its exact criterion enum and assessment count from the current goal for both provider input and output validation |
 | Audit found idempotent no-op updates could bump the version of an in-flight run | Added explicit no-op transaction results and a concurrent duplicate Eval |
 | Context audit found human/contribution tails could be truncated | Preserved complete accepted human input and formal contributions inside the bounded projection; added a trailing-constraint serialization Eval |
+| New iteration baseline lacked workspace module and room profiles | First observed failing new Evals, then implemented the shared contracts and browser navigator; all 33 tests now pass |
+| Browser terminal-label wait timed out before polling displayed the result | Inspected the current accessibility tree; it showed all six persisted messages and the reviewed achieved result. No product change or replay was needed |
 
 ## Evidence
 

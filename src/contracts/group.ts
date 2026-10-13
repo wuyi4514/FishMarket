@@ -1,13 +1,37 @@
 import { z } from "zod";
 
-export const MEMBERS = [
-  { id: "harbor", name: "Harbor", initials: "H", role: "Team coordinator", color: "#ee7c53", capability: "Clarify goals, integrate perspectives, and deliver a decision with clear next steps." },
-  { id: "reef", name: "Reef", initials: "R", role: "Research & evidence", color: "#6b8f83", capability: "Analyze supplied evidence, distinguish assumptions, and identify missing knowledge." },
-  { id: "sail", name: "Sail", initials: "S", role: "Strategy & planning", color: "#bd9b55", capability: "Develop practical options, priorities, responsibilities, and measurable acceptance criteria." },
-  { id: "beacon", name: "Beacon", initials: "B", role: "Quality & risk", color: "#8993b8", capability: "Challenge reasoning and independently assess a delivery against its frozen criteria." }
-] as const;
 export const agentIdSchema = z.enum(["harbor", "reef", "sail", "beacon"]);
 export type AgentId = z.infer<typeof agentIdSchema>;
+export const jobIdentitySchema = z.object({
+  name: z.string().min(1).max(80), role: z.string().min(1).max(100), capability: z.string().min(1).max(400),
+  responsibilities: z.array(z.string().min(1).max(300)).min(3).max(5),
+  boundaries: z.array(z.string().min(1).max(300)).min(2).max(4)
+}).strict();
+export const agentProfileSchema = jobIdentitySchema.extend({
+  contractVersion: z.literal("agent-profile-v1"), id: agentIdSchema,
+  initials: z.string().min(1).max(2), color: z.string().regex(/^#[0-9a-fA-F]{6}$/)
+}).strict();
+export type AgentProfile = z.infer<typeof agentProfileSchema>;
+// Fixed profile-v1 catalog is also the explicit fallback for original room-v1 records.
+export const MEMBERS: AgentProfile[] = [
+  { contractVersion: "agent-profile-v1", id: "harbor", name: "Harbor", initials: "H", role: "Team coordinator", color: "#ee7c53", capability: "Clarify goals, integrate perspectives, and deliver a decision with clear next steps.",
+    responsibilities: ["Turn the human's goal into a clear brief, constraints and acceptance criteria.", "Bring in complementary teammates and integrate their contributions into one coherent delivery.", "Keep ownership, open questions and next steps explicit until the outcome has been reviewed."],
+    boundaries: ["Coordination does not make Harbor the owner of every outcome; ownership follows the recorded assignment.", "Do not claim that proposed actions were executed or make the human's final business decision."] },
+  { contractVersion: "agent-profile-v1", id: "reef", name: "Reef", initials: "R", role: "Research & evidence", color: "#6b8f83", capability: "Analyze supplied evidence, distinguish assumptions, and identify missing knowledge.",
+    responsibilities: ["Analyze the evidence supplied in this room and identify what it actually supports.", "Separate observations, assumptions and unresolved knowledge gaps.", "Recommend focused checks and explain how uncertainty affects the proposed decision."],
+    boundaries: ["No external browsing or private database access is connected in this prototype; use supplied facts only.", "Never invent sources, measurements or proof to fill an evidence gap."] },
+  { contractVersion: "agent-profile-v1", id: "sail", name: "Sail", initials: "S", role: "Strategy & planning", color: "#bd9b55", capability: "Develop practical options, priorities, responsibilities, and measurable acceptance criteria.",
+    responsibilities: ["Develop practical options and compare their trade-offs against the human's constraints.", "Translate a chosen direction into priorities, responsible roles and a workable sequence.", "Define measurable acceptance criteria, checkpoints and rollback conditions."],
+    boundaries: ["A proposed plan is not evidence that its actions have happened.", "Do not assign real people, spend money or change external systems without a connected authorized capability."] },
+  { contractVersion: "agent-profile-v1", id: "beacon", name: "Beacon", initials: "B", role: "Quality & risk", color: "#8993b8", capability: "Challenge reasoning and independently assess a delivery against its frozen criteria.",
+    responsibilities: ["Check the reasoning, evidence gaps and material risks in a proposed delivery.", "Assess every frozen acceptance criterion when assigned an independent review.", "Explain major blockers and actionable repairs while distinguishing honest limitations from false success."],
+    boundaries: ["Independent review is allowed only when Beacon is neither the owner nor an author of the reviewed work.", "A reviewed report does not authorize real-world execution or replace the human's decision."] }
+];
+export function roomProfiles(room: Pick<Room, "members" | "agentProfiles">): AgentProfile[] {
+  const profiles = z.array(agentProfileSchema).min(1).max(4).parse(room.agentProfiles ?? MEMBERS.filter(member => room.members.includes(member.id)));
+  if (new Set(profiles.map(profile => profile.id)).size !== profiles.length || profiles.length !== room.members.length || profiles.some(profile => !room.members.includes(profile.id))) throw new Error("AGENT_PROFILE_MEMBERSHIP_INVALID");
+  return room.members.map(id => profiles.find(profile => profile.id === id)!);
+}
 export const createRoomSchema = z.object({ contractVersion: z.literal("create-room-v1"), title: z.string().trim().min(1).max(80) }).strict();
 export const sendMessageSchema = z.object({
   contractVersion: z.literal("human-message-v1"),
@@ -95,20 +119,22 @@ export type Run = {
 };
 export type Room = {
   contractVersion: "room-v1"; id: string; title: string; accessHash: string; version: number;
-  members: AgentId[]; messages: Message[]; outcomes: Outcome[]; run: Run | null;
+  members: AgentId[]; agentProfiles?: AgentProfile[]; messages: Message[]; outcomes: Outcome[]; run: Run | null;
   receipts: Array<{ key: string; fingerprint: string }>; totalCalls: number; createdAt: string; updatedAt: string;
 };
-export type RoomView = Omit<Room, "accessHash" | "receipts" | "totalCalls" | "run"> & {
+export type RoomView = Omit<Room, "accessHash" | "receipts" | "totalCalls" | "run" | "agentProfiles"> & {
+  agentProfiles: AgentProfile[];
   run: Pick<Run, "status" | "scope" | "speaker" | "outcomeId" | "recovery"> & { canResume: boolean } | null;
 };
 export function projectRoom(room: Room, now = Date.now()): RoomView {
   const { accessHash: _access, receipts: _receipts, totalCalls: _calls, run, ...view } = room;
-  return { ...view, run: run ? {
+  return { ...view, agentProfiles: roomProfiles(room), run: run ? {
     status: run.status, scope: run.scope, speaker: run.speaker, outcomeId: run.outcomeId,
     recovery: run.recovery, canResume: run.status === "recovery" || (run.status === "running" && run.leaseUntil < now)
   } : null };
 }
 export function assertRoom(room: Room): void {
+  roomProfiles(room);
   if (room.contractVersion !== "room-v1" || room.messages.length > 180 || room.outcomes.length > 30) throw new Error("ROOM_CAPACITY_OR_VERSION");
   if (room.messages.some((message, i) => message.sequence !== i + 1)) throw new Error("MESSAGE_ORDER_INVALID");
   if (room.run && room.run.contractVersion !== "group-run-v1") throw new Error("CHECKPOINT_VERSION_INVALID");

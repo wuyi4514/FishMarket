@@ -25,7 +25,7 @@ export class Collaboration {
   constructor(readonly store: RoomStore, private model: ModelGateway, private dailyLimit = 300) {}
   async create(title: string) {
     const id = randomUUID(), token = randomUUID(); const now = new Date().toISOString();
-    const room: Room = { contractVersion: "room-v1", id, title, accessHash: hash(token), version: 0, members: MEMBERS.map(member => member.id), messages: [], outcomes: [], run: null, receipts: [], totalCalls: 0, createdAt: now, updatedAt: now };
+    const room: Room = { contractVersion: "room-v1", id, title, accessHash: hash(token), version: 0, members: MEMBERS.map(member => member.id), agentProfiles: structuredClone(MEMBERS), messages: [], outcomes: [], run: null, receipts: [], totalCalls: 0, createdAt: now, updatedAt: now };
     await this.store.create(room); return { room, token };
   }
   async read(id: string): Promise<Room> {

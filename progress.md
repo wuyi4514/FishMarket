@@ -39,3 +39,20 @@
 - One earlier final-version call returned Gemini 504 and correctly persisted recovery; this is an observed service limitation, not a claim of continuous model availability.
 - Chinese group was refreshed and still showed six original messages, Sail as owner, Reef/Beacon contributions and Harbor review. Saved the actual screenshot and kept the public app tab open for user acceptance.
 - Recorded complete release evidence and per-file changes. PPT, video and competition submission were not performed.
+
+## Room / identity iteration
+
+- Read planning, frontend-design and browser-use instructions and restored the prior completed release baseline.
+- Audited fresh-room handler, browser persistence, member UI, shared identity catalog, model projection and room repository boundaries before changing product code.
+- Recorded the target boundary, additive legacy compatibility and release checks; implementation/Evals and cloud update are still pending.
+- Added failing workspace/profile Evals before implementation. The baseline failed on the missing navigator and profile fields while the original 23 tests remained green.
+- Implemented strict room-bound profile-v1 snapshots and model context-v2, including explicit responsibilities/boundaries without capability tokens or engineering metadata.
+- Implemented browser workspace-v1 migration, multi-room access retention, single-flight creation, selection fencing and visible storage failure.
+- Implemented native named-room/profile dialogs, per-room in-tab drafts, room list, clickable Agent entries and a mobile room switcher. Added responsive feature styles without replacing the original visual system.
+- First implementation Gate passed: 33 tests, TypeScript, web build and server build. Browser and production gates are pending.
+- Added room-features.css and imported it after the existing stylesheet; desktop room history and editorial profile dialogs were visually checked in the in-app browser.
+- Desktop verified named creation, old draft/recipient retention, refresh selection restoration, previous six-message result retrieval, native Escape/focus restoration and Agent-to-recipient action.
+- Expanded the production smoke script to require persisted profile equality, clean new room state, cross-room capability denial, unchanged old messages and an actual Gemini self-introduction from the supplied job identity.
+- Mobile dialog, room switching/cancellation and focus were visually verified. Extracted the actual UI projection reconciler and added negative Evals for stale poll/version regression plus legacy checkpoint resume under the new identity context.
+- Predeploy Firestore query found zero running records and zero unexpired execution leases. No historical execution was resumed or changed by this inspection.
+- Updated README, architecture and per-file summary for browser-local access and stable job/execution-role separation. Added a negative Eval proving fresh rooms cannot reset the shared daily call cap.
