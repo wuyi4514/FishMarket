@@ -6,7 +6,7 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Current phase
 
-Red-box UI copy cleanup is in progress. Named rooms and substantive Agent identities remain implemented; competition materials and submission remain deferred.
+Annotated UI cleanup is implemented, deployed and verified, including the correction to retain recommended questions. Ready for user acceptance; competition materials and submission remain deferred.
 
 ## Phase 1: Architecture and cloud foundation
 
@@ -77,14 +77,14 @@ New rooms freeze versioned Agent profiles in their aggregate. Legacy room-v1 agg
 
 ### Phase 6: Annotated UI copy cleanup
 
-**Status:** in_progress
+**Status:** complete
 
 - [x] Add failing render assertions for the eight annotated blocks, preserving working controls
 - [x] Remove annotated header/welcome/sidebar/composer copy and live badge
 - [x] Remove welcome fish and duplicate welcome member row, retain the three recommended questions per user's correction
 - [x] Verify offline Gate and desktop/mobile layout, profile and new-room interactions
-- [ ] Commit/push a development branch, deploy and verify source/revision/assets (no PR)
-- [ ] Record actual release evidence and screenshot; preserve rooms, credentials and workflow history
+- [x] Commit/push a development branch, deploy and verify source/revision/assets (no PR)
+- [x] Record actual release evidence and screenshot; preserve rooms, credentials and workflow history
 
 This is a presentation-only change. No Agent context, profile, model, Firestore, workflow, permission, budget or recovery contract is changed. Keep the main welcome headline, existing safety footnote, room navigation, member identity details and send shortcut.
 
@@ -127,8 +127,8 @@ User's latest correction explicitly keeps the three recommended question cards. 
 
 ## Evidence
 
-Runtime implementation: source commit 8816155b922e10c0fc1d341a64ebb58099b1d5b9 (prior verified baseline 8f40da1).
-Local Gate: 36 tests + typecheck + web/server build passed.
+Runtime implementation: source commit 55a14fa3851cc9ff64cef4f344dbd615f138f78a (prior feature source 8816155).
+Local Gate: 39 tests + typecheck + web/server build passed.
 Cloud project: fishmarket-abc-2026-4514.
 Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
 Final release evidence is in docs/release.md and docs/rooms-agent-profiles-release.md.

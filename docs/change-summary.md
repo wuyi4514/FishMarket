@@ -76,5 +76,7 @@ Cloud revision fishmarket-00007-czj is deployed; actual browser reload/switch pr
 | findings.md | Annotated targets and actual desktop/mobile observations |
 | progress.md | Implementation and validation milestones |
 | docs/change-summary.md | This cleanup's per-file record |
+| docs/release.md | Final source/revision/image/CI, exact asset verification and retained recommendation/profile/room evidence |
+| docs/screenshots/ui-copy-cleanup.png | Actual final cloud desktop screenshot with recommended questions retained |
 
-No server, contracts, model, workspace persistence or profile dialog behavior changed. Cloud publication is pending.
+No server, contracts, model, workspace persistence or profile dialog behavior changed. Final cloud revision fishmarket-00009-5zq is deployed and verified on source 55a14fa.

@@ -10,8 +10,8 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 ## Running source and infrastructure
 
-- Runtime source commit: 8816155b922e10c0fc1d341a64ebb58099b1d5b9 (health release: 8816155).
-- Cloud Run revision: fishmarket-00007-czj, serving 100% of traffic.
+- Runtime source commit: 55a14fa3851cc9ff64cef4f344dbd615f138f78a.
+- Cloud Run revision: fishmarket-00009-5zq, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.
@@ -23,9 +23,23 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-## Latest named-room / job-profile iteration
+## Annotated UI cleanup (current release)
 
-The latest release adds named fresh rooms, preserved browser-local room navigation and clickable permanent Agent job identities consumed by Gemini. See [iteration evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. No PR or main merge was performed before user acceptance.
+Removed the eight originally annotated copy/badge blocks plus the decorative welcome fish and duplicate welcome member row. The user's correction explicitly retains all three recommended question cards. Brand fish, main headline, room navigation, sidebar/header position profiles, composer shortcut and the unmarked safety footnote remain.
+
+- Gate: 39 offline tests, frontend/server typecheck, web/server builds.
+- Source CI: https://github.com/wuyi4514/FishMarket/actions/runs/38420278977, success.
+- Runtime health reports the exact source SHA, Firestore, Vertex AI and the unchanged Gemini model.
+- Immutable image: sha256:5d30f038e2470f1bbfa639c7d32f7efaa7a8a292efde2c7c03f351dfaec817fe.
+- Deployed JS/CSS bytes match the local verified build: index-G_ZrbG4J.js and index-CxKiCbf_.css.
+- Actual desktop/mobile UI checked. Recommended questions still fill the composer; Agent profiles and new-room dialog/cancel work; selected room restores after refresh.
+- Screenshot: docs/screenshots/ui-copy-cleanup.png.
+- Predeploy query found no running/unexpired execution records. Source diff confirms server, contracts, workspace persistence and profile dialog behavior are unchanged. No production model QA call or historical replay was needed for this presentation-only release.
+- Development branch: codex/ui-copy-cleanup. No PR or main merge before user acceptance.
+
+## Named-room / job-profile baseline
+
+The prior feature release added named fresh rooms, preserved browser-local room navigation and clickable permanent Agent job identities consumed by Gemini. See [iteration evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. These capabilities remain unchanged in the current UI-only release.
 
 ## Initial release verification (2026-10-13, source 8f40da1)
 
