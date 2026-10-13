@@ -80,12 +80,15 @@ New rooms freeze versioned Agent profiles in their aggregate. Legacy room-v1 agg
 **Status:** in_progress
 
 - [x] Add failing render assertions for the eight annotated blocks, preserving working controls
-- [x] Remove only annotated header/welcome/sidebar/composer copy and live badge
+- [x] Remove annotated header/welcome/sidebar/composer copy and live badge
+- [x] Remove welcome fish and duplicate welcome member row, retain the three recommended questions per user's correction
 - [x] Verify offline Gate and desktop/mobile layout, profile and new-room interactions
 - [ ] Commit/push a development branch, deploy and verify source/revision/assets (no PR)
 - [ ] Record actual release evidence and screenshot; preserve rooms, credentials and workflow history
 
 This is a presentation-only change. No Agent context, profile, model, Firestore, workflow, permission, budget or recovery contract is changed. Keep the main welcome headline, existing safety footnote, room navigation, member identity details and send shortcut.
+
+User's latest correction explicitly keeps the three recommended question cards. The additional removals are only the decorative welcome fish and duplicate welcome member row; the left brand fish and sidebar/header Agent profile entry points stay.
 
 ## Existing guardrails
 
@@ -120,6 +123,7 @@ This is a presentation-only change. No Agent context, profile, model, Firestore,
 | Browser terminal-label wait timed out before polling displayed the result | Inspected the current accessibility tree; it showed all six persisted messages and the reviewed achieved result. No product change or replay was needed |
 | Initial production browser reload observed an empty shell before async retrieval | Verified the completed server GET and the later UI; original six bodies were identical. Proceeded only after the saved room was visibly available |
 | Annotated-copy render test failed on the unchanged baseline | Removed only the eight requested blocks and kept the control/safety assertions |
+| Additional welcome-area test failed on the unchanged duplicate row | Kept recommended questions as corrected by the user, removed only the welcome fish/duplicate row |
 
 ## Evidence
 

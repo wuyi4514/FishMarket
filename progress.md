@@ -72,3 +72,6 @@
 - Baseline focused test failed as expected on the still-present header eyebrow; retained-content test already passed. Actual product edits are now under the offline/browser Gate.
 - Complete offline Gate passed: 38 tests, typecheck and web/server builds. Desktop copy/layout checked in the actual browser; no model or Firestore code changed.
 - Verified local mobile layout, profile dialog, new-room open/cancel, example filling and enabled Send. Reclaimed mobile title width freed by the removed badge; viewport reset afterward.
+- Committed first cleanup source 8cc1991 and started its Cloud Run deployment. User then added welcome-area cleanup, explicitly correcting that recommended questions must be retained; extended the render Gate before applying that addition.
+- Additional baseline test failed on welcome-team as expected. Removed only the decorative fish and duplicate welcome row from App.tsx and their feature styles; kept all three question cards, brand fish and both member profile entry surfaces.
+- Final corrected local Gate passed: 39 tests, typecheck and both builds. Browser verified the retained recommendation still fills its original prompt; no decorative welcome fish or repeated member row remains.

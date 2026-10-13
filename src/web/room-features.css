@@ -12,13 +12,10 @@
 .chat-header h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .header-right { flex-shrink: 0; margin-left: 20px; }
 .avatar-button { display: inline-flex; border: 0; padding: 0; border-radius: 12px; background: transparent; align-self: flex-start; flex-shrink: 0; }
-.avatar-button:hover .avatar, .welcome-team button:hover .avatar { box-shadow: 0 0 0 3px #dbe4d3; }
+.avatar-button:hover .avatar { box-shadow: 0 0 0 3px #dbe4d3; }
 .avatar-stack > span { display: flex; margin-left: -5px; }
 .avatar-stack .avatar-button { border-radius: 10px; }
 .avatar-stack .avatar { margin-left: 0; }
-.welcome-team button { display: flex; flex-direction: column; align-items: center; gap: 7px; background: none; border: none; padding: 4px; border-radius: 8px; }
-.welcome-team button > strong { font-size: 10px; font-weight: 550; color: #526447; }
-.welcome-team button > span:not(.avatar) { font-size: 8px; color: #96a187; }
 .mobile-workspace { display: none; }
 .room-dialog { position: fixed; width: min(550px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow: auto; border: 1px solid #dbe2d2; border-radius: 18px; padding: 34px; background: #fafbf7; color: var(--ink); box-shadow: 0 20px 80px #21312830; }
 .room-dialog::backdrop { background: #26352b40; backdrop-filter: blur(4px); }
@@ -75,6 +72,4 @@
   .profile-heading { gap: 14px; }
   .dialog-actions { gap: 8px; }
   .primary-action, .secondary-action { padding: 10px; font-size: 10px; }
-  .welcome-team { gap: 10px; }
-  .welcome-team button > span:not(.avatar) { font-size: 6px; }
 }

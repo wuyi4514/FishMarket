@@ -158,10 +158,8 @@ export function App() {
       <div className="mobile-workspace"><select aria-label="Working room" value={session?.id ?? ""} disabled={navigationDisabled} onChange={event => void switchRoom(event.target.value)}>{workspace?.rooms.map(entry => <option key={entry.id} value={entry.id}>{entry.title}</option>)}</select><button type="button" aria-label="Start a fresh room" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/> New room</button></div>
       <section className="timeline" aria-label="Group conversation" aria-live="polite">
         {!room?.messages.length ? <div className="welcome">
-          <div className="welcome-mark"><Icon type="fish"/></div>
           <h2>Bring a goal.<br/><em>Build an outcome.</em></h2>
           <div className="example-grid">{examples.map((example, i) => <button key={example.title} onClick={() => { setDraft(example.text); setTarget("team"); draftRef.current?.focus(); }}><span className="example-number">0{i + 1}</span><strong>{example.title}</strong><Icon type="arrow"/></button>)}</div>
-          <div className="welcome-team">{members.map(member => <button key={member.id} type="button" aria-label={"View " + member.name + " profile"} onClick={() => setProfileId(member.id)}><Avatar id={member.id}/><strong>{member.name}</strong><span>{member.role}</span></button>)}</div>
         </div> : <div className="messages">
           <div className="timeline-date">{new Date(room.createdAt).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}<span> · Shared working context</span></div>
           {room.messages.map(message => <article className={"message message-" + message.author} key={message.id}>
