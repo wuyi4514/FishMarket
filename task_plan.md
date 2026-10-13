@@ -83,6 +83,7 @@ PPT, video and final competition submission are out of this turn. Owner transfer
 | Restricted wire schema returned an unknown static type | Declared the object payload output type without weakening runtime schema validation |
 | Live review assessed refs outside the frozen criteria set | Compiled its exact criterion enum and assessment count from the current goal for both provider input and output validation |
 | Audit found idempotent no-op updates could bump the version of an in-flight run | Added explicit no-op transaction results and a concurrent duplicate Eval |
+| Context audit found human/contribution tails could be truncated | Preserved complete accepted human input and formal contributions inside the bounded projection; added a trailing-constraint serialization Eval |
 
 ## Evidence
 

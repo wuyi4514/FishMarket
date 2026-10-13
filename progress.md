@@ -31,3 +31,6 @@
 - Real model Gate exposed repeated delegation after two contributions committed. Restricted the current owner action schema from the persisted snapshot instead of relying on Prompt instructions; added a shared serialization/input-output negative Eval.
 - A real professional-owner browser scenario delivered its report but review coverage was rejected. Bound the review wire schema to the exact current criterion refs/count; also closed idempotent no-op version invalidation with a concurrent duplicate test.
 - Expanded the production Gate to consume a genuine Human input gate in the synthetic scenario and still require a delivered, independently reviewed result.
+- Real release Gate passed on revision fishmarket-00005-txk: six-message Gemini collaboration, independent review, direct Firestore document read, idempotent replay, private access negative check and directed reply-only question.
+- The Chinese browser scenario resumed its saved review checkpoint successfully, preserving Sail as owner and the original five messages, then committed Harbor's independent review.
+- Final input-integrity audit preserved accepted human input and complete formal contribution bodies in the bounded model projection; added a trailing-constraint regression.

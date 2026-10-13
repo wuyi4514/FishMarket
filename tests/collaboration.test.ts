@@ -156,6 +156,18 @@ describe("V3-derived group collaboration", () => {
 });
 
 describe("actual Gemini SDK serialization boundary", () => {
+  it("preserves trailing human constraints and complete formal contribution bodies", async () => {
+    const tail = "Acceptance condition: the final proposal must include an explicit rollback plan.";
+    const body = "Prepare a proposal. " + "Supplied evidence and operational context. ".repeat(45) + tail;
+    const contexts: ModelContext[] = [];
+    const capture = new TransformModel((context, value) => { contexts.push(context); return value; });
+    const { engine, room } = await setup(capture); await engine.send(room.id, message({ body }));
+    const request = buildGeminiRequest(contexts[0]!, admissionSchema, "model");
+    expect(JSON.stringify(request.contents)).toContain(tail);
+    expect(contexts[0]!.history.at(-1)!.body).toBe(body);
+    const withLongContribution = contexts.findLast(context => context.scope === "owner")!;
+    expect(withLongContribution.contributions.every(item => item.body?.endsWith("record the exact result."))).toBe(true);
+  });
   it("the current provider action set excludes already-committed delegation and duplicate outcome opening", async () => {
     const contexts: ModelContext[] = [];
     const capture = new TransformModel((context, value) => { contexts.push(context); return value; });

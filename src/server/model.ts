@@ -7,10 +7,10 @@ export const modelContextSchema = z.object({
   contractVersion: z.literal("group-model-context-v1"), scope: z.enum(["admission", "owner", "contributor", "review"]),
   identity: z.object({ name: z.string(), capability: z.string() }).strict(),
   members: z.array(memberContext).max(4),
-  history: z.array(z.object({ author: z.string(), role: z.string(), body: z.string().max(1600) }).strict()).max(12),
+  history: z.array(z.object({ author: z.string(), role: z.string(), body: z.string().max(4000) }).strict()).max(12),
   goal: z.object({ goal: z.string(), criteria: z.array(z.object({ ref: z.string(), text: z.string() }).strict()).min(1).max(5), constraints: z.array(z.string()) }).strict().nullable(),
   contributionGoal: z.string().nullable(),
-  contributions: z.array(z.object({ author: z.string(), goal: z.string(), body: z.string().max(1800).nullable(), resultKind: z.string().nullable() }).strict()).max(2),
+  contributions: z.array(z.object({ author: z.string(), goal: z.string(), body: z.string().max(6000).nullable(), resultKind: z.string().nullable() }).strict()).max(2),
   delivery: z.object({ body: z.string().max(6000), resultKind: z.string() }).strict().nullable(),
   reviewIssues: z.array(z.object({ severity: z.string(), description: z.string() }).strict()).max(5),
   requestedMember: z.string().nullable()
@@ -34,15 +34,15 @@ export function buildModelContext(room: Room, requestedMember: AgentId | null = 
     contractVersion: "group-model-context-v1", scope: run.scope,
     identity: { name: agent.name, capability: agent.capability },
     members: memberRefs(room).map(({ ref, name, capability }) => ({ ref, name, capability })),
-    history: visibleHistory.slice(-12).map(message => ({ author: message.author === "human" ? "Human" : MEMBERS.find(member => member.id === message.author)?.name ?? "System", role: message.role, body: message.body.slice(0, 1600) })),
+    history: visibleHistory.slice(-12).map(message => ({ author: message.author === "human" ? "Human" : MEMBERS.find(member => member.id === message.author)?.name ?? "System", role: message.role, body: message.body.slice(0, message.author === "human" ? 4000 : 1600) })),
     goal: goal ? { goal: goal.goal, criteria: goal.criteria.map((text, i) => ({ ref: `C${i + 1}`, text })), constraints: goal.constraints } : null,
     contributionGoal: contribution?.goal ?? null,
-    contributions: currentContributions.map(item => ({ author: MEMBERS.find(member => member.id === item.agentId)!.name, goal: item.goal, body: item.body?.slice(0, 1800) ?? null, resultKind: item.resultKind })),
+    contributions: currentContributions.map(item => ({ author: MEMBERS.find(member => member.id === item.agentId)!.name, goal: item.goal, body: item.body, resultKind: item.resultKind })),
     delivery: run.scope === "review" && outcome?.deliveries.at(-1) ? { body: outcome.deliveries.at(-1)!.body, resultKind: outcome.deliveries.at(-1)!.resultKind } : null,
     reviewIssues: currentReview?.verdict === "request_changes" ? currentReview.issues : [],
     requestedMember: requestedMember ? MEMBERS.find(member => member.id === requestedMember)!.name : null
   };
-  while (JSON.stringify(context).length > 24000 && context.history.length) context.history.shift();
+  while (JSON.stringify(context).length > 36000 && context.history.length > 1) context.history.shift();
   return modelContextSchema.parse(context);
 }
 
