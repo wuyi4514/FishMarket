@@ -6,7 +6,7 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Current phase
 
-Room navigation and substantive Agent identities iteration in progress. Prior production remains unchanged until the new release Gate passes. Competition materials and submission remain deferred.
+Named room navigation and substantive Agent identities are implemented, deployed and verified. Ready for user acceptance; competition materials and submission remain deferred.
 
 ## Phase 1: Architecture and cloud foundation
 
@@ -57,15 +57,15 @@ PPT, video and final competition submission are out of this turn. Owner transfer
 
 ## Phase 5: Room navigation and Agent identities
 
-Status: in_progress
+Status: complete
 
 - [x] Freeze room/session and profile boundaries, then add failing Evals
 - [x] Named new-room creation, saved browser workspace, switching, reload and legacy migration
 - [x] Accessible profile dialogs from sidebar, header and conversation; explicit message action
 - [x] Versioned room-bound job profiles consumed by the production Gemini builder
 - [x] Offline Gate and desktop/mobile browser interaction including failure and race checks
-- [ ] Commit, push development branch (no PR), deploy and verify exact running version
-- [ ] Real Gemini / Firestore identity and room-isolation verification; release evidence and handoff
+- [x] Commit, push development branch (no PR), deploy and verify exact running version
+- [x] Real Gemini / Firestore identity and room-isolation verification; release evidence and handoff
 
 ### Iteration boundary decision
 
@@ -104,11 +104,12 @@ New rooms freeze versioned Agent profiles in their aggregate. Legacy room-v1 agg
 | Context audit found human/contribution tails could be truncated | Preserved complete accepted human input and formal contributions inside the bounded projection; added a trailing-constraint serialization Eval |
 | New iteration baseline lacked workspace module and room profiles | First observed failing new Evals, then implemented the shared contracts and browser navigator; all 33 tests now pass |
 | Browser terminal-label wait timed out before polling displayed the result | Inspected the current accessibility tree; it showed all six persisted messages and the reviewed achieved result. No product change or replay was needed |
+| Initial production browser reload observed an empty shell before async retrieval | Verified the completed server GET and the later UI; original six bodies were identical. Proceeded only after the saved room was visibly available |
 
 ## Evidence
 
-Runtime implementation: source commit 8f40da135d37c507800ce08ae809b9b33ad86bb6.
-Local Gate: 23 tests + typecheck + web/server build passed.
+Runtime implementation: source commit 8816155b922e10c0fc1d341a64ebb58099b1d5b9 (prior verified baseline 8f40da1).
+Local Gate: 36 tests + typecheck + web/server build passed.
 Cloud project: fishmarket-abc-2026-4514.
 Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
-Final release evidence belongs in docs/release.md.
+Final release evidence is in docs/release.md and docs/rooms-agent-profiles-release.md.

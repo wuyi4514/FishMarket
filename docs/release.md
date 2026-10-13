@@ -10,8 +10,8 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 ## Running source and infrastructure
 
-- Runtime source commit: 8f40da135d37c507800ce08ae809b9b33ad86bb6.
-- Cloud Run revision: fishmarket-00006-46w, serving 100% of traffic.
+- Runtime source commit: 8816155b922e10c0fc1d341a64ebb58099b1d5b9 (health release: 8816155).
+- Cloud Run revision: fishmarket-00007-czj, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.
@@ -23,7 +23,11 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-## Verification results (2026-10-13, Asia/Shanghai)
+## Latest named-room / job-profile iteration
+
+The latest release adds named fresh rooms, preserved browser-local room navigation and clickable permanent Agent job identities consumed by Gemini. See [iteration evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. No PR or main merge was performed before user acceptance.
+
+## Initial release verification (2026-10-13, source 8f40da1)
 
 | Gate | Actual evidence |
 |---|---|

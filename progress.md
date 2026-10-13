@@ -56,3 +56,10 @@
 - Mobile dialog, room switching/cancellation and focus were visually verified. Extracted the actual UI projection reconciler and added negative Evals for stale poll/version regression plus legacy checkpoint resume under the new identity context.
 - Predeploy Firestore query found zero running records and zero unexpired execution leases. No historical execution was resumed or changed by this inspection.
 - Updated README, architecture and per-file summary for browser-local access and stable job/execution-role separation. Added a negative Eval proving fresh rooms cannot reset the shared daily call cap.
+- Final offline Gate passed: 36 Evals, typecheck and both builds. Committed runtime source 8816155b922e10c0fc1d341a64ebb58099b1d5b9 and pushed only codex/rooms-agent-profiles; no PR or main merge.
+- Source CI https://github.com/wuyi4514/FishMarket/actions/runs/38386896939 passed. Cloud Build ce745fbd-b556-4a55-a8b5-11d50fdecea2 passed; deployed revision fishmarket-00007-czj serves 100% traffic with unchanged runtime SA, model, data store and daily cap.
+- Real production Gate passed: reviewed achieved multi-agent outcome, exact persisted profile equality through independent Firestore read, request idempotency, fresh-room isolation, unauthorized capability denial and actual model self-introduction.
+- The existing public browser room migrated without a data rewrite: all six pre-upgrade message bodies remained identical after retrieval. Final cloud UI creation/switch/reload verification is in progress.
+- Cloud UI named creation, selected-room refresh and old-room switch retrieval passed. All six original Chinese message bodies remained identical; new room stayed clean and retained both navigation entries.
+- Verified all four cloud header profile buttons and the deployed mobile new-room prompt/cancel; saved desktop profile and mobile creation screenshots. Reset viewport and closed the temporary local preview tab. Public app tab is retained for user acceptance.
+- Updated current release evidence and per-file summary. This iteration is complete and deployed; user acceptance remains pending. PPT/video/submission/main merge/PR were not performed.

@@ -58,5 +58,9 @@ Removed uncommitted launch-report scaffold: src/contracts/mission.ts; src/server
 | findings.md | Current source/UI evidence and deployment compatibility observations |
 | progress.md | Actual implementation and validation milestones |
 | docs/change-summary.md | This iteration's per-file record |
+| docs/release.md | Updated the running source/revision and retained the prior release evidence as historical baseline |
+| docs/rooms-agent-profiles-release.md | Latest source/image/CI, actual offline/live gates, compatibility and rollback boundaries |
+| docs/screenshots/rooms-agent-profile.png | Real deployed desktop Agent position/responsibility/boundary screenshot |
+| docs/screenshots/fresh-room-dialog.png | Real deployed mobile named-room creation prompt screenshot |
 
-Cloud deployment and final release evidence are tracked separately; this list does not claim pending verification as complete.
+Cloud revision fishmarket-00007-czj is deployed; actual browser reload/switch proof and screenshots are recorded in the iteration release document. User acceptance is still pending.
