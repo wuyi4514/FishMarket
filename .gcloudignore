@@ -1,0 +1,13 @@
+.gcloudignore
+.git
+.github
+node_modules
+dist
+.env
+.env.*
+coverage
+docs/screenshots
+submission-private
+task_plan.md
+findings.md
+progress.md

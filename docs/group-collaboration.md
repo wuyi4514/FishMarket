@@ -1,0 +1,53 @@
+# FishMarket group collaboration
+
+## Design basis and scope
+
+This independently implemented prototype follows the Outcome Ownership principles in NeoOrg's V3 design: a durable group, persistent agent identities, exactly one owner per outcome, bounded contributions, immutable deliveries, independent review, and engineering-owned recovery. It implements a focused subset, not the complete NeoOrg platform. No NeoOrg source, prompts, schemas, tests or assets are imported.
+
+The human works in a group timeline. Four persistent members are available; any eligible member can become owner. A targeted message restricts admission to that member. Ordinary questions are reply-only. Substantial work creates an outcome, selected semantically by Gemini. Follow-up input on an open outcome creates a new immutable goal revision while retaining its owner. The group survives outcome completion.
+
+## Architecture decision
+
+Keep: single ownership, selective activation, contributor capsules, distinct owner/contributor/review scopes, minimal model context, persisted message projection, transaction fencing, bounded review repair and checkpoint recovery.
+
+Stop: fixed all-agent speaking cycles, Contributor completion as overall success, hidden ownership inferred from prose, model-generated platform identifiers, and in-memory background work after an HTTP response.
+
+The deployment is a single Cloud Run image serving the web and API, with a dedicated Firestore database and Gemini through Google's Gen AI SDK. A request stays open while the workflow executes; the web polls persisted snapshots to display progressive messages. This avoids an untracked background promise. If the process or request fails, its durable execution lease expires and an explicit recovery action can resume the committed checkpoint. No previously committed model output or message is replayed.
+
+## Boundary matrix
+
+| Boundary | Input | Invariant / owner | Output / effect | Failure and recovery |
+|---|---|---|---|---|
+| HTTP admission | Strict versioned human message, request key and room capability | API validates access, size and request identity | Atomic human message and run checkpoint | Invalid access/input has no model invocation |
+| Gemini adapter | Scope-specific business projection | Model supplies semantics; SDK request/output checked against current strict schemas | Validated semantic intent, no database side effect | Invalid/timeout output opens durable recovery |
+| Domain transition | Semantic intent + frozen checkpoint/version | Engineering owns owner assignment, goal revision, delivery and message identities, order and terminal semantics | One transaction advances state and publishes messages | Stale version/fence is rejected before publication |
+| Firestore | Complete bounded room aggregate | Transaction, version, request receipt and lease fencing are authoritative | Atomic message/state/checkpoint commit | Retain last committed step; resume after lease expiry |
+| UI | Public persisted projection | Timeline and role tags come from state, not natural language | Group, owner, review, result and recovery controls | Refresh retrieves existing room without replay |
+
+## Model visibility
+
+Engineering facts: room/outcome/message/delivery IDs, aggregate version, goal revision number, access capability hash, request keys, lease owner/expiry, retries, provider usage, release metadata and transaction receipts. These never enter model context.
+
+Model facts: current goal and criteria, current role, bounded relevant messages, member capability aliases, contribution requests/results, immutable delivery and review issues. Aliases are generated from the frozen snapshot, are not permissions, and are resolved before commit.
+
+The Gemini output wire schema contains semantic fields only. The adapter validates that wire payload and constructs its fixed protocol-version envelope before the application contract is checked. The model never generates or copies the engineering-owned protocol version.
+
+## Prototype policies
+
+- One active execution per room; concurrent human sends receive a visible busy response and preserve the draft.
+- At most two requested contributors per goal revision, no recursive delegation.
+- Reviewer is neither owner nor an author of the reviewed delivery.
+- Review covers every frozen criterion; changes require a blocker or major issue. Up to three repair rounds.
+- Success requires independently accepted deliverable and satisfied criteria. Partial/no-solution results are explicit not-satisfied outcomes.
+- Technical errors are recovery states, never successful business outcomes.
+- Human input is a durable gate tied to the outcome; the owner retains responsibility while waiting.
+- Public rooms require an unguessable room capability; the browser has no Firestore write permission. Public access requires no account.
+- Bound context, message/room capacity, per-room execution budget and daily project usage protect the demo.
+
+## Deferred capabilities
+
+Owner transfer, external effects, scheduled waits, dynamic staffing, tool plugins, long-term private memory, multiple simultaneous runs in one room and comparative A/B benchmarks are outside this release. They must not be claimed as implemented.
+
+## Gates
+
+Offline gates cover schemas, admission, sole owner, contribution scopes, immutable delivery/review, criteria coverage, negative metadata assertions at actual SDK serialization, idempotent entry, transaction fencing and checkpoint resume. Production gates require real Gemini output, real Firestore persistence, public browser interaction, reload/retrieval and the running release SHA.

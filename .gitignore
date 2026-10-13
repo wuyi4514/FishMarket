@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.firebase/
+.env
+.env.*
+!.env.example
+firebase-debug.log
+firestore-debug.log
+*.local
+.DS_Store
+coverage/
+submission-private/

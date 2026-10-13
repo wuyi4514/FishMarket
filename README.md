@@ -1,0 +1,49 @@
+# FishMarket
+
+A human and persistent AI teammates collaborating in one group chat. One outcome has one accountable owner; other members contribute only when needed; an independent reviewer assesses the immutable delivery.
+
+This is an independently implemented AI Builder Cup 2026 Future of Work prototype. It follows Outcome Ownership architectural principles without copying NeoOrg source, prompts, schemas, tests, or assets.
+
+## What works
+
+- Persistent group with a human and four stable agent identities.
+- General chat, explicit member targeting, and Gemini-selected outcome ownership.
+- Bounded contributor requests, visible professional contributions, owner integration.
+- Frozen acceptance criteria, immutable deliveries and independent review.
+- Honest goal attainment, human input gates, and durable checkpoint recovery.
+- Atomic Firestore state/message persistence, request idempotency, lease fencing and private room capabilities.
+- A single Cloud Run image serving web + API, calling real Gemini through Vertex AI.
+
+See [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
+
+## Local offline development
+
+Requires Node.js 22.12+ and pnpm 10.33.0.
+
+```sh
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Open http://127.0.0.1:4173. This explicitly labelled preview uses an in-memory store and deterministic model fixtures. It is not evidence of live Gemini or Firestore. Production rejects fixture mode.
+
+```sh
+pnpm verify
+```
+
+## Production
+
+Set GOOGLE_CLOUD_PROJECT, ROOM_STORE=firestore, GEMINI_MODEL to a supported model, and RELEASE_SHA. The service account needs roles/datastore.user and roles/aiplatform.user. No API key or credentials are committed or sent to the browser.
+
+```sh
+pnpm build
+pnpm start
+```
+
+A long-running HTTP message request drives the workflow while the browser polls committed room state. Refreshing only retrieves state. If execution is interrupted, the lease expires; the explicit Resume action continues the persisted checkpoint without repeating committed messages.
+
+Anonymous visitors can create their own room. Each room has an unguessable capability stored in that browser. Do not enter private business data into a public demo.
+
+## Deliberately deferred
+
+External business actions, owner transfer, dynamic staffing, plugins, long-term private memory, scheduled waits and simultaneous runs in the same room. A proposed business plan is not proof that its actions have been executed. Deck/video are outside this implementation request.
