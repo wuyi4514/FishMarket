@@ -6,7 +6,18 @@ Maintain the deployed NeoOrg human/Agent group prototype, originally implemented
 
 ## Current phase
 
-2026-10-16: Research current video constraints and judging criteria, then propose an evidence-led narrative and production workflow on codex/video-production-plan. The user's supplied latest organizer Q&A takes precedence over obsolete FAQ claims. Keep existing copy, product code, deployment and business history unchanged. Historical sections below record their own iteration boundaries, not current authorization.
+2026-10-16: Revise the video strategy to balance problem/solution/differentiation/technical explanation with a discriminating case. Compare the actual HyperFrames and Remotion projects using primary sources and distinguish synthetic scenario, illustrative animation, working prototype and future concept. Keep product/deployment/business facts unchanged; no recording or production installation is authorized in this research turn.
+
+## Phase 12: Video positioning, case selection and tool choice
+
+Status: complete
+
+- [x] Restore the previous proposal and user's case-selection preferences; scope the requested revision.
+- [x] Compare four candidate cases for complementary expertise, change/handoff/review and visible common output; select the client-delivery case and document its text-only boundary.
+- [x] Verify primary HyperFrames/Remotion/tool documentation and choose one compositor plus recording, narration and verification without installation.
+- [x] Revise the proposed narrative, authenticity labels and production checks, preserving the video-duration conflict and deployed-capability boundary; validate the five-part 180-second timeline.
+
+The output is a revised proposal. No rendered media, new product function, paid service, new PR/merge, upload or competition submission is included.
 
 ## Phase 11: Competition demo video research and proposal
 
@@ -175,6 +186,7 @@ User's latest correction explicitly keeps the three recommended question cards. 
 
 | Error | Resolution |
 |---|---|
+| A guessed terminal session poll returned Unknown process id during video-tool research | Do not reuse guessed IDs; capture the next search command result and poll only its actual returned session_id 47120, which completed successfully |
 | Read-only /health/ready request returned the SPA fallback rather than JSON readiness | Inspect the application's registered health route and validate structured provider/store/release fields; HTML/200 is not inference evidence |
 | Video-plan inspection assumed OutcomePanel.tsx existed | Listed actual web files and inspected OutcomeStrip inside App.tsx; no source file was created |
 | YouTube Q&A web fetch was throttled | Preserve user-supplied Q&A as supplied evidence; do not claim a fresh transcript |

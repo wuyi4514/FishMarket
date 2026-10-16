@@ -1,5 +1,14 @@
 # Progress
 
+## 2026-10-16 video strategy revision
+
+- User challenged the demonstration-heavy proposal and requested discriminating cases, track/problem/differentiation explanations, tool selection including HyperFrames and clear fictional-content boundaries.
+- Restored prior proposal/planning and original NeoOrg scenario-selection preferences. Current work remains proposal/research only; no product changes, tool installation, media generation or uploads.
+- Verified HeyGen's actual HyperFrames repository/docs, Remotion's own workflow/license, OBS single-window recording, Gemini TTS and ffprobe. Recommending one compositor plus separate recording/narration/verification functions, not combining frameworks by default.
+- Revised docs/video-production-plan.md: explicit Future of Work positioning and mechanism-based differentiation; four-case shortlist and client-delivery recommendation; 70 seconds of real case within a balanced 180-second narrative; separate synthetic case, explanatory graphic, future concept and deployed proof labels.
+- HyperFrames is the preliminary main compositor candidate, Remotion an alternative after the same mixed-media sample test. No local renderer performance/quality claim is made; the trial and actual production remain future work. Gemini narration requires a separate verified TTS setup, not the app's text model endpoint.
+- Document QA passed: five contiguous segments total 180 seconds, demo segment 70 seconds, 18 external-link occurrences parse, current/future labels and all tool roles are present, four changed files are Markdown and git diff --check is clean. No app tests, model calls, media rendering or new deployment were performed.
+
 ## 2026-10-16 demo video research and planning
 
 - Restored planning/release history, read research/planning/writing instructions and created codex/video-production-plan from clean documentation commit 67984ac.
