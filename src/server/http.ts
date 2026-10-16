@@ -27,7 +27,7 @@ export function buildApp(options: { store?: RoomStore; model?: ModelGateway; ser
   app.get("/api/config", async () => ({ mode: fixture ? "offline-fixture" : "live", model: modelName }));
   app.post("/api/rooms", async (request, reply) => {
     const input = createRoomSchema.parse(request.body);
-    const { room, token } = await collaboration.create(input.title);
+    const { room, token } = await collaboration.create(input.title, input.contractVersion === "create-room-v2" ? input.members : undefined);
     return reply.code(201).send({ room: projectRoom(room), token });
   });
   app.addHook("preHandler", async (request, reply) => {
@@ -45,7 +45,7 @@ export function buildApp(options: { store?: RoomStore; model?: ModelGateway; ser
   app.setErrorHandler((error, _request, reply) => {
     const message = error instanceof Error ? error.message : "REQUEST_FAILED";
     const validation = error instanceof Error && error.name === "ZodError";
-    const status = message === "ROOM_BUSY" || message === "REQUEST_KEY_CONFLICT" ? 409 : /CAPACITY|BUDGET/.test(message) ? 429 : /NOT_FOUND/.test(message) ? 404 : validation ? 400 : 500;
+    const status = message === "ROOM_BUSY" || message === "REQUEST_KEY_CONFLICT" ? 409 : /CAPACITY|BUDGET/.test(message) ? 429 : /NOT_FOUND/.test(message) ? 404 : validation || message === "TARGET_NOT_A_MEMBER" ? 400 : 500;
     if (status === 500) app.log.error({ err: error }, "Request failed");
     return reply.code(status).send({ error: status === 500 ? "REQUEST_FAILED" : validation ? "INPUT_INVALID" : message });
   });

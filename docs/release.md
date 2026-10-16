@@ -1,4 +1,4 @@
-# FishMarket verified release
+# NeoOrg verified release
 
 ## Public entry
 
@@ -10,8 +10,8 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 ## Running source and infrastructure
 
-- Runtime source commit: 8f40da135d37c507800ce08ae809b9b33ad86bb6.
-- Cloud Run revision: fishmarket-00006-46w, serving 100% of traffic.
+- Runtime source commit: 3fc280f7d31e2ef741efa29d57fe100c53c54892.
+- Cloud Run revision: fishmarket-00011-86f, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.
@@ -23,7 +23,52 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-## Verification results (2026-10-13, Asia/Shanghai)
+## NeoOrg selected groups and branding (current release, 2026-10-16)
+
+NeoOrg original logo/wordmark/browser title; @-only draft-derived routing; no To or profile Message action; plus-only creation with 2–4 selected Agents. Provider and domain both reserve an independent reviewer. Existing rooms, capabilities, checkpoints and historical messages are preserved.
+
+- Offline Gate: 75 tests, typechecks and builds; real desktop/mobile browser verification.
+- [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/38844706253) and Cloud Build 95fc495b-1c73-4dba-9ec4-96e8aa2e19c8 passed.
+- Image sha256:4aff477de85812dfbf00ab32bbd1a1f0f7e9fbc1ba7cdd8d8c4b30d8e607246a; runtime source and exact JS/CSS/Logo bytes verified.
+- Real Gemini/Firestore Gate passed for four-, two- and three-Agent groups, including independent review, outsider rejection, selected-profile equality, idempotency and room isolation.
+- Historical digest/updateTime and actual public-browser old message bodies remained unchanged.
+- Full evidence, caveats and screenshots: [selected-members release](neoorg-selected-members-release.md). Branch codex/neoorg-room-members; user acceptance pending; no PR/main merge.
+
+## NeoOrg-aligned group chat (previous release, 2026-10-16)
+
+Compact group header, blue/gray conversation, human-right/Agent-left messages, job and outcome-role separation, exact message copy, recipient-backed @ selection, IME-safe Enter/Shift+Enter, member directory/profile side sheet and non-disruptive latest navigation. Recommended questions, fresh rooms and existing workflow facts are retained.
+
+- Gate: 52 tests, both typechecks and both builds; actual desktop and 390px mobile browser verification.
+- Source CI: https://github.com/wuyi4514/FishMarket/actions/runs/38840710664, success.
+- Cloud Build: 9592065c-1eb8-4a36-8ee2-700ad664c515, success.
+- Immutable image: sha256:b206050cd4ea7937e73519a78d3098e166b2743e4eb160cb5a0d090d0eeb17bf.
+- Runtime health reports the exact source SHA, Firestore, Vertex AI and the unchanged Gemini model. Deployed index-DaXU1kNG.js and index-jBBkQwe6.css match local verified bytes.
+- Real production workflow: Sail owner, Reef/Beacon contributors, Harbor independent reviewer; six messages, achieved/satisfied, 12.578 seconds for this single recorded run (not a benchmark/guarantee). Independent Firestore read, idempotency, room isolation and actual job-identity response passed.
+- Public browser @ selection and Enter triggered a real Reef reply. Refresh restored the same two message bodies, and the original room remained available. Profiles and the 390px production layout were checked and screenshots saved.
+- Historical six-message record still has Firestore updateTime 2026-10-13T09:35:06.430425Z, before this deployment. No migration or historical replay occurred; no running/unexpired executions existed before release.
+- Development branch: codex/neoorg-chat-alignment; no PR/main merge. User acceptance remains pending.
+
+See [iteration evidence and rollback](neoorg-chat-alignment-release.md) and the [English technical overview](technical-overview.md).
+
+## Annotated UI cleanup baseline (source 55a14fa)
+
+Removed the eight originally annotated copy/badge blocks plus the decorative welcome fish and duplicate welcome member row. The user's correction explicitly retains all three recommended question cards. Brand fish, main headline, room navigation, sidebar/header position profiles, composer shortcut and the unmarked safety footnote remain.
+
+- Gate: 39 offline tests, frontend/server typecheck, web/server builds.
+- Source CI: https://github.com/wuyi4514/FishMarket/actions/runs/38420278977, success.
+- Runtime health reports the exact source SHA, Firestore, Vertex AI and the unchanged Gemini model.
+- Immutable image: sha256:5d30f038e2470f1bbfa639c7d32f7efaa7a8a292efde2c7c03f351dfaec817fe.
+- Deployed JS/CSS bytes match the local verified build: index-G_ZrbG4J.js and index-CxKiCbf_.css.
+- Actual desktop/mobile UI checked. Recommended questions still fill the composer; Agent profiles and new-room dialog/cancel work; selected room restores after refresh.
+- Screenshot: docs/screenshots/ui-copy-cleanup.png.
+- Predeploy query found no running/unexpired execution records. Source diff confirms server, contracts, workspace persistence and profile dialog behavior are unchanged. No production model QA call or historical replay was needed for this presentation-only release.
+- Development branch: codex/ui-copy-cleanup. No PR or main merge before user acceptance.
+
+## Named-room / job-profile baseline
+
+The prior feature release added named fresh rooms, preserved browser-local room navigation and clickable permanent Agent job identities consumed by Gemini. See [iteration evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. These capabilities remain unchanged in the current UI-only release.
+
+## Initial release verification (2026-10-13, source 8f40da1)
 
 | Gate | Actual evidence |
 |---|---|

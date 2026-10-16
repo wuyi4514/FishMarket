@@ -1,20 +1,23 @@
-# FishMarket
+# NeoOrg
 
 A human and persistent AI teammates collaborating in one group chat. One outcome has one accountable owner; other members contribute only when needed; an independent reviewer assesses the immutable delivery.
 
-This is an independently implemented AI Builder Cup 2026 Future of Work prototype. It follows Outcome Ownership architectural principles without copying NeoOrg source, prompts, schemas, tests, or assets.
+This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Ownership design. Initially implemented separately as FishMarket on Google Cloud, it now uses the NeoOrg product name and original logo. Its repository, cloud resource names, public URL and saved room-access keys remain unchanged for continuity. It does not claim to implement the complete NeoOrg platform.
 
 ## What works
 
-- Persistent group with a human and four stable agent identities.
-- General chat, explicit member targeting, and Gemini-selected outcome ownership.
-- Bounded contributor requests, visible professional contributions, owner integration.
+- Persistent groups with a human and 2–4 selected teammates from four stable Agent identities.
+- Named fresh rooms, preserved browser-local room history, switching and reload restoration.
+- Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
+- General chat, @-only member targeting, and Gemini-selected outcome ownership. Removing a mention removes its routing effect; several distinct mentions remain a group message, not multi-dispatch.
+- NeoOrg-aligned chat layout, @ teammate picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
+- Bounded contributor requests, visible professional contributions, owner integration; smaller groups reserve an independent reviewer before delegation.
 - Frozen acceptance criteria, immutable deliveries and independent review.
 - Honest goal attainment, human input gates, and durable checkpoint recovery.
 - Atomic Firestore state/message persistence, request idempotency, lease fencing and private room capabilities.
 - A single Cloud Run image serving web + API, calling real Gemini through Vertex AI.
 
-See [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
+See the [technical overview and NeoOrg architecture mapping](docs/technical-overview.md), [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
 
 ## Local offline development
 
@@ -43,6 +46,8 @@ pnpm start
 A long-running HTTP message request drives the workflow while the browser polls committed room state. Refreshing only retrieves state. If execution is interrupted, the lease expires; the explicit Resume action continues the persisted checkpoint without repeating committed messages.
 
 Anonymous visitors can create their own room. Each room has an unguessable capability stored in that browser. Do not enter private business data into a public demo.
+
+The workspace list is remembered only in this browser, not synchronized across devices. Creating a fresh room keeps previous rooms and their sent messages; unsent drafts stay separately in the current tab. Clearing browser storage can lose room access. Fresh rooms do not reset the project-wide daily model-call limit.
 
 ## Deliberately deferred
 
