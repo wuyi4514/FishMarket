@@ -10,8 +10,8 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 ## Running source and infrastructure
 
-- Runtime source commit: 55a14fa3851cc9ff64cef4f344dbd615f138f78a.
-- Cloud Run revision: fishmarket-00009-5zq, serving 100% of traffic.
+- Runtime source commit: 138ee5eeaf3dbb87467be70ce43c2fa95b278cfb.
+- Cloud Run revision: fishmarket-00010-vt2, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.
@@ -23,7 +23,23 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-## Annotated UI cleanup (current release)
+## NeoOrg-aligned group chat (current release, 2026-10-16)
+
+Compact group header, blue/gray conversation, human-right/Agent-left messages, job and outcome-role separation, exact message copy, recipient-backed @ selection, IME-safe Enter/Shift+Enter, member directory/profile side sheet and non-disruptive latest navigation. Recommended questions, fresh rooms and existing workflow facts are retained.
+
+- Gate: 52 tests, both typechecks and both builds; actual desktop and 390px mobile browser verification.
+- Source CI: https://github.com/wuyi4514/FishMarket/actions/runs/38840710664, success.
+- Cloud Build: 9592065c-1eb8-4a36-8ee2-700ad664c515, success.
+- Immutable image: sha256:b206050cd4ea7937e73519a78d3098e166b2743e4eb160cb5a0d090d0eeb17bf.
+- Runtime health reports the exact source SHA, Firestore, Vertex AI and the unchanged Gemini model. Deployed index-DaXU1kNG.js and index-jBBkQwe6.css match local verified bytes.
+- Real production workflow: Sail owner, Reef/Beacon contributors, Harbor independent reviewer; six messages, achieved/satisfied, 12.578 seconds for this single recorded run (not a benchmark/guarantee). Independent Firestore read, idempotency, room isolation and actual job-identity response passed.
+- Public browser @ selection and Enter triggered a real Reef reply. Refresh restored the same two message bodies, and the original room remained available. Profiles and the 390px production layout were checked and screenshots saved.
+- Historical six-message record still has Firestore updateTime 2026-10-13T09:35:06.430425Z, before this deployment. No migration or historical replay occurred; no running/unexpired executions existed before release.
+- Development branch: codex/neoorg-chat-alignment; no PR/main merge. User acceptance remains pending.
+
+See [iteration evidence and rollback](neoorg-chat-alignment-release.md) and the [English technical overview](technical-overview.md).
+
+## Annotated UI cleanup baseline (source 55a14fa)
 
 Removed the eight originally annotated copy/badge blocks plus the decorative welcome fish and duplicate welcome member row. The user's correction explicitly retains all three recommended question cards. Brand fish, main headline, room navigation, sidebar/header position profiles, composer shortcut and the unmarked safety footnote remain.
 

@@ -103,6 +103,10 @@ No server, contracts, model, workspace persistence or profile dialog behavior ch
 | docs/group-collaboration.md | Actual side-sheet/mention/scroll boundaries, corrected profile entry points and technical overview link |
 | docs/technical-overview.md | English product/architecture explanation, V3 implementation mapping, provider/engineering boundary, limits, security, recovery and evaluator path |
 | docs/neoorg-chat-alignment-release.md | This iteration's source/Gate/deployment/rollback evidence, with pending states explicit |
+| docs/release.md | Current deployed source, image, revision, CI, actual live Gate and retained historical baseline |
+| docs/screenshots/neoorg-chat-alignment.png | Actual deployed desktop conversation with real Gemini reply |
+| docs/screenshots/neoorg-chat-profile.png | Actual deployed permanent role/responsibilities side sheet |
+| docs/screenshots/neoorg-chat-mobile.png | Actual deployed 390px group conversation |
 | task_plan.md | Scope, boundary decision, rollback and release checklist |
 | findings.md | Source comparison, actual browser findings and dependency compatibility evidence |
 | progress.md | Actual implementation and verification milestones |

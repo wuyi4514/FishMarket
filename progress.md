@@ -10,6 +10,13 @@
 - Verified actual desktop @ selection, no-send selection Enter, Shift+Enter, normal Enter, role projection, copy text, members directory and profile side sheet. Verified 390px layout, fresh room, retained old twelve-message history, per-room unsent draft/recipient and recommendation filling. Escape returned focus to the originating member button; temporary viewport reset.
 - Added React event tests for keyboard/IME/no-match selection, clipboard failure and actual timeline hook behavior across incoming messages and room changes. Pinned test-only jsdom 26.1.0 for existing Node compatibility after checking the latest package's engine requirement. Final offline Gate is running.
 - Added English technical-overview.md with V3-to-implementation matrix, production topology, semantic/engineering boundary, security/cost/recovery limits and evaluator path. Updated README and focused architecture document without claiming deferred NeoOrg infrastructure.
+- Final offline Gate passed: 52 tests, frontend/server typecheck and both builds. Source 138ee5eeaf3dbb87467be70ce43c2fa95b278cfb committed and pushed to codex/neoorg-chat-alignment; source CI 38840710664 passed. No PR created.
+- Predeployment Firestore query found no running records/unexpired leases. Historical six-message room messages/outcomes digest saved for post-release comparison. Exact Git diff confirms server, contracts, workspace persistence, Dockerfile and environment example remain unchanged.
+- Cloud Run source upload completed; new image is building with only RELEASE_SHA updated, preserving existing service configuration and credentials.
+- Cloud Build 9592065c-1eb8-4a36-8ee2-700ad664c515 succeeded; revision fishmarket-00010-vt2 serves 100% traffic. Runtime health and exact JS/CSS byte checks match source 138ee5e.
+- Real Gemini / Firestore smoke passed, including a six-message independently reviewed achieved outcome, independent persisted read, idempotency, unauthorized/cross-room denial and actual job identity. Public browser separately verified the new @ selection/Enter path through real Gemini, refresh equality, profiles and desktop/mobile layouts.
+- Verified historical six-message room's last write predates release; corrected raw-JSON digest comparison to canonical field ordering and checked stable duplicate reads. No historical state changed or replayed.
+- Saved three production screenshots, reset viewport and closed local preview tab. Updated actual release/per-file evidence. Implementation is deployed; user acceptance, PR, main merge and competition materials/submission remain separate.
 
 ## 2026-10-10
 

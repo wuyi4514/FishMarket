@@ -10,7 +10,7 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Phase 7: NeoOrg-aligned group chat and technical explanation
 
-Status: in_progress
+Status: complete_deployed_pending_user_acceptance
 
 - [x] Locate the clean FishMarket checkout and create codex/neoorg-chat-alignment.
 - [x] Inspect NeoOrg group layout, message/composer behavior and V3 architectural reference.
@@ -18,8 +18,8 @@ Status: in_progress
 - [x] Align compact group header, neutral blue chat surfaces, human/agent message layout, profile side sheet, mention selection, sending/copy and non-disruptive latest-message navigation.
 - [x] Retain recommended questions, named fresh rooms, per-room drafts/recipients and profile facts; add no pretend tools, announcements or file actions.
 - [x] Expand English technical explanation with implemented V3 mapping, exact production boundaries, data/security/recovery, limits and evaluator guidance.
-- [ ] Run offline Gate and real desktop/mobile interaction checks; commit reversible source without a PR.
-- [ ] Verify deployment baseline, preserve Firestore and secrets, deploy the tested commit and verify exact source/assets; user acceptance remains separate.
+- [x] Run offline Gate and real desktop/mobile interaction checks; commit reversible source without a PR.
+- [x] Verify deployment baseline, preserve Firestore and secrets, deploy the tested commit and verify exact source/assets; user acceptance remains separate.
 
 ### Architecture / release decision
 
@@ -147,8 +147,8 @@ User's latest correction explicitly keeps the three recommended question cards. 
 
 ## Evidence
 
-Runtime implementation: source commit 55a14fa3851cc9ff64cef4f344dbd615f138f78a (prior feature source 8816155).
-Local Gate: 39 tests + typecheck + web/server build passed.
+Runtime implementation: source commit 138ee5eeaf3dbb87467be70ce43c2fa95b278cfb (prior cleanup source 55a14fa, feature source 8816155).
+Local Gate: 52 tests + typecheck + web/server build passed.
 Cloud project: fishmarket-abc-2026-4514.
 Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
 Final release evidence is in docs/release.md and docs/rooms-agent-profiles-release.md.
