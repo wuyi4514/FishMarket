@@ -6,7 +6,24 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Current phase
 
-Annotated UI cleanup is implemented, deployed and verified, including the correction to retain recommended questions. Ready for user acceptance; competition materials and submission remain deferred.
+2026-10-16: Align the existing group-chat surface with NeoOrg and expand source-backed technical documentation. Preserve the deployed Gemini / Firestore workflow, FishMarket name, room access and history. User confirms the latest event clarification permits existing-product reuse; do not present the stale FAQ as the operative decision for this iteration.
+
+## Phase 7: NeoOrg-aligned group chat and technical explanation
+
+Status: in_progress
+
+- [x] Locate the clean FishMarket checkout and create codex/neoorg-chat-alignment.
+- [x] Inspect NeoOrg group layout, message/composer behavior and V3 architectural reference.
+- [x] Freeze UI projection boundaries and add failing interaction/render Evals before implementation.
+- [x] Align compact group header, neutral blue chat surfaces, human/agent message layout, profile side sheet, mention selection, sending/copy and non-disruptive latest-message navigation.
+- [x] Retain recommended questions, named fresh rooms, per-room drafts/recipients and profile facts; add no pretend tools, announcements or file actions.
+- [x] Expand English technical explanation with implemented V3 mapping, exact production boundaries, data/security/recovery, limits and evaluator guidance.
+- [ ] Run offline Gate and real desktop/mobile interaction checks; commit reversible source without a PR.
+- [ ] Verify deployment baseline, preserve Firestore and secrets, deploy the tested commit and verify exact source/assets; user acceptance remains separate.
+
+### Architecture / release decision
+
+Keep: current admission/owner/contributor/review contracts, persisted RoomView, single-image Cloud Run composition, Firestore transactions, capabilities and recovery. Stop: unconditional scrolling on every message/scope update, left-aligned human messages and recipient selection hidden behind only a select. UI affordances must not create permissions or infer outcome facts from text. New mention interactions select the existing single structured target; they do not introduce multi-target dispatch. No backend schema/migration, model prompt or checkpoint format change is planned. Rollback is redeployment of the previous image/source; no business-history replay.
 
 ## Phase 1: Architecture and cloud foundation
 
@@ -92,7 +109,7 @@ User's latest correction explicitly keeps the three recommended question cards. 
 
 ## Existing guardrails
 
-- Independent code, prompts, schemas, tests and assets; architecture ideas and mature SDKs are reused.
+- Preserve honest provenance. The original prototype was separately implemented; the user now authorizes NeoOrg-based reuse/alignment under the latest event clarification. Never rewrite history or copy credentials/private business data.
 - Exactly one persistent owner per outcome. Contributions never close the parent outcome.
 - Protocol identity, versions, order, lease, transaction, retry and terminal facts are engineering-owned.
 - Strict minimal model projection; no room capability, dynamic platform IDs or audit metadata enter the provider.
@@ -124,6 +141,9 @@ User's latest correction explicitly keeps the three recommended question cards. 
 | Initial production browser reload observed an empty shell before async retrieval | Verified the completed server GET and the later UI; original six bodies were identical. Proceeded only after the saved room was visibly available |
 | Annotated-copy render test failed on the unchanged baseline | Removed only the eight requested blocks and kept the control/safety assertions |
 | Additional welcome-area test failed on the unchanged duplicate row | Kept recommended questions as corrected by the user, removed only the welcome fish/duplicate row |
+| New chat Eval could not import the not-yet-implemented production module | Expected pre-implementation red; implemented shared interactions and verified the complete Gate |
+| Latest jsdom requires a newer Node patch than local/runtime policy | Checked official package metadata and pinned test-only jsdom 26.1.0, compatible with Node 22 and current Node 24; no runtime upgrade |
+| Test dependency download was slow with transient registry resets | Kept source unchanged during download; used prefer-offline for the compatible pinned test version |
 
 ## Evidence
 

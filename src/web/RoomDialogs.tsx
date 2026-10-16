@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import type { AgentProfile } from "../contracts/group";
+import type { AgentId, AgentProfile } from "../contracts/group";
+import { Avatar } from "./ChatPrimitives";
 
 export function Modal({ titleId, onClose, busy = false, children, className = "" }: { titleId: string; onClose: () => void; busy?: boolean; children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -38,5 +39,15 @@ export function AgentProfileDialog({ member, onClose, onMessage }: { member: Age
     <section className="profile-section profile-boundaries"><h3>Capability boundaries</h3><ul>{member.boundaries.map(item => <li key={item}>{item}</li>)}</ul></section>
     <p className="profile-scope">This is a persistent job identity. Outcome owner, contributor and independent reviewer are separate assignments for each goal. No teammate has external tools connected in this prototype.</p>
     <div className="dialog-actions"><button type="button" className="secondary-action" onClick={onClose}>Back to the room</button><button type="button" className="primary-action" onClick={onMessage}>Message {member.name} ↗</button></div>
+  </Modal>;
+}
+
+export function TeamDialog({ members, onClose, onOpenProfile }: { members: AgentProfile[]; onClose: () => void; onOpenProfile: (id: AgentId) => void }) {
+  return <Modal titleId="team-heading" onClose={onClose} className="profile-dialog team-dialog">
+    <h2 id="team-heading">Room members</h2>
+    <div className="team-directory">
+      <div className="member-row"><Avatar id="human"/><div><strong>You</strong><small>Human · Final decision</small></div></div>
+      {members.map(member => <button className="member-row member-button" key={member.id} onClick={() => onOpenProfile(member.id)}><Avatar id={member.id}/><div><strong>{member.name}</strong><small>{member.role}</small></div><span className="directory-arrow">↗</span></button>)}
+    </div>
   </Modal>;
 }

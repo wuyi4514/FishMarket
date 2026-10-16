@@ -21,4 +21,9 @@ describe("annotated copy cleanup using the production App", () => {
     expect(html).toContain('class="brand-icon"'); expect(html).toContain('class="avatar-stack"');
     expect(html.match(/aria-label="View Reef profile"/g)).toHaveLength(2);
   });
+  it("exposes real NeoOrg-aligned group and composer controls without unimplemented actions", () => {
+    const html = renderToStaticMarkup(createElement(App));
+    for (const kept of ["GROUP CHATS", "View room members", "Mention a teammate", "Enter to send · Shift + Enter for a new line"]) expect(html).toContain(kept);
+    for (const absent of ["Upload file", "Send email", "Group announcements", "Owner transfer"]) expect(html).not.toContain(absent);
+  });
 });

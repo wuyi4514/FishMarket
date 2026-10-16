@@ -1,5 +1,16 @@
 # Progress
 
+## 2026-10-16 NeoOrg-aligned chat iteration
+
+- Read frontend-design and planning-with-files skills, restored FishMarket release/user-correction context and inspected NeoOrg group UI/composer/message code.
+- Created codex/neoorg-chat-alignment from the clean existing FishMarket checkout; Alpha user changes are untouched.
+- Scoped a presentation/interaction iteration with unchanged server workflow/contracts/checkpoints and a source-backed English technical explanation. No PR or final competition submission is authorized.
+- Added failing interaction/projection Evals, then implemented shared chat primitives, message row/copy, recipient-backed mention composer, IME-safe keyboard sending, smart timeline following and compact blue/gray styling with profile side sheets.
+- First full offline Gate passed: 46 tests, frontend/server typechecks and web/server builds. Beginning real browser verification before release.
+- Verified actual desktop @ selection, no-send selection Enter, Shift+Enter, normal Enter, role projection, copy text, members directory and profile side sheet. Verified 390px layout, fresh room, retained old twelve-message history, per-room unsent draft/recipient and recommendation filling. Escape returned focus to the originating member button; temporary viewport reset.
+- Added React event tests for keyboard/IME/no-match selection, clipboard failure and actual timeline hook behavior across incoming messages and room changes. Pinned test-only jsdom 26.1.0 for existing Node compatibility after checking the latest package's engine requirement. Final offline Gate is running.
+- Added English technical-overview.md with V3-to-implementation matrix, production topology, semantic/engineering boundary, security/cost/recovery limits and evaluator path. Updated README and focused architecture document without claiming deferred NeoOrg infrastructure.
+
 ## 2026-10-10
 
 - Created the public GitHub repository and independent local checkout.

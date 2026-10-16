@@ -80,3 +80,32 @@ Cloud revision fishmarket-00007-czj is deployed; actual browser reload/switch pr
 | docs/screenshots/ui-copy-cleanup.png | Actual final cloud desktop screenshot with recommended questions retained |
 
 No server, contracts, model, workspace persistence or profile dialog behavior changed. Final cloud revision fishmarket-00009-5zq is deployed and verified on source 55a14fa.
+
+## NeoOrg-aligned group chat — 2026-10-16
+
+| File | Actual change |
+|---|---|
+| src/web/App.tsx | Compact group header/member directory, integration of the production composer/message rows, scroll navigation; preserves room/workflow state |
+| src/web/ChatPrimitives.tsx | Shared FishMarket SVG controls and stable member avatars |
+| src/web/ChatComposer.tsx | Room-profile @ choices, existing structured recipient selection, keyboard navigation, IME-safe Enter, Shift+Enter and growing draft field |
+| src/web/chat-interactions.ts | Deterministic mention parsing/insertion/filtering, keyboard and near-latest policies |
+| src/web/MessageRow.tsx | Human/Agent message layout, job versus persisted execution role, exact body copy and visible clipboard failure |
+| src/web/useTimeline.ts | Follow only near the end, count new messages without moving a reader, explicit latest navigation and room reset |
+| src/web/RoomDialogs.tsx | Real member directory; preserves accessible native profile/new-room dialog behavior |
+| src/web/chat-alignment.css | NeoOrg-inspired compact blue/gray conversation and modal profile side sheet; desktop/mobile and focus states |
+| src/web/main.tsx | Loads the scoped chat iteration stylesheet after existing styles |
+| tests/chat-interactions.test.ts | Seven production-policy/render Evals, including no status inferred from prose or raw HTML injection |
+| tests/chat-components.test.tsx | Five actual React event/hook/clipboard Evals, including IME and incoming-message history-reading behavior |
+| tests/ui-copy.test.ts | Preserves prior removed-copy/retained-question assertions and verifies new real controls without fake tools |
+| package.json | Pins two test-only dependencies; production dependency versions unchanged |
+| pnpm-lock.yaml | Reproducible test dependency graph |
+| README.md | Current UI capabilities and honest NeoOrg design relationship; links technical explanation |
+| docs/group-collaboration.md | Actual side-sheet/mention/scroll boundaries, corrected profile entry points and technical overview link |
+| docs/technical-overview.md | English product/architecture explanation, V3 implementation mapping, provider/engineering boundary, limits, security, recovery and evaluator path |
+| docs/neoorg-chat-alignment-release.md | This iteration's source/Gate/deployment/rollback evidence, with pending states explicit |
+| task_plan.md | Scope, boundary decision, rollback and release checklist |
+| findings.md | Source comparison, actual browser findings and dependency compatibility evidence |
+| progress.md | Actual implementation and verification milestones |
+| docs/change-summary.md | Per-file iteration record |
+
+No server, shared contract, model prompt, Firestore schema or checkpoint format change. No NeoOrg production service/data was modified and no historical work was replayed.

@@ -2,7 +2,7 @@
 
 ## Design basis and scope
 
-This independently implemented prototype follows the Outcome Ownership principles in NeoOrg's V3 design: a durable group, persistent agent identities, exactly one owner per outcome, bounded contributions, immutable deliveries, independent review, and engineering-owned recovery. It implements a focused subset, not the complete NeoOrg platform. No NeoOrg source, prompts, schemas, tests or assets are imported.
+This prototype follows the Outcome Ownership principles in NeoOrg's V3 design: a durable group, persistent agent identities, exactly one owner per outcome, bounded contributions, immutable deliveries, independent review, and engineering-owned recovery. Its initial implementation was built separately; the current UI adopts NeoOrg group-chat patterns. It implements a focused subset, not the complete NeoOrg platform. The [technical overview](technical-overview.md) maps the V3 reference to actual code, deployed infrastructure and deliberately deferred capabilities.
 
 The human works in a group timeline. Four persistent members are available; any eligible member can become owner. A targeted message restricts admission to that member. Ordinary questions are reply-only. Substantial work creates an outcome, selected semantically by Gemini. Follow-up input on an open outcome creates a new immutable goal revision while retaining its owner. The group survives outcome completion.
 
@@ -52,7 +52,9 @@ The browser keeps a strict browser-workspace-v1 directory of room IDs, capabilit
 
 New room aggregates freeze strict agent-profile-v1 job identities: role, capability, three responsibilities and two boundaries per member. Legacy room-v1 records without this additive field resolve against the fixed original profile-v1 catalog, without rewriting outcomes or checkpoints. The same room-bound profiles feed the public UI and group-model-context-v2. Provider context contains bounded semantic job facts, not profile versions, internal IDs or capability tokens. Unknown/malformed profile data fails closed.
 
-Native profile dialogs can be opened from member rows, header avatars, welcome cards and Agent message avatars. Viewing a profile has no dispatch or ownership effect; the explicit Message action only selects the composer recipient. Permanent position is separate from per-outcome owner, contributor and reviewer assignments. Descriptions do not confer tools or external execution rights. Original workflow schemas/checkpoints remain compatible, and no historic task is replayed during release.
+Native modal profile side sheets can be opened from member rows, header avatars, the room member directory and Agent message avatars. Viewing a profile has no dispatch or ownership effect; the explicit Message action only selects the composer recipient. Permanent position is separate from per-outcome owner, contributor and reviewer assignments. Descriptions do not confer tools or external execution rights. Original workflow schemas/checkpoints remain compatible, and no historic task is replayed during release.
+
+The @ member picker uses the current room's profiles and selects the existing single structured recipient; it does not infer permissions or multi-recipient dispatch from prose. Enter sends except during IME composition or member selection; Shift+Enter inserts a newline. Copy operates on the stored message body. The timeline follows new messages only when the reader remains near the bottom, otherwise providing a return-to-latest control. These presentation controls never infer workflow status from message text.
 
 ## Deferred capabilities (unchanged)
 

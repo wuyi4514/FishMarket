@@ -2,7 +2,7 @@
 
 A human and persistent AI teammates collaborating in one group chat. One outcome has one accountable owner; other members contribute only when needed; an independent reviewer assesses the immutable delivery.
 
-This is an independently implemented AI Builder Cup 2026 Future of Work prototype. It follows Outcome Ownership architectural principles without copying NeoOrg source, prompts, schemas, tests, or assets.
+This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Ownership design. The initial implementation was built separately on Google Cloud; its group-chat interaction now follows NeoOrg patterns while retaining FishMarket's own deployed workflow and history. It does not claim to implement the complete NeoOrg platform.
 
 ## What works
 
@@ -10,13 +10,14 @@ This is an independently implemented AI Builder Cup 2026 Future of Work prototyp
 - Named fresh rooms, preserved browser-local room history, switching and reload restoration.
 - Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
 - General chat, explicit member targeting, and Gemini-selected outcome ownership.
+- NeoOrg-aligned chat layout, @ teammate picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
 - Bounded contributor requests, visible professional contributions, owner integration.
 - Frozen acceptance criteria, immutable deliveries and independent review.
 - Honest goal attainment, human input gates, and durable checkpoint recovery.
 - Atomic Firestore state/message persistence, request idempotency, lease fencing and private room capabilities.
 - A single Cloud Run image serving web + API, calling real Gemini through Vertex AI.
 
-See [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
+See the [technical overview and NeoOrg architecture mapping](docs/technical-overview.md), [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
 
 ## Local offline development
 

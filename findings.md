@@ -1,5 +1,20 @@
 # Findings
 
+## 2026-10-16 NeoOrg alignment baseline
+
+- User confirms the supplied latest official Q&A is authoritative for this task and permits an existing-product submission; prior fresh-code-only advice is not the implementation boundary of this iteration. Existing implementation provenance remains factual and must not be rewritten.
+- FishMarket checkout is clean on codex/ui-copy-cleanup; new work starts on codex/neoorg-chat-alignment. Prior documented runtime source is 55a14fa and must be verified live before release.
+- NeoOrg source uses compact 64px group headers, muted blue/gray surfaces, right-aligned human bubbles, left-aligned Agent bodies, hover/focus copy actions, @ member choices, Enter-to-send with IME guards and Shift+Enter newline, and explicit return-to-latest navigation. No announcements, file tools or WorkPlan controls will be shown unless implemented in FishMarket.
+- Current FishMarket unconditionally scrolls on message count/run scope, offers only a recipient select and Ctrl/Cmd+Enter, and uses editorial sage styling with both sides left aligned. Profiles are accessible native dialogs; they can become a right-side sheet without changing profile truth or dispatch.
+- The current backend already implements a bounded V3 subset. The technical document must not claim NeoOrg PostgreSQL/outbox/worker/tool platform, owner transfer, external execution or long-term memory as present in FishMarket.
+- Read all 1,472 lines of NeoOrg V3 reference and the actual FishMarket HTTP/store/model/collaboration production boundaries. The current production model context is group-model-context-v2; admission, owner, contributor and review remain separate scopes. FishMarket stores bounded room aggregates, not NeoOrg's proposed independent PostgreSQL Outcome tables or transactional outbox.
+- New seven deterministic/render Evals initially failed because the interaction module did not exist. After implementation, 46 tests, both typechecks and both builds pass. Browser and deployed verification are still pending.
+- Actual desktop browser confirmed the @Re query returns Reef from the room profile list; Enter chooses Reef and updates the structured recipient without sending. Shift+Enter preserves an unsent line break; Enter then sends. The real fixture-backed workflow rendered persisted message roles and a reviewed outcome.
+- Group member directory opens from the compact header and Reef's right-side sheet shows the exact three responsibilities and two boundaries. This remains a modal, accessible side sheet (not a new non-modal enterprise member subsystem).
+- Desktop copy action reported Copied and browser clipboard contained the exact stored Markdown body. A second fixture conversation produced twelve messages; scrolling to history exposed Return to latest messages. A deterministic React hook test will additionally cover incoming messages while away, since browser timing alone is not reliable evidence of that race.
+- At 390px, the real browser showed right-aligned human text, readable Agent roles, profile/header access, latest-message navigation and an unobstructed composer without horizontal overflow. Creating a named new room kept the old room; switching back restored all twelve messages, the original unsent draft and @Reef recipient. Recommendation cards still populate the clean room's composer without sending.
+- Source comparison confirms src/server, src/contracts and the production smoke script are unchanged. Two test-only dependencies are being added for event-level React and timeline regression tests; npm registry downloads are slow, not a product failure.
+
 ## 2026-10-10 repository and tool baseline
 
 - Public repository created as `https://github.com/wuyi4514/mission-room-ai-builder-cup-2026` and renamed to `https://github.com/wuyi4514/FishMarket` at the user's request.
