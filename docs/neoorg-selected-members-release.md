@@ -10,7 +10,9 @@
 - [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/38844706253): success, including the complete `pnpm verify` Gate on Node 22.
 - Product name, original Logo, browser title/favicon and Gemini identity: NeoOrg. Repository, Cloud project/service URL and browser capability keys remain FishMarket identifiers to preserve continuity.
 
-No PR, main merge, competition submission, deck or video was created. User functional acceptance remains pending. Evidence-only commits after the source SHA do not change the running application.
+[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) merged this release and its prerequisite iterations into main at `a13059baa6f54a063e1a7253b063d9d4db0d5fce` on October 16, 2026, following the user's explicit request. [Main CI](https://github.com/wuyi4514/FishMarket/actions/runs/38845919226) passed; its tree exactly matches the pre-merge head `3ca86af`. The running source remains `3fc280f`: evidence-only and merge commits changed no application files and required no redeployment.
+
+[Submission-page text](submission-description.md) is prepared separately. No form filling, upload or final competition submission has occurred. This documentation update does not prepare PPT or video, or claim organizer acceptance.
 
 ## Actual implementation boundary
 

@@ -6,6 +6,8 @@ NeoOrg is a human-and-AI group workspace for turning a shared goal into a review
 
 The architecture adopts NeoOrg V3's Outcome Ownership design and its conversation-native interaction patterns. The initial prototype was implemented separately as FishMarket; the current product now uses NeoOrg's name and original logo while retaining existing repository/cloud identifiers and business history. It remains a focused Google Cloud implementation, not the complete NeoOrg platform. The broader design is a reference, not evidence that every proposed capability exists here.
 
+For the project-introduction field, use the [copy-ready Chinese or English description](submission-description.md). Product source was merged into main through [PR #1](https://github.com/wuyi4514/FishMarket/pull/1); [release status](release.md) distinguishes that merge from the unchanged deployed runtime and the still-unperformed competition submission.
+
 ## What the evaluator can verify
 
 1. Open the public app without creating an account. A new visitor receives an isolated room.

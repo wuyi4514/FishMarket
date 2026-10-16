@@ -19,6 +19,12 @@ This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Owners
 
 See the [technical overview and NeoOrg architecture mapping](docs/technical-overview.md), [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
 
+## Submission text and source status
+
+Copy-ready Chinese and English text with the deployed app and repository links is in [the submission description](docs/submission-description.md). It describes actual Gemini/Vertex AI, Cloud Run and Firestore usage; Firebase Hosting and Firebase Authentication are not used.
+
+[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) merged the product iterations into main at `a13059b` on October 16, 2026. Main CI passed. Cloud Run continues to serve the verified runtime source `3fc280f`; its application files match the merged main version. Competition submission has not been performed. PPT/video preparation and submission-page actions are outside this documentation update.
+
 ## Local offline development
 
 Requires Node.js 22.12+ and pnpm 10.33.0.

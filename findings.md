@@ -1,5 +1,16 @@
 # Findings
 
+## 2026-10-16 current integration and submission-copy facts
+
+- PR #1 is merged into main at a13059baa6f54a063e1a7253b063d9d4db0d5fce; main CI 38845919226 succeeded. This replaces earlier unqualified no-PR/no-merge statements.
+- Current health still identifies runtime 3fc280f, Firestore and Vertex AI with gemini-3.5-flash-lite. The merge changed no application files relative to the deployed source.
+- Production uses the official Google Gen AI SDK with vertexai=true and the server-side Firestore SDK, with web/API hosted on Cloud Run. No Firebase Hosting or Firebase Authentication integration exists; descriptions must not imply that those services are used.
+- Current release, previous release snapshots and chronological investigation logs need distinct labels. Preserve old commits, Gate counts, model failures and provenance rather than rewriting them as new evidence.
+- The user requests text preparation only. No PPT/video work, form filling, final submission, new PR/merge, deployment or new model invocation is part of this documentation phase.
+- Older dated sections below are historical observations, including obsolete FAQ findings and pre-deployment tooling/status. They are not current rules or deployment assertions.
+- Submission copy is 314 Chinese-version characters (including punctuation/spaces) or 108 English whitespace-separated words; no unknown form limit is asserted. Both versions name Gemini, Vertex AI, Cloud Run, Firestore and the explicit non-usage of Firebase Hosting/Authentication.
+- Initial relative-link validation resolved all 32 local Markdown references. Product source, dependencies, cloud deployment and stored room facts are unchanged; this follow-up is isolated to Markdown files.
+
 ## 2026-10-16 selected membership corrections
 
 - The user requests @-only routing, no profile Message action, plus-only creation, selectable group membership and NeoOrg product branding. Recommendation cards remain in scope and must stay functional.

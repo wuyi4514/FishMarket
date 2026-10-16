@@ -1,16 +1,38 @@
-# FishMarket implementation and deployment plan
+# NeoOrg implementation and submission materials plan
 
 ## Authorized goal
 
-Implement one Human and multiple persistent Gemini agents collaborating in a group. Follow the Outcome Ownership V3 design while writing independent code and using official SDKs. Deploy FishMarket and prove the real Gemini / Firestore chain. PPT, video and final competition submission are deferred by the user.
+Maintain the deployed NeoOrg human/Agent group prototype, originally implemented as FishMarket. The current authorized work is a copy-ready submission description and documentation status reconciliation. PPT, video, form filling, final competition submission and deployment changes are excluded.
 
 ## Current phase
 
-2026-10-16: Apply the user's annotated interaction corrections, rename the visible product to NeoOrg, and support real selected membership. Keep the FishMarket repository/cloud resource identities, saved browser capabilities, old rooms and history intact.
+2026-10-16: Prepare Chinese/English submission-page copy and update stale Git/release statements on codex/submission-description-docs. Keep product code, deployment, room data and credentials unchanged. Historical sections below record their own iteration boundaries, not current status.
+
+## Phase 10: Submission description and documentation status
+
+Status: complete
+
+- [x] Read current product/architecture/release documents and verify PR #1, main CI and deployed health.
+- [x] Write copy-ready Chinese and English descriptions covering actual Gemini/Vertex AI, Cloud Run, Firestore and Firebase usage boundaries.
+- [x] Reconcile current release/integration status and clearly label older release snapshots without rewriting historical evidence.
+- [x] Check copy claims, all 32 local document links, character/word counts and documentation-only Git scope; pass the full offline verification Gate (75 tests, both typechecks and builds).
+
+This phase does not create a new PR or merge, change hosting, consume live inference, prepare PPT/video or operate the submission page.
+
+## Phase 9: User-authorized integration into main
+
+Status: complete
+
+- [x] Create PR #1 from codex/neoorg-room-members and verify its CI.
+- [x] Merge at a13059baa6f54a063e1a7253b063d9d4db0d5fce on 2026-10-16 following the user's explicit request.
+- [x] Verify main CI 38845919226, 75 local tests/typechecks/builds, clean checkout and exact merged-tree equality.
+- [x] Preserve runtime 3fc280f / fishmarket-00011-86f; no redeployment is needed for the merge because application files are identical.
+
+PR evidence: https://github.com/wuyi4514/FishMarket/pull/1. Source integration is complete; competition submission has not been performed.
 
 ## Phase 8: NeoOrg branding and selected group membership
 
-Status: complete_deployed_pending_user_acceptance
+Status: complete_deployed_merged
 
 - [x] Inspect command, model serialization, contributor/reviewer assignment, persistence and UI boundaries.
 - [x] Add failing Evals for selected membership, no outsider execution, reviewer capacity, @-only routing and annotated UI.
@@ -29,7 +51,7 @@ Rollback: redeploy the previous image and retain data; selected groups remain ro
 
 ## Phase 7: NeoOrg-aligned group chat and technical explanation
 
-Status: complete_deployed_pending_user_acceptance
+Status: complete_deployed_merged
 
 - [x] Locate the clean FishMarket checkout and create codex/neoorg-chat-alignment.
 - [x] Inspect NeoOrg group layout, message/composer behavior and V3 architectural reference.
@@ -170,4 +192,4 @@ Runtime implementation: source commit 3fc280f7d31e2ef741efa29d57fe100c53c54892, 
 Local Gate: 75 tests + typecheck + web/server build passed. Real Gemini/Firestore four-/two-/three-Agent workflows passed; production asset hashes and no-replay history digest verified. See docs/neoorg-selected-members-release.md.
 Cloud project: fishmarket-abc-2026-4514.
 Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
-Final release evidence is in docs/release.md and docs/rooms-agent-profiles-release.md.
+Current release evidence is in docs/release.md and docs/neoorg-selected-members-release.md; earlier room/profile evidence is historical. PR #1 is merged into main; this documentation phase does not imply competition submission.

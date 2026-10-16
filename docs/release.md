@@ -6,7 +6,9 @@ https://fishmarket-893821979623.asia-northeast1.run.app
 
 Public source: https://github.com/wuyi4514/FishMarket
 
-The implementation/deployment request is complete and ready for user acceptance. This does not represent competition submission or acceptance of the product by the user. PPT and video remain deferred.
+Implementation, deployment verification and source integration are complete. [PR #1](https://github.com/wuyi4514/FishMarket/pull/1) was merged into main on October 16, 2026 at `a13059baa6f54a063e1a7253b063d9d4db0d5fce`; [main CI](https://github.com/wuyi4514/FishMarket/actions/runs/38845919226) passed. This records verified engineering delivery and user-authorized integration, not a claim of competition submission or product acceptance by the organizer.
+
+[Submission-page text](submission-description.md) is prepared in Chinese and English. No form has been filled or submitted. PPT and video are outside the current documentation work.
 
 ## Running source and infrastructure
 
@@ -23,6 +25,8 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
+Main merge `a13059b` has the same application files as this running source; its additional evidence/merge commits do not require redeployment. The historical sections below describe their original release snapshots, not the currently running revision or UI.
+
 ## NeoOrg selected groups and branding (current release, 2026-10-16)
 
 NeoOrg original logo/wordmark/browser title; @-only draft-derived routing; no To or profile Message action; plus-only creation with 2–4 selected Agents. Provider and domain both reserve an independent reviewer. Existing rooms, capabilities, checkpoints and historical messages are preserved.
@@ -32,7 +36,7 @@ NeoOrg original logo/wordmark/browser title; @-only draft-derived routing; no To
 - Image sha256:4aff477de85812dfbf00ab32bbd1a1f0f7e9fbc1ba7cdd8d8c4b30d8e607246a; runtime source and exact JS/CSS/Logo bytes verified.
 - Real Gemini/Firestore Gate passed for four-, two- and three-Agent groups, including independent review, outsider rejection, selected-profile equality, idempotency and room isolation.
 - Historical digest/updateTime and actual public-browser old message bodies remained unchanged.
-- Full evidence, caveats and screenshots: [selected-members release](neoorg-selected-members-release.md). Branch codex/neoorg-room-members; user acceptance pending; no PR/main merge.
+- Full evidence, caveats and screenshots: [selected-members release](neoorg-selected-members-release.md). Development branch codex/neoorg-room-members was merged into main through PR #1 at a13059b.
 
 ## NeoOrg-aligned group chat (previous release, 2026-10-16)
 
@@ -46,7 +50,7 @@ Compact group header, blue/gray conversation, human-right/Agent-left messages, j
 - Real production workflow: Sail owner, Reef/Beacon contributors, Harbor independent reviewer; six messages, achieved/satisfied, 12.578 seconds for this single recorded run (not a benchmark/guarantee). Independent Firestore read, idempotency, room isolation and actual job-identity response passed.
 - Public browser @ selection and Enter triggered a real Reef reply. Refresh restored the same two message bodies, and the original room remained available. Profiles and the 390px production layout were checked and screenshots saved.
 - Historical six-message record still has Firestore updateTime 2026-10-13T09:35:06.430425Z, before this deployment. No migration or historical replay occurred; no running/unexpired executions existed before release.
-- Development branch: codex/neoorg-chat-alignment; no PR/main merge. User acceptance remains pending.
+- Development branch: codex/neoorg-chat-alignment. This earlier iteration is included in the later PR #1 merge into main.
 
 See [iteration evidence and rollback](neoorg-chat-alignment-release.md) and the [English technical overview](technical-overview.md).
 
@@ -62,11 +66,11 @@ Removed the eight originally annotated copy/badge blocks plus the decorative wel
 - Actual desktop/mobile UI checked. Recommended questions still fill the composer; Agent profiles and new-room dialog/cancel work; selected room restores after refresh.
 - Screenshot: docs/screenshots/ui-copy-cleanup.png.
 - Predeploy query found no running/unexpired execution records. Source diff confirms server, contracts, workspace persistence and profile dialog behavior are unchanged. No production model QA call or historical replay was needed for this presentation-only release.
-- Development branch: codex/ui-copy-cleanup. No PR or main merge before user acceptance.
+- Development branch: codex/ui-copy-cleanup. This earlier iteration is included in the later PR #1 merge into main.
 
 ## Named-room / job-profile baseline
 
-The prior feature release added named fresh rooms, preserved browser-local room navigation and clickable permanent Agent job identities consumed by Gemini. See [iteration evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. These capabilities remain unchanged in the current UI-only release.
+The prior feature release added named fresh rooms, browser-local room navigation and permanent Agent job identities consumed by Gemini. See [historical evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. The current release builds on that baseline with selectable membership, reviewer-capacity enforcement, context-v3, @-only routing and NeoOrg branding; it is not a UI-only release.
 
 ## Initial release verification (2026-10-13, source 8f40da1)
 
@@ -94,7 +98,7 @@ One final-release model call returned a real 504 DEADLINE_EXCEEDED and correctly
 
 Implemented: persistent group identities, member targeting, reply-only admission, unique outcome owner, on-demand bounded contributions, human input gate, immutable goal revisions/deliveries, independent review, explicit attainment and durable recovery.
 
-Deferred: owner transfer, external business actions, scheduled waits, staffing, plugins, private long-term agent memory, multiple simultaneous runs in one room, comparative A/B benchmark, deck/video/submission.
+Deferred product capabilities: owner transfer, external business actions, scheduled waits, staffing, plugins, private long-term agent memory, multiple simultaneous runs in one room and comparative A/B benchmarks. Submission text is prepared; PPT/video work, form filling and final competition submission remain outside this documentation phase.
 
 A reviewed report is not proof that the proposed business actions were executed. Visitors receive an isolated capability-protected room without login. This is the limited V3-inspired prototype, not the complete NeoOrg platform.
 

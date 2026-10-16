@@ -1,11 +1,13 @@
 # Named rooms and Agent job profiles release
 
-## Running version
+Historical release snapshot for source `8816155` / revision `fishmarket-00007-czj`. The current release is `3fc280f` / `fishmarket-00011-86f`; its selected membership and @-only interaction supersede the profile Message/recipient behavior recorded here. See [current release status](release.md). These earlier changes were included in [PR #1](https://github.com/wuyi4514/FishMarket/pull/1), merged into main at `a13059b` on October 16, 2026.
+
+## Release snapshot
 
 - Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
 - Source: 8816155b922e10c0fc1d341a64ebb58099b1d5b9 (health release: 8816155).
-- Development branch: codex/rooms-agent-profiles. No PR created and main not merged before user acceptance.
-- Cloud Run revision: fishmarket-00007-czj; 100% traffic.
+- Development branch: codex/rooms-agent-profiles; subsequently included in the PR #1 merge into main.
+- Cloud Run revision at this release: fishmarket-00007-czj; then 100% traffic, now superseded.
 - Image: sha256:e573c6152f3a9daa17b65864e979adcdab039c054a99b32b1467bc2f3f8ad178.
 - Cloud Build: ce745fbd-b556-4a55-a8b5-11d50fdecea2, SUCCESS.
 - Source CI: https://github.com/wuyi4514/FishMarket/actions/runs/38386896939, success.
@@ -36,4 +38,4 @@ The runtime checkpoint contract remains group-run-v1. Legacy checkpoint resume i
 
 PPT, video, competition submission, account-wide sync, room deletion and dynamic staffing were not implemented in this iteration. No NeoOrg files, data or local services were changed.
 
-Implementation and deployment verification are complete. User functional acceptance remains pending; it is not replaced by these automated/browser checks.
+Implementation and deployment verification for this historical version completed; its changes are now integrated into main. Automated/browser evidence describes the recorded cases, not competition submission or organizer acceptance.
