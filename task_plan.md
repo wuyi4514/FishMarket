@@ -10,14 +10,14 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Phase 8: NeoOrg branding and selected group membership
 
-Status: implementing
+Status: complete_deployed_pending_user_acceptance
 
 - [x] Inspect command, model serialization, contributor/reviewer assignment, persistence and UI boundaries.
 - [x] Add failing Evals for selected membership, no outsider execution, reviewer capacity, @-only routing and annotated UI.
 - [x] Implement create-room-v2 with 2–4 selected Agents and explicit v1 compatibility; freeze the same selected profiles in Firestore and Provider context.
 - [x] Remove hidden recipient state, the profile Message action and duplicate create entry; use the existing NeoOrg logo and product title.
-- [ ] Pass offline Gate, desktop/mobile interaction checks and current-production-composition Gemini/Firestore checks.
-- [ ] Commit/push an independent branch without a PR, deploy exact source and verify release/assets and history preservation.
+- [x] Pass offline Gate, desktop/mobile interaction checks and current-production-composition Gemini/Firestore checks.
+- [x] Commit/push an independent branch without a PR, deploy exact source and verify release/assets and history preservation.
 
 ### Architecture decision and rollback
 
@@ -166,8 +166,8 @@ User's latest correction explicitly keeps the three recommended question cards. 
 
 ## Evidence
 
-Runtime implementation: source commit 138ee5eeaf3dbb87467be70ce43c2fa95b278cfb (prior cleanup source 55a14fa, feature source 8816155).
-Local Gate: 52 tests + typecheck + web/server build passed.
+Runtime implementation: source commit 3fc280f7d31e2ef741efa29d57fe100c53c54892, Cloud Run fishmarket-00011-86f (prior chat baseline 138ee5e, cleanup source 55a14fa, feature source 8816155).
+Local Gate: 75 tests + typecheck + web/server build passed. Real Gemini/Firestore four-/two-/three-Agent workflows passed; production asset hashes and no-replay history digest verified. See docs/neoorg-selected-members-release.md.
 Cloud project: fishmarket-abc-2026-4514.
 Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
 Final release evidence is in docs/release.md and docs/rooms-agent-profiles-release.md.

@@ -1,4 +1,4 @@
-# FishMarket verified release
+# NeoOrg verified release
 
 ## Public entry
 
@@ -10,8 +10,8 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 ## Running source and infrastructure
 
-- Runtime source commit: 138ee5eeaf3dbb87467be70ce43c2fa95b278cfb.
-- Cloud Run revision: fishmarket-00010-vt2, serving 100% of traffic.
+- Runtime source commit: 3fc280f7d31e2ef741efa29d57fe100c53c54892.
+- Cloud Run revision: fishmarket-00011-86f, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.
@@ -23,7 +23,18 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-## NeoOrg-aligned group chat (current release, 2026-10-16)
+## NeoOrg selected groups and branding (current release, 2026-10-16)
+
+NeoOrg original logo/wordmark/browser title; @-only draft-derived routing; no To or profile Message action; plus-only creation with 2–4 selected Agents. Provider and domain both reserve an independent reviewer. Existing rooms, capabilities, checkpoints and historical messages are preserved.
+
+- Offline Gate: 75 tests, typechecks and builds; real desktop/mobile browser verification.
+- [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/38844706253) and Cloud Build 95fc495b-1c73-4dba-9ec4-96e8aa2e19c8 passed.
+- Image sha256:4aff477de85812dfbf00ab32bbd1a1f0f7e9fbc1ba7cdd8d8c4b30d8e607246a; runtime source and exact JS/CSS/Logo bytes verified.
+- Real Gemini/Firestore Gate passed for four-, two- and three-Agent groups, including independent review, outsider rejection, selected-profile equality, idempotency and room isolation.
+- Historical digest/updateTime and actual public-browser old message bodies remained unchanged.
+- Full evidence, caveats and screenshots: [selected-members release](neoorg-selected-members-release.md). Branch codex/neoorg-room-members; user acceptance pending; no PR/main merge.
+
+## NeoOrg-aligned group chat (previous release, 2026-10-16)
 
 Compact group header, blue/gray conversation, human-right/Agent-left messages, job and outcome-role separation, exact message copy, recipient-backed @ selection, IME-safe Enter/Shift+Enter, member directory/profile side sheet and non-disruptive latest navigation. Recommended questions, fresh rooms and existing workflow facts are retained.
 

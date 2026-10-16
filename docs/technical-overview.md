@@ -34,7 +34,7 @@ Public repository: https://github.com/wuyi4514/FishMarket
 
 There is no separate Agent Worker, PostgreSQL service, event bus or transactional outbox in this deployment. A long HTTP request drives bounded workflow steps while the browser polls committed room snapshots. Server execution does not depend on the browser continuing to poll, and the server does not start an untracked promise after returning its response. A process/request interruption is handled through a persisted checkpoint and explicit recovery, not a guarantee of autonomous background continuation.
 
-The existing deployment uses project `fishmarket-abc-2026-4514`, Cloud Run / Firestore region `asia-northeast1`, Vertex AI's `global` endpoint, and configured model `gemini-3.5-flash-lite`. These are release-time configuration facts, not permanent architectural requirements. See [release evidence](release.md) for the deployed version and [this iteration's evidence](neoorg-chat-alignment-release.md).
+The existing deployment uses project `fishmarket-abc-2026-4514`, Cloud Run / Firestore region `asia-northeast1`, Vertex AI's `global` endpoint, and configured model `gemini-3.5-flash-lite`. These are release-time configuration facts, not permanent architectural requirements. See [release evidence](release.md) for the deployed version, [selected-group release evidence](neoorg-selected-members-release.md), and [the prior chat-alignment baseline](neoorg-chat-alignment-release.md).
 
 ## Mapping NeoOrg V3 to the competition implementation
 

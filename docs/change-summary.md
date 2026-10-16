@@ -33,8 +33,13 @@
 | task_plan.md | Architecture decision, compatibility/rollback and release checklist |
 | findings.md | Source-backed invariants and actual local/predeploy observations |
 | progress.md | Actual implementation, errors/resolutions and completed Gate milestones |
+| docs/release.md | Update current running source/revision while retaining the prior alignment baseline as historical evidence |
+| docs/neoorg-selected-members-release.md | Exact source/image/CI and real selected-group Gemini/Firestore/browser evidence, compatibility, costs and rollback caveats |
+| docs/screenshots/neoorg-selected-room.png | Actual deployed NeoOrg brand, selected group, retained recommendations and @-only composer |
+| docs/screenshots/neoorg-member-selection.png | Actual deployed desktop member checklist with Reef/Sail selected |
+| docs/screenshots/neoorg-mobile-member-selection.png | Actual deployed 390px member checklist and creation controls |
 
-Local Gate passed: 75 tests, frontend/server typechecks and builds. Live release evidence is recorded separately; user functional acceptance remains required before any PR.
+Gate passed: 75 tests, frontend/server typechecks/builds, CI, Cloud Build, real Gemini/Firestore four-/two-/three-Agent outcomes, exact deployed source/assets, desktop/mobile interaction and preserved history. Runtime source 3fc280f / fishmarket-00011-86f; user functional acceptance remains required before any PR.
 
 | File | Completed change |
 |---|---|

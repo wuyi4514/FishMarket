@@ -10,7 +10,12 @@
 - Updated README and both architecture documents to reflect current naming, membership, mention routing and compatibility without changing repository/cloud identifiers or historical evidence.
 - Fixed test-environment gaps (jsdom dialog lifecycle polyfill, distinct desktop/mobile selector) and a dev-HMR directory initialization edge case. Initial local-browser navigation preceded server startup and was retried only after readiness.
 - Local Gate: 75 tests, both typechecks and both builds passed. Real desktop/mobile and production-build browser checks passed, including exact message preservation after creating/switching/reloading groups.
-- Predeployment source/config/Firestore checks passed: no running executions, historical digest/updateTime unchanged, service account/model/limits verified. Source commit/push, cloud deployment and live selected-group proof are next; no PR created.
+- Predeployment source/config/Firestore checks passed: no running executions, historical digest/updateTime unchanged, service account/model/limits verified. All 21 existing room records passed new invariants without mutation.
+- Source 3fc280f7d31e2ef741efa29d57fe100c53c54892 committed/pushed to codex/neoorg-room-members; source CI 38844706253 passed. Cloud Build 95fc495b-1c73-4dba-9ec4-96e8aa2e19c8 succeeded; fishmarket-00011-86f serves 100% traffic. No PR/main merge.
+- Exact runtime SHA, JS/CSS and original NeoOrg Logo bytes verified. Existing IAM, model, storage, budgets and capacity settings preserved.
+- Full live Gate passed: four-Agent outcome (Sail owner, Reef/Beacon contributors, Harbor review), two-Agent outcome (Reef owner, Beacon review), three-Agent outcome (Harbor owner, Sail contribution, Reef review). Each independently read Firestore and checked exact selected profiles, outsider no-effect rejection and idempotent replay.
+- Actual cloud browser created a Reef/Sail group, showed only selected @ candidates and no To/Message controls; @Sail and a subsequent plain greeting returned Sail and Reef respectively. New four-message history and old two-message room were exactly preserved through reload/switch. Desktop/mobile member picker and cancel were checked, with no 390px horizontal overflow.
+- Historical six-message room retains its exact canonical digest and original updateTime after deployment; no historical work was replayed. Added current release evidence and screenshots. User acceptance and competition materials/submission remain pending.
 
 ## 2026-10-16 NeoOrg-aligned chat iteration
 

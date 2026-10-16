@@ -12,6 +12,8 @@
 - Dev hot refresh can replace the module navigator while preserving mounted React state. Creation now boots the navigator before appending a group, avoiding replacement of the remembered directory. This is not a production data migration.
 - New public asset must be copied into the Docker build stage; added COPY public and an offline brand/container regression. Asset SHA-256 matches NeoOrg's original: 8b6837542c0c39e482ac67756c8f6824427830284bc2b6888e890ca5565eb1f8.
 - Predeploy live verification: runtime 138ee5e / fishmarket-00010-vt2, no running records, unchanged runtime IAM/model/budgets. Historical room updateTime 2026-10-13T09:35:06.430425Z; canonical messages/outcomes digest 47edc0f68706888edb57c9829dc19cca202f1c056cb903c0bb1ff63b8ca4f362.
+- Final release source 3fc280f / fishmarket-00011-86f passed CI, Cloud Build, exact health/JS/CSS/Logo checks and the expanded real Gemini/Firestore Gate. Selected-pair and trio independently reviewed outcomes completed without any outsider participation; no fixture was used in production.
+- Existing 21 records passed current invariants before release. After deployment, historical digest/updateTime and both old/new public-browser message bodies remained unchanged. Cloud profile, plus-only creation, actual selected members/@ choices and mobile overflow checks passed. User acceptance is still separate.
 
 ## 2026-10-16 NeoOrg alignment baseline
 
