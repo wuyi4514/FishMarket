@@ -2,11 +2,22 @@
 
 ## Authorized goal
 
-Maintain the deployed NeoOrg human/Agent group prototype, originally implemented as FishMarket. The current authorized work is a copy-ready submission description and documentation status reconciliation. PPT, video, form filling, final competition submission and deployment changes are excluded.
+Maintain the deployed NeoOrg human/Agent group prototype, originally implemented as FishMarket. The current authorized work is competition-rule research and a proposed demo-video production plan. Recording, rendering, PPT, uploads, form actions, competition submission and product/deployment changes are excluded from this planning turn.
 
 ## Current phase
 
-2026-10-16: Prepare Chinese/English submission-page copy and update stale Git/release statements on codex/submission-description-docs. Keep product code, deployment, room data and credentials unchanged. Historical sections below record their own iteration boundaries, not current status.
+2026-10-16: Research current video constraints and judging criteria, then propose an evidence-led narrative and production workflow on codex/video-production-plan. The user's supplied latest organizer Q&A takes precedence over obsolete FAQ claims. Keep existing copy, product code, deployment and business history unchanged. Historical sections below record their own iteration boundaries, not current authorization.
+
+## Phase 11: Competition demo video research and proposal
+
+Status: complete
+
+- [x] Restore prior release/material context and read research, planning and writing instructions.
+- [x] Verify the current official video requirements and scoring criteria; record conflicting sources without inventing a resolution.
+- [x] Match the proposed story and visible proof to actual deployed-product capabilities and inspect production-tool availability.
+- [x] Prepare a timed narrative, scenario, production stages, deliverables and quality checks for user review in docs/video-production-plan.md.
+
+Only research and planning are authorized in this phase. No live model scenario, recorded media, synthetic product results, new PR/merge or submission action is included.
 
 ## Phase 10: Submission description and documentation status
 
@@ -164,6 +175,10 @@ User's latest correction explicitly keeps the three recommended question cards. 
 
 | Error | Resolution |
 |---|---|
+| Read-only /health/ready request returned the SPA fallback rather than JSON readiness | Inspect the application's registered health route and validate structured provider/store/release fields; HTML/200 is not inference evidence |
+| Video-plan inspection assumed OutcomePanel.tsx existed | Listed actual web files and inspected OutcomeStrip inside App.tsx; no source file was created |
+| YouTube Q&A web fetch was throttled | Preserve user-supplied Q&A as supplied evidence; do not claim a fresh transcript |
+| Local video-tool probes found no ffmpeg/ffprobe or Remotion package | Keep installation/encoding and voice sample checks as later production prerequisites; do not install in this planning turn |
 | Initial patch deleted/added the same path | Replaced obsolete architecture document with separately named group-collaboration document |
 | Dependency mirror timeout warnings | Installed from official npm registry and removed unneeded Firebase CLI |
 | Fastify error was unknown; duplicate member ID field | Added type guard and removed redundant property |

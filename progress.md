@@ -1,5 +1,15 @@
 # Progress
 
+## 2026-10-16 demo video research and planning
+
+- Restored planning/release history, read research/planning/writing instructions and created codex/video-production-plan from clean documentation commit 67984ac.
+- Current scope is rule research and a proposed narrative/production workflow only. No recording, rendering, real Gemini invocation, product/deployment changes, PPT, upload or form/submission action is performed.
+- Read current official homepage, themes/requirements and FAQ pages; recorded video-duration conflicts instead of silently choosing the obsolete FAQ. Technical/impact/innovation/UX weights are 40/25/25/10. The supplied current submission-page range remains the working video boundary.
+- Public Terms still contains the under-three-minute wording; recorded the conflict and proposed an editable 180-second primary cut with a 175-second alternate, not a claim of harmonized compliance. The provided YouTube fetch was throttled; no fresh transcript is claimed.
+- Inspected production App/OutcomeStrip and current architecture/release evidence. Rechecked /api/health at source 3fc280f with Firestore/Vertex AI; no model request or room mutation was made.
+- Wrote docs/video-production-plan.md with a timed pilot-decision narrative, real human-input rehearsal, English narration/subtitles, authenticity constraints, isolated Remotion production route and exact deliverables/QA. Current Remotion/encoding setup and final voice quality remain prerequisites; no dependencies were installed.
+- Reviewed the proposal against source/UI capabilities and checked all seven contiguous timeline segments total exactly 180 seconds; all eight external-link occurrences parse as URLs and git diff --check passed. The four changed files are Markdown only. No product Gate is re-reported as newly run in this research turn.
+
 ## 2026-10-16 submission description and status reconciliation
 
 - User authorized submission-page text and stale-document corrections only; PPT/video, form actions and final submission are excluded.
