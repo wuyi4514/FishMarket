@@ -1,4 +1,4 @@
-# FishMarket group collaboration
+# NeoOrg group collaboration
 
 ## Design basis and scope
 
@@ -37,7 +37,7 @@ The current action schema is also constructed from the frozen snapshot: already-
 ## Prototype policies
 
 - One active execution per room; concurrent human sends receive a visible busy response and preserve the draft.
-- At most two requested contributors per goal revision, no recursive delegation.
+- At most min(2, selected Agent count − 2) requested contributors per goal revision, no recursive delegation. Engineering reserves an independent reviewer before requests commit, counting requested authors as well as delivered ones.
 - Reviewer is neither owner nor an author of the reviewed delivery.
 - Review covers every frozen criterion; changes require a blocker or major issue. Up to three repair rounds.
 - Success requires independently accepted deliverable and satisfied criteria. Partial/no-solution results are explicit not-satisfied outcomes.
@@ -48,13 +48,13 @@ The current action schema is also constructed from the frozen snapshot: already-
 
 ## Rooms and substantive job identity
 
-The browser keeps a strict browser-workspace-v1 directory of room IDs, capability tokens, names and the selected room. It migrates the original fishmarket.room.v1 entry without changing the server record. Named room creation keeps old entries; new rooms have distinct random IDs/capabilities and empty messages, outcomes and execution state. Creation is single-flight, pending/error states are visible, and navigation rejects stale responses. Drafts and recipients are retained separately per room in the current tab. A reload restores the selected room and retrieves its existing server facts without running Gemini. The directory is browser-local, not account-wide or cross-device synchronization; clearing browser storage can lose room access.
+The browser keeps a strict browser-workspace-v1 directory of room IDs, capability tokens, names and the selected room. It migrates the original fishmarket.room.v1 entry without changing the server record; branding does not rename these keys. Named room creation keeps old entries; new rooms have distinct random IDs/capabilities and empty messages, outcomes and execution state. Strict create-room-v2 accepts 2–4 unique selected Agent IDs; explicit v1 compatibility retains the original all-four default. The human is included in every group. Creation is single-flight, pending/error states are visible, and navigation rejects stale responses. Drafts are retained separately per room in the current tab. A reload restores the selected room and retrieves its existing server facts without running Gemini. The directory is browser-local, not account-wide or cross-device synchronization; clearing browser storage can lose room access.
 
-New room aggregates freeze strict agent-profile-v1 job identities: role, capability, three responsibilities and two boundaries per member. Legacy room-v1 records without this additive field resolve against the fixed original profile-v1 catalog, without rewriting outcomes or checkpoints. The same room-bound profiles feed the public UI and group-model-context-v2. Provider context contains bounded semantic job facts, not profile versions, internal IDs or capability tokens. Unknown/malformed profile data fails closed.
+New room aggregates freeze strict agent-profile-v1 job identities only for selected members: role, capability, three responsibilities and two boundaries per member. Legacy room-v1 records without this additive field resolve against the fixed original profile-v1 catalog, without rewriting outcomes or checkpoints. The same room-bound profiles feed the public UI and group-model-context-v3. The context adds eligible local contribution aliases and an engineering-derived capacity; both output schema and transactional domain enforce it. Provider context contains bounded semantic job facts, not profile versions, internal IDs or capability tokens. Unknown/malformed profile data fails closed. Explicit out-of-group targets fail before any side effect, including on linked-outcome messages.
 
-Native modal profile side sheets can be opened from member rows, header avatars, the room member directory and Agent message avatars. Viewing a profile has no dispatch or ownership effect; the explicit Message action only selects the composer recipient. Permanent position is separate from per-outcome owner, contributor and reviewer assignments. Descriptions do not confer tools or external execution rights. Original workflow schemas/checkpoints remain compatible, and no historic task is replayed during release.
+Native modal profile side sheets can be opened from member rows, header avatars, the room member directory and Agent message avatars. Viewing a profile has no dispatch or ownership effect and no Message action. Permanent position is separate from per-outcome owner, contributor and reviewer assignments. Descriptions do not confer tools or external execution rights. Original workflow schemas/checkpoints remain compatible, and no historic task is replayed during release.
 
-The @ member picker uses the current room's profiles and selects the existing single structured recipient; it does not infer permissions or multi-recipient dispatch from prose. Enter sends except during IME composition or member selection; Shift+Enter inserts a newline. Copy operates on the stored message body. The timeline follows new messages only when the reader remains near the bottom, otherwise providing a return-to-latest control. These presentation controls never infer workflow status from message text.
+The @ member picker uses the current room's profiles and inserts a visible mention. At submission, exactly one distinct valid room-member mention determines the single structured target. Deleting it removes that routing effect. None or several use group admission; mentions do not grant permissions or imply multi-dispatch. There is no sticky hidden recipient, To control or duplicate new-room text entry. Enter sends except during IME composition or member selection; Shift+Enter inserts a newline. Copy operates on the stored message body. The timeline follows new messages only when the reader remains near the bottom, otherwise providing a return-to-latest control. These presentation controls never infer workflow status from message text.
 
 ## Deferred capabilities (unchanged)
 

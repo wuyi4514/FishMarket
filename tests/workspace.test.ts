@@ -16,12 +16,20 @@ function setup() {
   const engine = new Collaboration(new MemoryRoomStore(), new FixtureModel(0));
   let creates = 0;
   const transport: RoomTransport = {
-    create: async title => { creates++; const created = await engine.create(title); return { room: projectRoom(created.room), token: created.token }; },
+    create: async (title, members) => { creates++; const created = await engine.create(title, members); return { room: projectRoom(created.room), token: created.token }; },
     read: async session => projectRoom(await engine.read(session.id))
   };
   return { storage, engine, transport, navigator: new WorkspaceNavigator(storage, transport), creates: () => creates };
 }
 describe("browser workspace using the production room composition", () => {
+  it("passes selected members through creation and restores the same group on reload", async () => {
+    const { navigator, storage, transport } = setup(); const old = await navigator.boot();
+    const created = await navigator.create("Selected pair", ["reef", "sail"]);
+    expect(created.room.members).toEqual(["reef", "sail"]);
+    expect((await new WorkspaceNavigator(storage, transport).boot()).room.agentProfiles.map(profile => profile.id)).toEqual(["reef", "sail"]);
+    expect((await navigator.select(old.session.id))!.room.members).toHaveLength(4);
+    expect(created.workspace.rooms).toHaveLength(2);
+  });
   it("creates named isolated rooms, retains old access and restores the selected room on reload", async () => {
     const { navigator, engine, storage, transport } = setup();
     const first = await navigator.boot();

@@ -30,7 +30,7 @@ describe("room-bound job identity and production projection", () => {
     const profiles = projectRoom(result).agentProfiles;
     for (const context of contexts) {
       const profile = profiles.find(member => member.name === context.identity.name)!;
-      expect(context.contractVersion).toBe("group-model-context-v2");
+      expect(context.contractVersion).toBe("group-model-context-v3");
       expect(context.identity.role).toBe(profile.role); expect(context.identity.responsibilities).toEqual(profile.responsibilities); expect(context.identity.boundaries).toEqual(profile.boundaries);
       const serialized = JSON.stringify(buildGeminiRequest(context, admissionSchema, "model"));
       expect(serialized).toContain(profile.responsibilities[0]); expect(serialized).toContain(profile.role);

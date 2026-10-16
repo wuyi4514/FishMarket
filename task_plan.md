@@ -6,7 +6,26 @@ Implement one Human and multiple persistent Gemini agents collaborating in a gro
 
 ## Current phase
 
-2026-10-16: Align the existing group-chat surface with NeoOrg and expand source-backed technical documentation. Preserve the deployed Gemini / Firestore workflow, FishMarket name, room access and history. User confirms the latest event clarification permits existing-product reuse; do not present the stale FAQ as the operative decision for this iteration.
+2026-10-16: Apply the user's annotated interaction corrections, rename the visible product to NeoOrg, and support real selected membership. Keep the FishMarket repository/cloud resource identities, saved browser capabilities, old rooms and history intact.
+
+## Phase 8: NeoOrg branding and selected group membership
+
+Status: implementing
+
+- [x] Inspect command, model serialization, contributor/reviewer assignment, persistence and UI boundaries.
+- [x] Add failing Evals for selected membership, no outsider execution, reviewer capacity, @-only routing and annotated UI.
+- [x] Implement create-room-v2 with 2–4 selected Agents and explicit v1 compatibility; freeze the same selected profiles in Firestore and Provider context.
+- [x] Remove hidden recipient state, the profile Message action and duplicate create entry; use the existing NeoOrg logo and product title.
+- [ ] Pass offline Gate, desktop/mobile interaction checks and current-production-composition Gemini/Firestore checks.
+- [ ] Commit/push an independent branch without a PR, deploy exact source and verify release/assets and history preservation.
+
+### Architecture decision and rollback
+
+Keep the room-v1 aggregate/run-v1 checkpoint, capability authentication, owner assignment, independent review and existing transactional/no-replay recovery. Add a strict create-room-v2 input with unique 2–4 Agent IDs; v1 deliberately retains all four original members. The server, not the UI or model, owns the frozen membership and delegation capacity. New model-context-v3 exposes only selected job identities, local member refs and a bounded delegation policy; IDs, tokens, versions and execution metadata remain engineering-only. Dynamic output schemas and domain checks both reserve one non-author reviewer before any contributor publication. Two-Agent groups perform owner delivery plus independent review; three-Agent groups can request one contributor.
+
+The composer derives its single structured target from current body text: exactly one distinct valid room-member mention targets that member; zero or several means general group admission. Removing a mention removes its routing effect. No sticky invisible recipient or multi-dispatch is introduced. Existing goal continuation still preserves its recorded owner.
+
+Rollback: redeploy the previous image and retain data; selected groups remain room-v1 records understood by the prior read side, but the previous engine cannot reliably delegate in small groups, so prefer a forward fix. Never resume/replay historical work during deployment. Release requires selected-membership negative cases, actual Gemini wire projection, checkpoint resume, repository commit and visible membership; HTTP 200 alone is insufficient.
 
 ## Phase 7: NeoOrg-aligned group chat and technical explanation
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import type { AgentId, AgentProfile } from "../contracts/group";
+import { MEMBERS, type AgentId, type AgentProfile } from "../contracts/group";
 import { Avatar } from "./ChatPrimitives";
 
 export function Modal({ titleId, onClose, busy = false, children, className = "" }: { titleId: string; onClose: () => void; busy?: boolean; children: ReactNode; className?: string }) {
@@ -15,22 +15,27 @@ export function Modal({ titleId, onClose, busy = false, children, className = ""
     {children}
   </dialog>;
 }
-export function NewRoomDialog({ defaultTitle, busy, error, hasDraft, onClose, onCreate }: { defaultTitle: string; busy: boolean; error: string | null; hasDraft: boolean; onClose: () => void; onCreate: (title: string) => void }) {
+export function NewRoomDialog({ defaultTitle, busy, error, hasDraft, onClose, onCreate }: { defaultTitle: string; busy: boolean; error: string | null; hasDraft: boolean; onClose: () => void; onCreate: (title: string, members: AgentId[]) => void }) {
   const [title, setTitle] = useState(defaultTitle);
+  const [selected, setSelected] = useState<AgentId[]>(MEMBERS.map(member => member.id));
   return <Modal titleId="new-room-heading" onClose={onClose} busy={busy} className="create-dialog">
-    <p className="eyebrow">A NEW SPACE FOR GOOD WORK</p>
-    <h2 id="new-room-heading">Start a fresh room.</h2>
-    <p className="dialog-intro">The same teammates. A clean conversation and a new shared context.</p>
-    <form onSubmit={event => { event.preventDefault(); if (!busy && title.trim()) onCreate(title.trim()); }}>
+    <h2 id="new-room-heading">Create a group chat</h2>
+    <p className="dialog-intro">Choose your teammates. Start with a clean shared context.</p>
+    <form onSubmit={event => { event.preventDefault(); if (!busy && title.trim() && selected.length >= 2) onCreate(title.trim(), MEMBERS.filter(member => selected.includes(member.id)).map(member => member.id)); }}>
       <label className="room-title-label" htmlFor="new-room-title">Room name</label>
       <input id="new-room-title" data-initial-focus required maxLength={80} value={title} disabled={busy} onChange={event => setTitle(event.target.value)}/>
+      <fieldset className="room-members-picker" disabled={busy} aria-describedby="room-members-help"><legend>Members <span>{selected.length + 1} including you</span></legend>
+        <div className="included-human"><Avatar id="human" small/><span>You</span><small>Always included</small></div>
+        <div className="room-member-options">{MEMBERS.map(member => <label key={member.id} className={"room-member-option" + (selected.includes(member.id) ? " is-selected" : "")}><input type="checkbox" aria-label={"Include " + member.name} checked={selected.includes(member.id)} onChange={event => setSelected(current => event.target.checked ? [...current, member.id] : current.filter(id => id !== member.id))}/><Avatar id={member.id} small/><span><strong>{member.name}</strong><small>{member.role}</small></span></label>)}</div>
+        <p id="room-members-help">Choose at least two agents so each delivery can be independently reviewed.</p>
+      </fieldset>
       <div className="room-preservation"><span>↗</span><p>Your existing rooms and sent messages stay intact. You can return from the workspace list.{hasDraft ? " Your unsent draft stays with the current room in this tab." : ""}</p></div>
       {error && <p className="dialog-error" role="alert">{error}</p>}
-      <div className="dialog-actions"><button type="button" className="secondary-action" disabled={busy} onClick={onClose}>Keep working here</button><button type="submit" className="primary-action" disabled={busy || !title.trim()}>{busy ? "Creating room…" : "Create room ↗"}</button></div>
+      <div className="dialog-actions"><button type="button" className="secondary-action" disabled={busy} onClick={onClose}>Cancel</button><button type="submit" className="primary-action" disabled={busy || !title.trim() || selected.length < 2}>{busy ? "Creating room…" : "Create room ↗"}</button></div>
     </form>
   </Modal>;
 }
-export function AgentProfileDialog({ member, onClose, onMessage }: { member: AgentProfile; onClose: () => void; onMessage: () => void }) {
+export function AgentProfileDialog({ member, onClose }: { member: AgentProfile; onClose: () => void }) {
   return <Modal titleId="agent-profile-heading" onClose={onClose} className="profile-dialog">
     <p className="eyebrow">MEET YOUR TEAMMATE</p>
     <div className="profile-heading"><span className="avatar profile-avatar" style={{ background: member.color }}>{member.initials}</span><div><h2 id="agent-profile-heading">{member.name}</h2><span className="profile-position">{member.role}</span></div></div>
@@ -38,7 +43,7 @@ export function AgentProfileDialog({ member, onClose, onMessage }: { member: Age
     <section className="profile-section"><h3>Position responsibilities</h3><ol>{member.responsibilities.map((item, index) => <li key={item}><span>0{index + 1}</span><p>{item}</p></li>)}</ol></section>
     <section className="profile-section profile-boundaries"><h3>Capability boundaries</h3><ul>{member.boundaries.map(item => <li key={item}>{item}</li>)}</ul></section>
     <p className="profile-scope">This is a persistent job identity. Outcome owner, contributor and independent reviewer are separate assignments for each goal. No teammate has external tools connected in this prototype.</p>
-    <div className="dialog-actions"><button type="button" className="secondary-action" onClick={onClose}>Back to the room</button><button type="button" className="primary-action" onClick={onMessage}>Message {member.name} ↗</button></div>
+    <div className="dialog-actions"><button type="button" className="secondary-action" onClick={onClose}>Back to the room</button></div>
   </Modal>;
 }
 

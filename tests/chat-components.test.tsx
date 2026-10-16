@@ -6,13 +6,14 @@ import { MEMBERS } from "../src/contracts/group";
 import { ChatComposer } from "../src/web/ChatComposer";
 import { useTimeline } from "../src/web/useTimeline";
 import { MessageRow } from "../src/web/MessageRow";
+import { mentionTarget } from "../src/web/chat-interactions";
+import { AgentProfileDialog, NewRoomDialog } from "../src/web/RoomDialogs";
 
 afterEach(cleanup);
 
-function ComposerHarness({ onSend, disabled = false }: { onSend: () => void; disabled?: boolean }) {
+function ComposerHarness({ onSend, disabled = false }: { onSend: (target: string) => void; disabled?: boolean }) {
   const [draft, onDraft] = useState("");
-  const [target, onTarget] = useState<"team" | (typeof MEMBERS)[number]["id"]>("team");
-  return <ChatComposer inputRef={createRef()} draft={draft} onDraft={onDraft} target={target} onTarget={onTarget} members={MEMBERS} outcomes={[]} outcomeId={null} onOutcome={() => {}} busy={false} disabled={disabled} blocked={false} onSend={onSend}/>;
+  return <ChatComposer inputRef={createRef()} draft={draft} onDraft={onDraft} members={MEMBERS} outcomes={[]} outcomeId={null} onOutcome={() => {}} busy={false} disabled={disabled} blocked={false} onSend={() => onSend(mentionTarget(draft, MEMBERS))}/>;
 }
 
 describe("actual production composer events", () => {
@@ -24,9 +25,13 @@ describe("actual production composer events", () => {
     fireEvent.keyDown(input, { key: "Enter" });
     expect(send).not.toHaveBeenCalled();
     expect(input.value).toBe("Ask @Reef ");
-    expect((screen.getByRole("combobox", { name: "Message recipient" }) as HTMLSelectElement).value).toBe("reef");
+    expect(screen.queryByRole("combobox", { name: "Message recipient" })).toBeNull();
     fireEvent.keyDown(input, { key: "Enter" });
     expect(send).toHaveBeenCalledTimes(1);
+    expect(send).toHaveBeenLastCalledWith("reef");
+    fireEvent.change(input, { target: { value: "Ask the team", selectionStart: 12 } });
+    fireEvent.keyDown(input, { key: "Enter" });
+    expect(send).toHaveBeenLastCalledWith("team");
   });
   it("never sends an IME-confirmation key, Shift+Enter, or an empty/disabled draft", () => {
     const send = vi.fn(); const view = render(<ComposerHarness onSend={send}/>);
@@ -50,6 +55,36 @@ describe("actual production composer events", () => {
     expect(screen.getByText("No matching teammates")).toBeTruthy();
     fireEvent.keyDown(input, { key: "Escape" });
     expect(screen.queryByRole("listbox")).toBeNull();
+  });
+});
+
+describe("production creation and profile dialogs", () => {
+  function nativeDialogs() {
+    // jsdom 26 has dialog elements but not their browser lifecycle methods.
+    for (const method of ["showModal", "close"] as const) if (!HTMLDialogElement.prototype[method]) Object.defineProperty(HTMLDialogElement.prototype, method, { configurable: true, writable: true, value() {} });
+    vi.spyOn(HTMLDialogElement.prototype, "showModal").mockImplementation(function (this: HTMLDialogElement) { this.setAttribute("open", ""); });
+    vi.spyOn(HTMLDialogElement.prototype, "close").mockImplementation(function (this: HTMLDialogElement) { this.removeAttribute("open"); });
+  }
+  afterEach(() => vi.restoreAllMocks());
+  it("submits exactly selected teammates and prevents creation without a reviewer", () => {
+    nativeDialogs(); const create = vi.fn();
+    render(<NewRoomDialog defaultTitle="Pair work" busy={false} error={null} hasDraft onClose={() => {}} onCreate={create}/>);
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Harbor" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Beacon" }));
+    fireEvent.click(screen.getByRole("button", { name: "Create room ↗" }));
+    expect(create).toHaveBeenCalledWith("Pair work", ["reef", "sail"]);
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Sail" }));
+    expect((screen.getByRole("button", { name: "Create room ↗" }) as HTMLButtonElement).disabled).toBe(true);
+    fireEvent.submit(screen.getByRole("textbox", { name: "Room name" }).closest("form")!);
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(screen.getByText(/Choose at least two agents/)).toBeTruthy();
+  });
+  it("retains position information without any Message action", () => {
+    nativeDialogs(); render(<AgentProfileDialog member={MEMBERS[2]!} onClose={() => {}}/>);
+    expect(screen.getByText("Strategy & planning")).toBeTruthy();
+    expect(screen.getByText("Position responsibilities")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /Message Sail/ })).toBeNull();
+    expect(screen.getByRole("button", { name: "Back to the room" })).toBeTruthy();
   });
 });
 

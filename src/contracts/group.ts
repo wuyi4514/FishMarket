@@ -32,7 +32,12 @@ export function roomProfiles(room: Pick<Room, "members" | "agentProfiles">): Age
   if (new Set(profiles.map(profile => profile.id)).size !== profiles.length || profiles.length !== room.members.length || profiles.some(profile => !room.members.includes(profile.id))) throw new Error("AGENT_PROFILE_MEMBERSHIP_INVALID");
   return room.members.map(id => profiles.find(profile => profile.id === id)!);
 }
-export const createRoomSchema = z.object({ contractVersion: z.literal("create-room-v1"), title: z.string().trim().min(1).max(80) }).strict();
+export const roomMembersSchema = z.array(agentIdSchema).min(2).max(4).refine(ids => new Set(ids).size === ids.length, "Members must be unique");
+const roomTitle = z.string().trim().min(1).max(80);
+export const createRoomSchema = z.discriminatedUnion("contractVersion", [
+  z.object({ contractVersion: z.literal("create-room-v1"), title: roomTitle }).strict(),
+  z.object({ contractVersion: z.literal("create-room-v2"), title: roomTitle, members: roomMembersSchema }).strict()
+]);
 export const sendMessageSchema = z.object({
   contractVersion: z.literal("human-message-v1"),
   requestKey: z.uuid(),
@@ -122,6 +127,13 @@ export type Room = {
   members: AgentId[]; agentProfiles?: AgentProfile[]; messages: Message[]; outcomes: Outcome[]; run: Run | null;
   receipts: Array<{ key: string; fingerprint: string }>; totalCalls: number; createdAt: string; updatedAt: string;
 };
+// Engineering-owned capacity: every current author is ineligible to review.
+// Reservation happens before dispatch, including requested (not only delivered) work.
+export function contributionPolicy(room: Room, outcome: Outcome): { candidates: AgentId[]; limit: number } {
+  if (outcome.contributions.some(item => item.revision === outcome.goals.length)) return { candidates: [], limit: 0 };
+  const candidates = room.members.filter(id => id !== outcome.owner);
+  return { candidates, limit: Math.max(0, Math.min(2, candidates.length - 1)) };
+}
 export type RoomView = Omit<Room, "accessHash" | "receipts" | "totalCalls" | "run" | "agentProfiles"> & {
   agentProfiles: AgentProfile[];
   run: Pick<Run, "status" | "scope" | "speaker" | "outcomeId" | "recovery"> & { canResume: boolean } | null;
@@ -135,11 +147,19 @@ export function projectRoom(room: Room, now = Date.now()): RoomView {
 }
 export function assertRoom(room: Room): void {
   roomProfiles(room);
+  if (room.run && (!room.members.includes(room.run.speaker) || (room.run.target && !room.members.includes(room.run.target)))) throw new Error("RUN_MEMBER_INVALID");
+  if (room.messages.some(message => message.author !== "human" && message.author !== "system" && !room.members.includes(message.author))) throw new Error("MESSAGE_MEMBER_INVALID");
   if (room.contractVersion !== "room-v1" || room.messages.length > 180 || room.outcomes.length > 30) throw new Error("ROOM_CAPACITY_OR_VERSION");
   if (room.messages.some((message, i) => message.sequence !== i + 1)) throw new Error("MESSAGE_ORDER_INVALID");
   if (room.run && room.run.contractVersion !== "group-run-v1") throw new Error("CHECKPOINT_VERSION_INVALID");
   for (const outcome of room.outcomes) {
     if (!room.members.includes(outcome.owner)) throw new Error("OWNER_NOT_A_MEMBER");
+    if (outcome.contributions.some(item => !room.members.includes(item.agentId) || item.agentId === outcome.owner)) throw new Error("CONTRIBUTOR_ASSIGNMENT_INVALID");
+    if (outcome.deliveries.some(item => item.author !== outcome.owner)) throw new Error("DELIVERY_AUTHOR_INVALID");
+    for (const review of outcome.reviews) {
+      const delivery = outcome.deliveries.find(item => item.id === review.deliveryId);
+      if (!delivery || !room.members.includes(review.reviewer) || review.reviewer === outcome.owner || outcome.contributions.some(item => item.revision === delivery.revision && item.agentId === review.reviewer)) throw new Error("REVIEW_ASSIGNMENT_INVALID");
+    }
     if (outcome.goals.length < 1 || outcome.goals.some((goal, i) => goal.revision !== i + 1)) throw new Error("GOAL_REVISION_INVALID");
     if (outcome.status === "waiting" && outcome.gate?.state !== "pending") throw new Error("WAIT_WITHOUT_GATE");
     if ((outcome.status === "satisfied" || outcome.status === "not_satisfied") && !outcome.result) throw new Error("TERMINAL_WITHOUT_RESULT");

@@ -1,4 +1,12 @@
-import type { AgentProfile } from "../contracts/group";
+import type { AgentId, AgentProfile } from "../contracts/group";
+
+// Text is the only routing affordance. Multiple distinct mentions stay a group
+// message, not an implicit multi-dispatch command; unknown names grant no access.
+export function mentionTarget(text: string, members: AgentProfile[]): "team" | AgentId {
+  const names = new Set(Array.from(text.matchAll(/(?:^|[^\p{L}\p{N}_@.-])@([\p{L}\p{N}_-]+)/gu), match => match[1]!.toLocaleLowerCase()));
+  const mentioned = members.filter(member => names.has(member.name.toLocaleLowerCase()));
+  return mentioned.length === 1 ? mentioned[0]!.id : "team";
+}
 
 export type MentionQuery = { start: number; end: number; query: string };
 

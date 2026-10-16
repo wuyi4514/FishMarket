@@ -1,11 +1,11 @@
 import { useEffect, useState, type FormEvent, type RefObject } from "react";
-import type { AgentId, AgentProfile, Outcome } from "../contracts/group";
+import type { AgentProfile, Outcome } from "../contracts/group";
 import { Avatar, Icon } from "./ChatPrimitives";
 import { findMention, insertMention, matchingMembers, shouldSendMessage, type MentionQuery } from "./chat-interactions";
 
-export function ChatComposer({ inputRef: textarea, draft, onDraft, target, onTarget, members, outcomes, outcomeId, onOutcome, busy, disabled, blocked, onSend }: {
+export function ChatComposer({ inputRef: textarea, draft, onDraft, members, outcomes, outcomeId, onOutcome, busy, disabled, blocked, onSend }: {
   inputRef: RefObject<HTMLTextAreaElement | null>;
-  draft: string; onDraft: (value: string) => void; target: "team" | AgentId; onTarget: (id: "team" | AgentId) => void;
+  draft: string; onDraft: (value: string) => void;
   members: AgentProfile[]; outcomes: Outcome[]; outcomeId: string | null; onOutcome: (id: string | null) => void;
   busy: boolean; disabled: boolean; blocked: boolean; onSend: (event?: FormEvent) => void;
 }) {
@@ -20,7 +20,7 @@ export function ChatComposer({ inputRef: textarea, draft, onDraft, target, onTar
   function choose(member: AgentProfile) {
     if (!mention) return;
     const next = insertMention(draft, mention, member.name);
-    onDraft(next.text); onTarget(member.id); setMention(null);
+    onDraft(next.text); setMention(null);
     requestAnimationFrame(() => { textarea.current?.focus(); textarea.current?.setSelectionRange(next.caret, next.caret); });
   }
   function openMentions() {
@@ -42,10 +42,7 @@ export function ChatComposer({ inputRef: textarea, draft, onDraft, target, onTar
       {candidates.map((member, i) => <button key={member.id} id={"mention-" + member.id} type="button" role="option" aria-selected={index === i} className={index === i ? "is-active" : ""} onMouseDown={event => event.preventDefault()} onMouseEnter={() => setIndex(i)} onClick={() => choose(member)}><Avatar id={member.id} small/><span><strong>{member.name}</strong><small>{member.role}</small></span></button>)}
       {!candidates.length && <p className="mention-empty">No matching teammates</p>}
     </div>}
-    <div className="compose-context"><label><span>To</span><select aria-label="Message recipient" value={target} onChange={event => { onTarget(event.target.value as "team" | AgentId); setMention(null); }}><option value="team">The team</option>{members.map(member => <option value={member.id} key={member.id}>@{member.name}</option>)}</select></label>
-      {outcomes.length > 0 && <label><select aria-label="Work to continue" value={outcomeId ?? ""} onChange={event => onOutcome(event.target.value || null)}><option value="">New goal / general chat</option>{outcomes.map(outcome => <option key={outcome.id} value={outcome.id}>Continue: {outcome.goals.at(-1)!.goal.slice(0, 45)}</option>)}</select></label>}
-      {target !== "team" && <button className="clear-target" type="button" aria-label="Message the whole team" onClick={() => onTarget("team")}><Icon type="close"/></button>}
-    </div>
+    {outcomes.length > 0 && <div className="compose-context"><label><select aria-label="Work to continue" value={outcomeId ?? ""} onChange={event => onOutcome(event.target.value || null)}><option value="">New goal / general chat</option>{outcomes.map(outcome => <option key={outcome.id} value={outcome.id}>Continue: {outcome.goals.at(-1)!.goal.slice(0, 45)}</option>)}</select></label></div>}
     <textarea ref={textarea} aria-label="Message" aria-controls={mention ? "mention-menu" : undefined} aria-expanded={!!mention} aria-autocomplete="list" aria-activedescendant={mention && candidates[index] ? "mention-" + candidates[index]!.id : undefined} placeholder="Message the team, or @ a teammate…" value={draft} disabled={disabled} maxLength={4000}
       onChange={event => { onDraft(event.target.value); sync(event.target.value, event.target.selectionStart); }}
       onClick={event => sync(event.currentTarget.value, event.currentTarget.selectionStart)}

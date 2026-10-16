@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { ZodError } from "zod";
 import {
-  MEMBERS, admissionSchema, ownerActionSchema, contributionSchema, reviewSchema,
+  MEMBERS, roomMembersSchema, contributionPolicy, admissionSchema, ownerActionSchema, contributionSchema, reviewSchema,
   type Room, type Message, type HumanMessageInput, type Outcome, type AgentId,
   type Admission, type OwnerAction, type ContributionResult, type ReviewResult
 } from "../contracts/group.js";
@@ -16,16 +16,18 @@ function addMessage(room: Room, author: Message["author"], role: Message["role"]
 function activeOutcome(room: Room): Outcome | undefined { return room.outcomes.find(item => item.id === room.run?.outcomeId); }
 function requiredOutcome(room: Room): Outcome { const value = activeOutcome(room); if (!value || terminal(value)) throw new Error("OUTCOME_NOT_ACTIVE"); return value; }
 function reviewerFor(room: Room, outcome: Outcome): AgentId {
-  const authors = outcome.contributions.filter(item => item.revision === outcome.goals.length && item.state === "delivered").map(item => item.agentId);
-  const candidates = MEMBERS.filter(member => room.members.includes(member.id) && member.id !== outcome.owner && !authors.includes(member.id));
+  const authors = outcome.contributions.filter(item => item.revision === outcome.goals.length).map(item => item.agentId);
+  const candidates = room.members.filter(id => id !== outcome.owner && !authors.includes(id));
   const candidate = candidates.at(-1);
-  if (!candidate) throw new Error("INDEPENDENT_REVIEWER_UNAVAILABLE"); return candidate.id;
+  if (!candidate) throw new Error("INDEPENDENT_REVIEWER_UNAVAILABLE"); return candidate;
 }
 export class Collaboration {
   constructor(readonly store: RoomStore, private model: ModelGateway, private dailyLimit = 300) {}
-  async create(title: string) {
+  async create(title: string, members: AgentId[] = MEMBERS.map(member => member.id)) {
+    const selected = roomMembersSchema.parse(members);
+    const profiles = structuredClone(MEMBERS.filter(member => selected.includes(member.id)));
     const id = randomUUID(), token = randomUUID(); const now = new Date().toISOString();
-    const room: Room = { contractVersion: "room-v1", id, title, accessHash: hash(token), version: 0, members: MEMBERS.map(member => member.id), agentProfiles: structuredClone(MEMBERS), messages: [], outcomes: [], run: null, receipts: [], totalCalls: 0, createdAt: now, updatedAt: now };
+    const room: Room = { contractVersion: "room-v1", id, title, accessHash: hash(token), version: 0, members: profiles.map(member => member.id), agentProfiles: profiles, messages: [], outcomes: [], run: null, receipts: [], totalCalls: 0, createdAt: now, updatedAt: now };
     await this.store.create(room); return { room, token };
   }
   async read(id: string): Promise<Room> {
@@ -46,6 +48,7 @@ export class Collaboration {
       if (receipt) { if (receipt.fingerprint !== fingerprint) throw new Error("REQUEST_KEY_CONFLICT"); duplicate = true; return false; }
       if (current.run?.status === "running" || (current.run?.status === "recovery" && current.run.recovery?.retryable)) throw new Error("ROOM_BUSY");
       if (current.messages.length > 155 || current.outcomes.length >= 30 || current.receipts.length >= 50) throw new Error("ROOM_CAPACITY_OR_VERSION");
+      if (input.target !== "team" && !current.members.includes(input.target)) throw new Error("TARGET_NOT_A_MEMBER");
       if (input.outcomeId) {
         const outcome = current.outcomes.find(item => item.id === input.outcomeId);
         if (!outcome || terminal(outcome)) throw new Error("OUTCOME_NOT_ACTIVE");
@@ -136,6 +139,8 @@ export class Collaboration {
       if (action.action === "request_contributions") {
         if (outcome.contributions.some(item => item.revision === goal.revision)) throw new Error("CONTRIBUTIONS_ALREADY_REQUESTED");
         const agents = action.requests.map(item => resolveMember(room, item.memberRef));
+        const policy = contributionPolicy(room, outcome);
+        if (agents.length > policy.limit || agents.some(id => !policy.candidates.includes(id))) throw new Error("CONTRIBUTOR_CAPACITY_INVALID");
         if (agents.includes(outcome.owner) || new Set(agents).size !== agents.length) throw new Error("CONTRIBUTOR_ASSIGNMENT_INVALID");
         const requests = action.requests.map((request, index) => ({ id: randomUUID(), agentId: agents[index]!, goal: request.goal, revision: goal.revision, state: "requested" as const, body: null, resultKind: null }));
         outcome.contributions.push(...requests); reviewerFor(room, outcome);

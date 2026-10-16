@@ -2,10 +2,18 @@ import { describe, expect, it } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { MEMBERS, type Message } from "../src/contracts/group";
-import { findMention, insertMention, matchingMembers, shouldSendMessage, isNearLatest } from "../src/web/chat-interactions";
+import { mentionTarget, findMention, insertMention, matchingMembers, shouldSendMessage, isNearLatest } from "../src/web/chat-interactions";
 import { MessageRow } from "../src/web/MessageRow";
 
 describe("production chat interaction policies", () => {
+  it("derives routing from current valid mentions without hidden recipients or multi-dispatch", () => {
+    expect(mentionTarget("Ask @Reef, please", MEMBERS)).toBe("reef");
+    expect(mentionTarget("@reef @Reef", MEMBERS)).toBe("reef");
+    expect(mentionTarget("Ask the team", MEMBERS)).toBe("team");
+    expect(mentionTarget("@Reef and @Sail", MEMBERS)).toBe("team");
+    expect(mentionTarget("person@Reef.example.com @Reefing @Nobody", MEMBERS)).toBe("team");
+    expect(mentionTarget("@Harbor", MEMBERS.filter(member => member.id !== "harbor"))).toBe("team");
+  });
   it("recognizes a caret-local mention but never an email address", () => {
     expect(findMention("Please ask @Re", 14)).toEqual({ start: 11, end: 14, query: "Re" });
     expect(findMention("@", 1)?.query).toBe("");

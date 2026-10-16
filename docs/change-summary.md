@@ -1,5 +1,41 @@
 # Implementation changes by file
 
+## NeoOrg branding and selected group membership — 2026-10-16
+
+| File | Actual changes |
+|---|---|
+| src/contracts/group.ts | Strict create-room-v2 / legacy v1 union, unique 2–4 member selection, shared delegation capacity and persisted membership/author/reviewer invariants |
+| src/server/collaboration.ts | Freeze only selected profiles, reject outsider targets before effects, reserve reviewer before contributor requests |
+| src/server/model.ts | Context-v3 selected identities/delegation policy, dynamic owner/admission wire enums and request bounds, NeoOrg system identity |
+| src/server/http.ts | Route v2 selection to the engine, preserve v1 default, explicit 400 for out-of-group targets |
+| src/server/fixture-model.ts | Consume production delegation policy instead of assuming two contributors or named teammates |
+| src/web/App.tsx | NeoOrg original logo/wordmark, v2 selection transport, draft-derived routing, no hidden recipient or duplicate create entry; restore directory before creation and fingerprint complete send semantics |
+| src/web/ChatComposer.tsx | Keep visible @ selection and keyboard behavior; remove To select / clear-target control and recipient setter |
+| src/web/chat-interactions.ts | Shared deterministic single-mention target policy; unknown/multiple mentions do not grant access or multi-dispatch |
+| src/web/RoomDialogs.tsx | Selected-member checklist, included human and minimum reviewer explanation; remove profile Message action |
+| src/web/workspace.ts | Forward validated selected members while preserving all browser capability keys and existing directory behavior |
+| src/web/MessageRow.tsx | NeoOrg system-message fallback name; historical message bodies unchanged |
+| src/web/chat-alignment.css | Original logo lockup, selected member cards, responsive plus-only entry and removed obsolete routing styles |
+| public/brand/neoorg-logo.png | Reused original NeoOrg asset, byte-identical to the source brand file |
+| index.html | NeoOrg browser title/favicon and current theme color |
+| Dockerfile | Include public brand assets in the production web build |
+| tests/room-membership.test.ts | All 11 subsets / every owner through production Gemini adapter and repository, reviewer capacity negatives, HTTP/linked-gate outsider rejection, selected-pair checkpoint resume |
+| tests/app-membership.test.tsx | Actual App→HTTP selected-members payload and edited-mention target regression with old room retained |
+| tests/chat-components.test.tsx | @-only send/edit events, actual member checkboxes/minimum count and profile Message absence |
+| tests/chat-interactions.test.ts | Single/multiple/unknown/removed mention routing and email-prefix negatives |
+| tests/ui-copy.test.ts | Annotated removals retained, NeoOrg brand/title/container asset regression and preserved recommendations |
+| tests/workspace.test.ts | Selected group creation/reload and prior room restoration |
+| tests/agent-profiles.test.ts | Current production context-v3 identity assertion; original legacy-resume coverage retained |
+| scripts/production-smoke.ts | Live selected 2-/3-Agent Gemini workflows, outsider no-effect checks, independent Firestore member/profile equality and replay checks |
+| README.md | NeoOrg naming/provenance, real selected membership, @ semantics and reviewer reservation |
+| docs/technical-overview.md | Current naming, exact membership/model/UI boundaries, v1/v2 compatibility and bounded architecture mapping |
+| docs/group-collaboration.md | Selected group contracts, context-v3, engineering-owned reservation and @-only interaction |
+| task_plan.md | Architecture decision, compatibility/rollback and release checklist |
+| findings.md | Source-backed invariants and actual local/predeploy observations |
+| progress.md | Actual implementation, errors/resolutions and completed Gate milestones |
+
+Local Gate passed: 75 tests, frontend/server typechecks and builds. Live release evidence is recorded separately; user functional acceptance remains required before any PR.
+
 | File | Completed change |
 |---|---|
 | src/contracts/group.ts | Stable team identities; strict versioned semantic contracts; room, outcome, delivery, review and checkpoint types; invariants and public projection |

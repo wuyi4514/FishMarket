@@ -8,7 +8,7 @@ const roleNames = { human: "Human", member: "Team member", owner: "Outcome owner
 export function MessageRow({ message, members, onOpenProfile }: { message: Message; members: AgentProfile[]; onOpenProfile: (id: AgentId) => void }) {
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   const member = members.find(item => item.id === message.author);
-  const name = message.author === "human" ? "You" : member?.name ?? "FishMarket";
+  const name = message.author === "human" ? "You" : member?.name ?? "NeoOrg";
   async function copy() {
     try { await navigator.clipboard.writeText(message.body); setCopyState("copied"); }
     catch { setCopyState("failed"); }

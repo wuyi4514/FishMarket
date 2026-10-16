@@ -12,10 +12,10 @@ export class FixtureModel implements ModelGateway {
       ...(context.goal ? {} : { ownerRef: context.members.find(member => member.name === context.requestedMember)?.ref ?? "M1" }),
       goal: context.goal?.goal ?? "Produce an evidence-aware pilot launch recommendation.",
       criteria: ["Distinguish observed evidence from assumptions.", "Provide actionable next steps with owners and exit criteria."], constraints: ["Do not claim that the proposed actions have already been executed."]
-    } : context.scope === "owner" && !context.contributions.length ? {
+    } : context.scope === "owner" && context.delegation.limit > 0 ? {
       contractVersion: "owner-action-v1", action: "request_contributions",
-      body: "I’ll own this decision. Reef, assess the evidence; Sail, propose a bounded pilot plan. I’ll combine both into a recommendation for independent review.",
-      requests: context.members.filter(member => member.name !== name).slice(0, 2).map(member => ({ memberRef: member.ref, goal: `Provide a ${member.name} perspective on the goal with explicit assumptions.` }))
+      body: "I’ll own this decision and ask complementary teammates to assess the supplied facts. I’ll integrate their contributions before an independent review.",
+      requests: context.members.filter(member => context.delegation.candidateRefs.includes(member.ref as "M1" | "M2" | "M3" | "M4")).slice(0, context.delegation.limit).map(member => ({ memberRef: member.ref, goal: `Provide a ${member.name} perspective on the goal with explicit assumptions.` }))
     } : context.scope === "contributor" ? {
       contractVersion: "contribution-v1", resultKind: "deliverable",
       body: `### ${name}'s contribution\n\nThe supplied facts support a limited pilot, not a broad launch.\n\n- **Evidence:** five pilot teams tried the workflow; one needed help.\n- **Gap:** repeatable self-service recovery has not been demonstrated.\n- **Next step:** test recovery with a new cohort and record the exact result.`

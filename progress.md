@@ -1,5 +1,17 @@
 # Progress
 
+## 2026-10-16 selected groups and NeoOrg branding
+
+- Created clean independent branch codex/neoorg-room-members from e1d7e0b.
+- Audited production create/send/model/apply/checkpoint and UI boundaries before product changes; identified reviewer-reservation and stale hidden-recipient invariants.
+- Frozen the input/context versioning, compatibility, small-group review behavior and release/rollback checks in task_plan.md.
+- Added failing Evals, then strict create-room-v2, selected profile snapshots, context-v3/delegation policy, dynamic Gemini output bounds and transactional reviewer/membership guards.
+- Removed the To/clear recipient controls, hidden target state, profile Message button and duplicate sidebar entry. Added selectable teammates and mobile plus-only creation; reused the actual NeoOrg logo for wordmark/favicon and container packaging.
+- Updated README and both architecture documents to reflect current naming, membership, mention routing and compatibility without changing repository/cloud identifiers or historical evidence.
+- Fixed test-environment gaps (jsdom dialog lifecycle polyfill, distinct desktop/mobile selector) and a dev-HMR directory initialization edge case. Initial local-browser navigation preceded server startup and was retried only after readiness.
+- Local Gate: 75 tests, both typechecks and both builds passed. Real desktop/mobile and production-build browser checks passed, including exact message preservation after creating/switching/reloading groups.
+- Predeployment source/config/Firestore checks passed: no running executions, historical digest/updateTime unchanged, service account/model/limits verified. Source commit/push, cloud deployment and live selected-group proof are next; no PR created.
+
 ## 2026-10-16 NeoOrg-aligned chat iteration
 
 - Read frontend-design and planning-with-files skills, restored FishMarket release/user-correction context and inspected NeoOrg group UI/composer/message code.

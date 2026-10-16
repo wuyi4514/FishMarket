@@ -1,9 +1,17 @@
 import { createElement } from "react";
+import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { App } from "../src/web/App";
 
 describe("annotated copy cleanup using the production App", () => {
+  it("ships the NeoOrg logo and browser title through the production container build", () => {
+    const source = (path: string) => readFileSync(new URL(path, import.meta.url), "utf8");
+    expect(source("../index.html")).toContain("<title>NeoOrg");
+    expect(source("../index.html")).toContain('href="/brand/neoorg-logo.png"');
+    expect(source("../Dockerfile")).toContain("COPY public ./public");
+    expect(readFileSync(new URL("../public/brand/neoorg-logo.png", import.meta.url)).subarray(1, 4).toString()).toBe("PNG");
+  });
   it("removes exactly the marked auxiliary copy and live-model badge from the actual render", () => {
     const html = renderToStaticMarkup(createElement(App));
     for (const removed of ["A HUMAN + AI WORKSPACE", "Gemini · Live", "GOOD WORK STARTS WITH A CONVERSATION", "You bring the context.", "Rooms remembered in this browser", "4 AGENTS + YOU", "Many perspectives.", "One accountable owner.", "Persistent teammates. Shared context.", "A clear path to a reviewed result.", "Your judgment stays at the center."]) expect(html).not.toContain(removed);
@@ -11,7 +19,10 @@ describe("annotated copy cleanup using the production App", () => {
   });
   it("retains main content, room and member controls, shortcut and the unmarked safety footnote", () => {
     const html = renderToStaticMarkup(createElement(App));
-    for (const kept of ["FishMarket", "Bring a goal.", "Build an outcome.", "Start a fresh room", "Working rooms", "Message recipient", "View Harbor profile", "View Reef profile", "View Sail profile", "View Beacon profile", "⌘ / Ctrl + Enter to send", "AI can make mistakes."]) expect(html).toContain(kept);
+    for (const kept of ["NeoOrg", "Bring a goal.", "Build an outcome.", "Create a group chat", "Working rooms", "View Harbor profile", "View Reef profile", "View Sail profile", "View Beacon profile", "⌘ / Ctrl + Enter to send", "AI can make mistakes."]) expect(html).toContain(kept);
+    expect(html).not.toContain("Start a fresh room"); expect(html).not.toContain("Message recipient");
+    expect(html).not.toContain("Message the whole team"); expect(html).not.toContain("FishMarket</");
+    expect(html).toContain('/brand/neoorg-logo.png');
   });
   it("keeps the three recommended questions but removes duplicate welcome avatars and the decorative fish", () => {
     const html = renderToStaticMarkup(createElement(App));

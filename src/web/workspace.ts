@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createRoomSchema, type RoomView } from "../contracts/group";
+import { MEMBERS, createRoomSchema, type AgentId, type RoomView } from "../contracts/group";
 
 export const workspaceKey = "fishmarket.workspace.v1";
 export const legacyRoomKey = "fishmarket.room.v1";
@@ -11,7 +11,7 @@ const workspaceSchema = z.object({ contractVersion: z.literal("browser-workspace
 export type Session = z.infer<typeof sessionSchema>;
 export type Workspace = z.infer<typeof workspaceSchema>;
 export type WorkspaceSelection = { session: Session; room: RoomView; workspace: Workspace; persistenceWarning: string | null };
-export interface RoomTransport { create(title: string): Promise<{ room: RoomView; token: string }>; read(session: Session): Promise<RoomView>; }
+export interface RoomTransport { create(title: string, members?: AgentId[]): Promise<{ room: RoomView; token: string }>; read(session: Session): Promise<RoomView>; }
 type StorageAccess = Pick<Storage, "getItem" | "setItem">;
 
 export function reconcileRoomProjection(current: RoomView | null, incoming: RoomView, selectedRoomId: string | null): RoomView | null {
@@ -46,12 +46,12 @@ export class WorkspaceNavigator {
     }
     return this.create("The working room");
   }
-  create(title: string): Promise<WorkspaceSelection> {
+  create(title: string, members: AgentId[] = MEMBERS.map(member => member.id)): Promise<WorkspaceSelection> {
     if (this.createPending) return this.createPending;
-    const clean = createRoomSchema.parse({ contractVersion: "create-room-v1", title });
+    const clean = createRoomSchema.parse({ contractVersion: "create-room-v2", title, members });
     if ((this.workspace?.rooms.length ?? 0) >= 100) return Promise.reject(new Error("This browser already remembers 100 rooms. Existing room access has been preserved."));
     this.epoch++;
-    this.createPending = this.transport.create(clean.title).then(created => this.commit({ id: created.room.id, token: created.token }, created.room)).finally(() => { this.createPending = null; });
+    this.createPending = this.transport.create(clean.title, members).then(created => this.commit({ id: created.room.id, token: created.token }, created.room)).finally(() => { this.createPending = null; });
     return this.createPending;
   }
   async select(id: string): Promise<WorkspaceSelection | null> {

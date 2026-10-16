@@ -1,5 +1,18 @@
 # Findings
 
+## 2026-10-16 selected membership corrections
+
+- The user requests @-only routing, no profile Message action, plus-only creation, selectable group membership and NeoOrg product branding. Recommendation cards remain in scope and must stay functional.
+- Current create-room-v1 always freezes all four Agents. room-v1 already has membership/profile snapshots; no Firestore migration is required. Keep old browser key names to preserve capabilities.
+- Existing reviewer selection excluded only delivered contributors; with a smaller group it could accept delegation that exhausts the reviewer after execution. Close this general invariant before enabling selected membership, in both dynamic Provider schema and transactional domain checks.
+- Existing selected-recipient state survives removal of its visible @ token. Remove that state and derive target from the current body and current room profiles at submission.
+- Reuse the actual NeoOrg brand asset from Alpha/apps/web/public/brand/neoorg-logo.png; no generated replacement or source credentials are needed. Cloud project, service URL and GitHub repository remain FishMarket infrastructure identifiers.
+- New Evals first failed on the unchanged baseline. Final local Gate passes 75 tests, both typechecks and both builds. Coverage includes all 11 valid subsets / every selected owner, real Gemini request/response serialization, adapter and domain negatives, linked-gate outsider rejection, selected-pair resume, workspace restoration and actual App→HTTP member/target payloads.
+- Desktop and 390px browser checks confirmed selected membership, @-only dispatch, removal of stale recipient routing, minimum-member validation, profile view without Message, plus-only creation and retained recommendations. Production build (not HMR) preserved exact message bodies after creating another group, switching and reloading.
+- Dev hot refresh can replace the module navigator while preserving mounted React state. Creation now boots the navigator before appending a group, avoiding replacement of the remembered directory. This is not a production data migration.
+- New public asset must be copied into the Docker build stage; added COPY public and an offline brand/container regression. Asset SHA-256 matches NeoOrg's original: 8b6837542c0c39e482ac67756c8f6824427830284bc2b6888e890ca5565eb1f8.
+- Predeploy live verification: runtime 138ee5e / fishmarket-00010-vt2, no running records, unchanged runtime IAM/model/budgets. Historical room updateTime 2026-10-13T09:35:06.430425Z; canonical messages/outcomes digest 47edc0f68706888edb57c9829dc19cca202f1c056cb903c0bb1ff63b8ca4f362.
+
 ## 2026-10-16 NeoOrg alignment baseline
 
 - User confirms the supplied latest official Q&A is authoritative for this task and permits an existing-product submission; prior fresh-code-only advice is not the implementation boundary of this iteration. Existing implementation provenance remains factual and must not be rewritten.

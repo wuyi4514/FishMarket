@@ -1,17 +1,17 @@
-# FishMarket
+# NeoOrg
 
 A human and persistent AI teammates collaborating in one group chat. One outcome has one accountable owner; other members contribute only when needed; an independent reviewer assesses the immutable delivery.
 
-This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Ownership design. The initial implementation was built separately on Google Cloud; its group-chat interaction now follows NeoOrg patterns while retaining FishMarket's own deployed workflow and history. It does not claim to implement the complete NeoOrg platform.
+This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Ownership design. Initially implemented separately as FishMarket on Google Cloud, it now uses the NeoOrg product name and original logo. Its repository, cloud resource names, public URL and saved room-access keys remain unchanged for continuity. It does not claim to implement the complete NeoOrg platform.
 
 ## What works
 
-- Persistent group with a human and four stable agent identities.
+- Persistent groups with a human and 2–4 selected teammates from four stable Agent identities.
 - Named fresh rooms, preserved browser-local room history, switching and reload restoration.
 - Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
-- General chat, explicit member targeting, and Gemini-selected outcome ownership.
+- General chat, @-only member targeting, and Gemini-selected outcome ownership. Removing a mention removes its routing effect; several distinct mentions remain a group message, not multi-dispatch.
 - NeoOrg-aligned chat layout, @ teammate picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
-- Bounded contributor requests, visible professional contributions, owner integration.
+- Bounded contributor requests, visible professional contributions, owner integration; smaller groups reserve an independent reviewer before delegation.
 - Frozen acceptance criteria, immutable deliveries and independent review.
 - Honest goal attainment, human input gates, and durable checkpoint recovery.
 - Atomic Firestore state/message persistence, request idempotency, lease fencing and private room capabilities.

@@ -6,6 +6,7 @@ import { Avatar, Icon } from "./ChatPrimitives";
 import { MessageRow } from "./MessageRow";
 import { ChatComposer } from "./ChatComposer";
 import { useTimeline } from "./useTimeline";
+import { mentionTarget } from "./chat-interactions";
 
 const examples = [
   { title: "Make a launch decision", text: "Help us decide whether to launch a small pilot next week. Five teams tested onboarding: four completed it independently; one needed operator help. We have no repeated recovery test yet. Produce an evidence-based recommendation and a practical plan with owners and exit criteria. Ask the relevant teammates to contribute." },
@@ -25,7 +26,7 @@ async function api<T>(path: string, session?: Session, body?: unknown): Promise<
 let workspaceNavigator: WorkspaceNavigator | null = null;
 function navigator() {
   return workspaceNavigator ??= new WorkspaceNavigator(localStorage, {
-    create: title => api<{ room: RoomView; token: string }>("/api/rooms", undefined, { contractVersion: "create-room-v1", title }),
+    create: (title, members = MEMBERS.map(member => member.id)) => api<{ room: RoomView; token: string }>("/api/rooms", undefined, { contractVersion: "create-room-v2", title, members }),
     read: session => api<RoomView>("/api/rooms/" + session.id, session)
   });
 }
@@ -35,7 +36,6 @@ export function App() {
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [room, setRoom] = useState<RoomView | null>(null);
   const [draft, setDraft] = useState("");
-  const [target, setTarget] = useState<"team" | AgentId>("team");
   const [outcomeId, setOutcomeId] = useState<string | null>(null);
   const [posting, setPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,19 +48,19 @@ export function App() {
   const [persistenceWarning, setPersistenceWarning] = useState<string | null>(null);
   const selectedRoomRef = useRef<string | null>(null);
   const navigationBusy = useRef(false);
-  const roomDrafts = useRef(new Map<string, { draft: string; target: "team" | AgentId; outcomeId: string | null }>());
+  const roomDrafts = useRef(new Map<string, { draft: string; outcomeId: string | null }>());
   const draftRef = useRef<HTMLTextAreaElement>(null);
-  const requestRef = useRef<{ body: string; key: string } | null>(null);
+  const requestRef = useRef<{ fingerprint: string; key: string } | null>(null);
   function acceptRoom(value: RoomView) {
     if (selectedRoomRef.current !== value.id) return;
     setRoom(current => reconcileRoomProjection(current, value, selectedRoomRef.current));
   }
   function install(value: WorkspaceSelection) {
-    if (session) roomDrafts.current.set(session.id, { draft, target, outcomeId });
+    if (session) roomDrafts.current.set(session.id, { draft, outcomeId });
     const savedDraft = roomDrafts.current.get(value.session.id);
     selectedRoomRef.current = value.session.id;
     setSession(value.session); setRoom(value.room); setWorkspace(value.workspace); setPersistenceWarning(value.persistenceWarning);
-    setDraft(savedDraft?.draft ?? ""); setTarget(savedDraft?.target ?? "team");
+    setDraft(savedDraft?.draft ?? "");
     setOutcomeId(savedDraft?.outcomeId ?? value.room.outcomes.find(item => item.status === "waiting")?.id ?? null);
     requestRef.current = null;
   }
@@ -87,9 +87,10 @@ export function App() {
   const blocked = room?.run?.status === "recovery" && room.run.recovery?.retryable;
   async function send(event?: FormEvent) {
     event?.preventDefault(); if (!session || !draft.trim() || working || blocked || navigationBusy.current) return;
-    const body = draft.trim();
+    const body = draft.trim(); const target = mentionTarget(body, members);
     timeline.latest();
-    requestRef.current = requestRef.current?.body === body ? requestRef.current : { body, key: crypto.randomUUID() };
+    const fingerprint = JSON.stringify({ body, target, outcomeId });
+    requestRef.current = requestRef.current?.fingerprint === fingerprint ? requestRef.current : { fingerprint, key: crypto.randomUUID() };
     setPosting(true); setError(null); setDraft("");
     try {
       const result = await api<RoomView>("/api/rooms/" + session.id + "/messages", session, { contractVersion: "human-message-v1", body, target, outcomeId, requestKey: requestRef.current.key });
@@ -109,11 +110,14 @@ export function App() {
     catch (error) { setError(error instanceof Error ? error.message : "Could not resume."); }
     finally { setPosting(false); }
   }
-  async function newRoom(title: string) {
+  async function newRoom(title: string, members: AgentId[]) {
     if (working || navigationBusy.current) return;
     navigationBusy.current = true; setTransitioning(true); setCreationError(null); setError(null);
     try {
-      install(await navigator().create(title)); setShowNewRoom(false);
+      // Restore the directory before creation, including after a dev hot reload
+      // replaces the module singleton while preserving the mounted UI state.
+      await navigator().boot();
+      install(await navigator().create(title, members)); setShowNewRoom(false);
     } catch (error) { setCreationError(error instanceof Error ? error.message : "Could not create a room."); }
     finally { navigationBusy.current = false; setTransitioning(false); }
   }
@@ -130,13 +134,12 @@ export function App() {
   }
   return <div className="workspace">
     <aside className="sidebar">
-      <a className="brand" href="/"><span className="brand-icon"><Icon type="fish"/></span>FishMarket<span className="brand-period">.</span></a>
+      <a className="brand" href="/" aria-label="NeoOrg home"><span className="brand-icon"><img className="brand-logo" src="/brand/neoorg-logo.png" alt=""/></span><span>NeoOrg</span></a>
       <div className="workspace-heading"><p className="side-label">GROUP CHATS</p><button type="button" className="new-room-icon" aria-label="Create a group chat" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/></button></div>
       <nav className="room-list" aria-label="Working rooms">{workspace?.rooms.map(entry => <button key={entry.id} className={"room-nav" + (entry.id === session?.id ? " active" : "")} aria-current={entry.id === session?.id ? "page" : undefined} disabled={navigationDisabled} onClick={() => void switchRoom(entry.id)}><span className="room-symbol"><Icon type="chat"/></span><span className="room-label">{entry.title}<small>{entry.id === session?.id ? "Current conversation" : "Open conversation"}</small></span>{entry.id === session?.id && <span className="active-dot"/>}</button>)}</nav>
-      <button className="new-room" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/> Start a fresh room</button>
       <div className="team-section"><p className="side-label">YOUR TEAM</p>
         <div className="member-row"><Avatar id="human" small/><div>You<small>The human in the loop</small></div><span className="human-tag">Human</span></div>
-        {members.map(member => <button key={member.id} aria-label={"View " + member.name + " profile"} className={"member-row member-button" + (target === member.id ? " selected" : "")} onClick={() => setProfileId(member.id)}>
+        {members.map(member => <button key={member.id} aria-label={"View " + member.name + " profile"} className="member-row member-button" onClick={() => setProfileId(member.id)}>
           <Avatar id={member.id} small/><div>{member.name}<small>{member.role}</small></div><span className="member-online"/>
         </button>)}
       </div>
@@ -146,11 +149,11 @@ export function App() {
       <header className="chat-header"><div className="group-identity"><span className="group-icon"><Icon type="chat"/></span><div className="header-title"><h1>{room?.title ?? "Your workspace"}</h1></div></div>
         <div className="header-right"><div className="avatar-stack"><Avatar id="human" small/>{members.map(member => <span key={member.id}>{profileAvatar(member.id, true)}</span>)}</div><button type="button" className="member-count" onClick={() => setShowTeam(true)} aria-label="View room members"><Icon type="people"/><span>{members.length + 1} members</span></button></div>
       </header>
-      <div className="mobile-workspace"><select aria-label="Working room" value={session?.id ?? ""} disabled={navigationDisabled} onChange={event => void switchRoom(event.target.value)}>{workspace?.rooms.map(entry => <option key={entry.id} value={entry.id}>{entry.title}</option>)}</select><button type="button" aria-label="Start a fresh room" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/> New room</button></div>
+      <div className="mobile-workspace"><select aria-label="Working room" value={session?.id ?? ""} disabled={navigationDisabled} onChange={event => void switchRoom(event.target.value)}>{workspace?.rooms.map(entry => <option key={entry.id} value={entry.id}>{entry.title}</option>)}</select><button type="button" aria-label="Create a group chat" title="Create a group chat" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/></button></div>
       <div className="conversation-stage"><section ref={timeline.ref} onScroll={timeline.onScroll} className="timeline" aria-label="Group conversation" aria-live="polite">
         {!room?.messages.length ? <div className="welcome">
           <h2>Bring a goal.<br/><em>Build an outcome.</em></h2>
-          <div className="example-grid">{examples.map((example, i) => <button key={example.title} onClick={() => { setDraft(example.text); setTarget("team"); draftRef.current?.focus(); }}><span className="example-number">0{i + 1}</span><strong>{example.title}</strong><Icon type="arrow"/></button>)}</div>
+          <div className="example-grid">{examples.map((example, i) => <button key={example.title} onClick={() => { setDraft(example.text); draftRef.current?.focus(); }}><span className="example-number">0{i + 1}</span><strong>{example.title}</strong><Icon type="arrow"/></button>)}</div>
         </div> : <div className="messages">
           <div className="timeline-date">{new Date(room.createdAt).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}</div>
           <div role="log" aria-label="Group messages">{room.messages.map(message => <MessageRow key={message.id} message={message} members={members} onOpenProfile={setProfileId}/>)}</div>
@@ -162,16 +165,14 @@ export function App() {
         {(room?.run?.status === "recovery" || room?.run?.canResume) && <div className="recovery-banner"><div><strong>The work needs attention</strong><p>{room.run.recovery?.nextAction ?? "The last request was interrupted. Resume the saved step."}</p></div>{room.run.canResume && room.run.recovery?.retryable !== false && <button onClick={resume} disabled={posting}>Resume work ↗</button>}</div>}
         {error && <div className="error-banner" role="alert">{error === "ROOM_BUSY" ? "The team is still working. Your message is saved in the composer." : error}</div>}
         {persistenceWarning && <div className="error-banner" role="alert">{persistenceWarning}</div>}
-        <ChatComposer key={session?.id ?? "loading"} inputRef={draftRef} draft={draft} onDraft={setDraft} target={target} onTarget={setTarget} members={members} outcomes={activeOutcomes} outcomeId={outcomeId} onOutcome={setOutcomeId} busy={!!working} disabled={!session || transitioning} blocked={!!blocked} onSend={event => void send(event)}/>
+        <ChatComposer key={session?.id ?? "loading"} inputRef={draftRef} draft={draft} onDraft={setDraft} members={members} outcomes={activeOutcomes} outcomeId={outcomeId} onOutcome={setOutcomeId} busy={!!working} disabled={!session || transitioning} blocked={!!blocked} onSend={event => void send(event)}/>
         <p className="composer-footnote">{mode !== "live" ? "Offline preview uses deterministic fixtures. Production uses real Gemini." : "AI can make mistakes. Review the evidence and make the final business decision."}</p>
       </div>
     </main>
-    {showNewRoom && <NewRoomDialog defaultTitle={"Working room " + ((workspace?.rooms.length ?? 0) + 1)} busy={transitioning} error={creationError} hasDraft={!!draft.trim()} onClose={() => setShowNewRoom(false)} onCreate={title => void newRoom(title)}/>}
+    {showNewRoom && <NewRoomDialog defaultTitle={"Working room " + ((workspace?.rooms.length ?? 0) + 1)} busy={transitioning} error={creationError} hasDraft={!!draft.trim()} onClose={() => setShowNewRoom(false)} onCreate={(title, members) => void newRoom(title, members)}/>}
     {showTeam && <TeamDialog members={members} onClose={() => setShowTeam(false)}
       onOpenProfile={id => { setShowTeam(false); setProfileId(id); }}/>}
-    {profile && <AgentProfileDialog member={profile} onClose={() => setProfileId(null)} onMessage={() => {
-      setTarget(profile.id); setProfileId(null); setTimeout(() => draftRef.current?.focus(), 0);
-    }}/>}
+    {profile && <AgentProfileDialog member={profile} onClose={() => setProfileId(null)}/>}
   </div>;
 }
 function OutcomeStrip({ outcome, onContinue }: { outcome: Outcome; onContinue: () => void }) {
