@@ -1,5 +1,24 @@
 # Changes by file
 
+## 2026-10-19 follow-up
+
+| File | Completed change |
+| --- | --- |
+| src/web/App.tsx | Hide Announcements/Space, work/member/grid rail shortcuts and account avatar; keep Messages, real directory, recommendations and room controls |
+| src/web/RoomDialogs.tsx | Close-button-only member details; hide uninstalled Skills/Tools and duplicate return action; distinguish true backdrop from dialog padding for normal dialogs |
+| src/web/video-alignment.css | Remove unused account-entry styling |
+| tests/ui-copy.test.ts | Production-render negative coverage for unavailable navigation and positive Messages/member/recommendation checks |
+| tests/chat-components.test.tsx | Member padding/backdrop/Escape no-dismissal and explicit close; normal creation dismissal and model/profile visibility regression |
+| README.md | Correct currently available UI controls |
+| docs/technical-overview.md | Document visible features and explicit member-sheet dismissal without claiming unavailable capabilities |
+| docs/changes/video-ui-cloud/task_plan.md | Follow-up scope, UI-only boundary and phase status |
+| docs/changes/video-ui-cloud/findings.md | Root cause and keep/hide decision |
+| docs/changes/video-ui-cloud/progress.md | Red-first tests, 83-test Gate, actual desktop/mobile evidence and cloud snapshot |
+| docs/changes/video-ui-cloud/member-details-cleanup.jpg | Actual local fixture browser screenshot, not cloud-live evidence |
+| docs/changes/video-ui-cloud/change-summary.md | This per-file follow-up record |
+
+## Original film-alignment release
+
 | File | Completed change |
 | --- | --- |
 | src/web/App.tsx | Film-aligned icon rail, group toolbar/search/filter, inset composite room cards, five-position team, compact header, Messages/Announcements/Space navigation; identities resolve from frozen room profiles |

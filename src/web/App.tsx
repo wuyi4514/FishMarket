@@ -3,7 +3,6 @@ import { TEAM_CATALOG, type AgentId, type AgentProfile, type RoomView, type Outc
 import { WorkspaceNavigator, reconcileRoomProjection, type Session, type Workspace, type WorkspaceSelection } from "./workspace";
 import { AgentProfileDialog, NewRoomDialog, TeamDialog } from "./RoomDialogs";
 import { Avatar, GroupAvatar, Icon } from "./ChatPrimitives";
-import { RoomSpace, RoomAnnouncements } from "./RoomSpace";
 import { MessageRow } from "./MessageRow";
 import { ChatComposer } from "./ChatComposer";
 import { useTimeline } from "./useTimeline";
@@ -32,7 +31,6 @@ function navigator() {
   });
 }
 export function App() {
-  const [tab, setTab] = useState<"messages" | "announcements" | "space">("messages");
   const [filter, setFilter] = useState<"all" | "pending" | "unread">("all");
   const [searching, setSearching] = useState(false);
   const [query, setQuery] = useState("");
@@ -68,7 +66,7 @@ export function App() {
     selectedRoomRef.current = value.session.id;
     roomViews.current.set(value.room.id, value.room);
     setSession(value.session); setRoom(value.room); setWorkspace(value.workspace); setPersistenceWarning(value.persistenceWarning);
-    setDraft(savedDraft?.draft ?? ""); setTab("messages");
+    setDraft(savedDraft?.draft ?? "");
     setOutcomeId(savedDraft?.outcomeId ?? value.room.outcomes.find(item => item.status === "waiting")?.id ?? null);
     requestRef.current = null;
   }
@@ -146,11 +144,7 @@ export function App() {
   return <div className="workspace">
     <nav className="primary-nav" aria-label="NeoOrg navigation">
       <a className="brand" href="/" aria-label="NeoOrg home"><span className="brand-icon"><img className="brand-logo" src="/brand/neoorg-logo.png" alt="NeoOrg"/></span></a>
-      <button className={tab === "messages" ? "nav-icon active" : "nav-icon"} aria-label="Group chats" title="Group chats" onClick={() => setTab("messages")}><Icon type="chat"/></button>
-      <button className={tab === "announcements" ? "nav-icon active" : "nav-icon"} aria-label="Work milestones" title="Work milestones" onClick={() => setTab("announcements")}><Icon type="work"/></button>
-      <button className="nav-icon" aria-label="Team members" title="Team members" onClick={() => setShowTeam(true)}><Icon type="people"/></button>
-      <button className={tab === "space" ? "nav-icon active" : "nav-icon"} aria-label="Shared Space" title="Shared Space" onClick={() => setTab("space")}><Icon type="grid"/></button>
-      <button className="nav-account" aria-label="View room members" title="You · Human decision owner" onClick={() => setShowTeam(true)}><Avatar id="human" small/></button>
+      <a className="nav-icon active" aria-label="Group chats" title="Group chats" href="#panel-messages" aria-current="page"><Icon type="chat"/></a>
     </nav>
     <aside className="sidebar">
       <div className="workspace-heading"><span className="sr-only">GROUP CHATS</span><div className="room-filters">{(["all", "pending", "unread"] as const).map(value => <button key={value} className={filter === value ? "selected" : ""} aria-pressed={filter === value} onClick={() => setFilter(value)}>{value === "all" ? "All" : value === "pending" ? "Pending" : "Unread"} <span>{value === "all" ? workspace?.rooms.length ?? 0 : value === "pending" ? pendingRooms.size : timeline.unread ? 1 : 0}</span></button>)}</div><button className="new-room-icon search-icon" aria-label="Search group chats" onClick={() => setSearching(!searching)}><Icon type="search"/></button><button type="button" className="new-room-icon" aria-label="Create a group chat" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/></button></div>
@@ -169,10 +163,9 @@ export function App() {
       <header className="chat-header"><div className="group-identity"><div className="header-title"><h1>{room?.title ?? "Your workspace"}</h1></div></div>
         <div className="header-right"><div className="avatar-stack">{members.map(member => <span key={member.id}>{profileAvatar(member.id, true)}</span>)}</div><button type="button" className="member-count" onClick={() => setShowTeam(true)} aria-label="View room members"><span>{members.length + 1} members</span></button></div>
       </header>
-      <div className="conversation-tabs" role="tablist" aria-label="Group views">{(["messages", "announcements", "space"] as const).map(value => <button key={value} id={"tab-" + value} role="tab" aria-controls={"panel-" + value} aria-selected={tab === value} className={tab === value ? "selected" : ""} onClick={() => setTab(value)}>{value === "messages" ? "Messages" : value === "announcements" ? "Announcements" : "Space"}</button>)}</div>
+      <div className="conversation-tabs" role="tablist" aria-label="Group views"><button id="tab-messages" role="tab" aria-controls="panel-messages" aria-selected="true" className="selected">Messages</button></div>
       <div className="mobile-workspace"><select aria-label="Working room" value={session?.id ?? ""} disabled={navigationDisabled} onChange={event => void switchRoom(event.target.value)}>{workspace?.rooms.map(entry => <option key={entry.id} value={entry.id}>{entry.title}</option>)}</select><button type="button" aria-label="Create a group chat" title="Create a group chat" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/></button></div>
-      <div className="conversation-panel" id={"panel-" + tab} role="tabpanel" aria-labelledby={"tab-" + tab}>
-      {tab === "space" ? <RoomSpace key={room?.id} room={room} members={members}/> : tab === "announcements" ? <RoomAnnouncements room={room}/> : <>
+      <div className="conversation-panel" id="panel-messages" role="tabpanel" aria-labelledby="tab-messages">
       <div className="conversation-stage"><section ref={timeline.ref} onScroll={timeline.onScroll} className="timeline" aria-label="Group conversation" aria-live="polite">
         {!room?.messages.length ? <div className="welcome">
           <h2>Start with a shared goal</h2><p>Your AI teammates can work from the context in this group.</p>
@@ -191,7 +184,6 @@ export function App() {
         <ChatComposer key={session?.id ?? "loading"} inputRef={draftRef} draft={draft} onDraft={setDraft} members={members} outcomes={activeOutcomes} outcomeId={outcomeId} onOutcome={setOutcomeId} busy={!!working} disabled={!session || transitioning} blocked={!!blocked} onSend={event => void send(event)}/>
         <p className="composer-footnote">{mode !== "live" ? "Offline preview uses deterministic fixtures. Production uses real Gemini." : "AI can make mistakes. Review the evidence and make the final business decision."}</p>
       </div>
-      </>}
       </div>
     </main>
     {showNewRoom && <NewRoomDialog defaultTitle={"Working room " + ((workspace?.rooms.length ?? 0) + 1)} busy={transitioning} error={creationError} hasDraft={!!draft.trim()} onClose={() => setShowNewRoom(false)} onCreate={(title, members) => void newRoom(title, members)}/>}

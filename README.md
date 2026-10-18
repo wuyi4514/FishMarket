@@ -11,7 +11,7 @@ This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Owners
 - Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
 - General chat, @-only member targeting, and Gemini-selected outcome ownership. Removing a mention removes its routing effect; several distinct mentions remain a group message, not multi-dispatch.
 - Film-aligned three-column layout and original portraits, full-name @ chips/picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
-- Messages, committed milestone Announcements and a Space directory/preview of actual saved deliveries and independent reviews. No mock film content or file-generation tools are installed.
+- Messages, role profiles and actual configured-model details. Unavailable Announcements/Space, account/workspace shortcuts and uninstalled Skills/Tools entries are hidden. Written deliveries and independent reviews remain persisted; no mock film content or file-generation tools are installed.
 - Bounded contributor requests, visible professional contributions, owner integration; smaller groups reserve an independent reviewer before delegation.
 - Frozen acceptance criteria, immutable deliveries and independent review.
 - Honest goal attainment, human input gates, and durable checkpoint recovery.

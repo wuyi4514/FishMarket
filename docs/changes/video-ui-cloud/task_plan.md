@@ -19,3 +19,12 @@ Rollback: redeploy prior immutable image, preserving Firestore. Since prior soft
 
 ## Errors encountered
 - Initial discovery requested nonexistent `src/shared/types.ts`, `src/web/room-ui.tsx` and film `remotion.config.ts`; inspected the actual source tree instead. No files changed by those reads.
+
+## 2026-10-19 follow-up: available controls and member-sheet dismissal
+1. Add production-render and dialog-event regression tests — complete (red reproduced first).
+2. Hide unsupported navigation and Skills/Tools placeholders; make member details close-button-only — complete.
+3. Run focused/full offline Gate and actual desktop/mobile interactions — complete (83 tests, both typechecks/builds; desktop and 390px).
+4. Snapshot existing records, commit, deploy and verify exact assets/history — pending.
+5. Record per-file changes and release evidence; no PR before acceptance — pending.
+
+Boundary: UI-only change. Preserve all contracts, frozen identities, model context, storage and recovery. Existing real member/model controls, recommendations and creation remain available. Rollback uses the prior immutable image without database changes.

@@ -6,3 +6,8 @@
 - The cloud prototype has persisted Markdown deliveries, criteria, review notes and durable recovery, not the film's file-generation, Skills installation or external tools. Space can expose real deliveries/reviews; empty states must stay honest.
 - Existing source baseline a646e5f on codex/video-production-plan was clean; created codex/video-ui-cloud-alignment. No PR authorized before acceptance.
 - Network diagnosis: macOS system HTTPS proxy is enabled on localhost:7892; command-line Node/curl did not inherit it. Cloud SDK reads succeeded through the host proxy handling, while direct Firestore connections timed out. QA commands must explicitly use that existing proxy; no network/security setting was changed.
+
+## 2026-10-19 follow-up
+- `Modal` currently equates `event.target === event.currentTarget` with backdrop interaction. Native dialog padding also targets the dialog itself, so a blank sheet area incorrectly dismisses it.
+- Member details requires an explicit close-button-only policy, including ignoring backdrop and Escape. Creation/directory dialogs retain normal dismissal, but creation padding must not count as backdrop.
+- Hide Announcements/Space, the work/team/grid rail entries, the account avatar and uninstalled Skills/Tools tabs. Keep actual Profile/Models, header directory, group search/filters, creation, messaging and recommendations. Hidden delivery-view components need not be deleted or change persisted facts.

@@ -37,4 +37,12 @@ describe("annotated copy cleanup using the production App", () => {
     for (const kept of ["GROUP CHATS", "View room members", "Mention a teammate", "Enter to send · Shift + Enter for a new line"]) expect(html).toContain(kept);
     for (const absent of ["Upload file", "Send email", "Group announcements", "Owner transfer"]) expect(html).not.toContain(absent);
   });
+  it("hides unavailable navigation while retaining messages, real member access and recommendations", () => {
+    const html = renderToStaticMarkup(createElement(App));
+    for (const absent of ["Work milestones", 'aria-label="Team members"', "Shared Space", "Announcements", '>Space<', 'class="nav-account"']) expect(html).not.toContain(absent);
+    expect(html.match(/role="tab"/g)).toHaveLength(1);
+    expect(html).toContain('id="tab-messages"');
+    expect(html).toContain('aria-label="View room members"');
+    expect(html).toContain("Make a launch decision");
+  });
 });

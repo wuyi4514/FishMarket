@@ -9,8 +9,6 @@ button,input,textarea,select { font-family:inherit; }
 .nav-icon { display:grid; place-items:center; width:42px; height:42px; padding:10px; border:0; background:transparent; border-radius:9px; color:#7d8790; }
 .nav-icon svg { width:23px; height:23px; }
 .nav-icon.active,.nav-icon:hover { background:#e2e7eb; color:#4f5962; }
-.nav-account { margin-top:auto; width:100%; padding:14px 0 0; border:0; border-top:1px solid #dce1e5; background:transparent; }
-.nav-account .avatar.small { width:30px; height:30px; }
 .sidebar { padding:0; background:#f5f6f7; border-color:#e5e8eb; overflow:hidden; }
 .sr-only { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip-path:inset(50%); }
 .workspace-heading { min-height:60px; padding:10px 12px; margin:0 0 12px; gap:4px; flex-shrink:0; }

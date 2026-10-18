@@ -85,7 +85,42 @@ describe("production creation and profile dialogs", () => {
     expect(screen.getByText("Strategy & planning")).toBeTruthy();
     expect(screen.getByText("Position responsibilities")).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Message Sail/ })).toBeNull();
-    expect(screen.getByRole("button", { name: "Back to the room" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Back to the room" })).toBeNull();
+    expect(screen.getByRole("button", { name: "Close dialog" })).toBeTruthy();
+    expect(screen.queryByRole("tab", { name: "Skills" })).toBeNull();
+    expect(screen.queryByRole("tab", { name: "Tools" })).toBeNull();
+    fireEvent.click(screen.getByRole("tab", { name: "Models" }));
+    expect(screen.getByText("Gemini · Vertex AI")).toBeTruthy();
+  });
+  it("only closes member details through its explicit close button", () => {
+    nativeDialogs(); const close = vi.fn();
+    render(<AgentProfileDialog member={MEMBERS[1]!} onClose={close}/>);
+    const dialog = screen.getByRole("dialog");
+    vi.spyOn(dialog, "getBoundingClientRect").mockReturnValue({ left: 850, right: 1280, top: 0, bottom: 800 } as DOMRect);
+    fireEvent.click(dialog, { clientX: 870, clientY: 110 }); // Sheet padding, not a child.
+    fireEvent.click(screen.getByText("Position responsibilities"));
+    fireEvent.click(dialog, { clientX: 300, clientY: 250 }); // Transparent backdrop.
+    const cancellation = new Event("cancel", { cancelable: true });
+    fireEvent(dialog, cancellation); // Native Escape cancellation must also be prevented.
+    expect(cancellation.defaultPrevented).toBe(true);
+    expect(close).not.toHaveBeenCalled();
+    expect(dialog.hasAttribute("open")).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: "Close dialog" }));
+    expect(close).toHaveBeenCalledTimes(1);
+  });
+  it("keeps creation dismissal available without treating its blank padding as a backdrop", () => {
+    nativeDialogs(); const close = vi.fn();
+    render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} hasDraft={false} onClose={close} onCreate={() => {}}/>);
+    const dialog = screen.getByRole("dialog");
+    vi.spyOn(dialog, "getBoundingClientRect").mockReturnValue({ left: 250, right: 850, top: 100, bottom: 700 } as DOMRect);
+    fireEvent.click(dialog, { clientX: 270, clientY: 120 });
+    expect(close).not.toHaveBeenCalled();
+    fireEvent.click(dialog, { clientX: 200, clientY: 120 });
+    expect(close).toHaveBeenCalledTimes(1);
+    fireEvent(dialog, new Event("cancel", { cancelable: true }));
+    expect(close).toHaveBeenCalledTimes(2);
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    expect(close).toHaveBeenCalledTimes(3);
   });
 });
 
