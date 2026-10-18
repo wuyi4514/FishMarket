@@ -6,14 +6,16 @@ https://fishmarket-893821979623.asia-northeast1.run.app
 
 Public source: https://github.com/wuyi4514/FishMarket
 
-Implementation, deployment verification and source integration are complete. [PR #1](https://github.com/wuyi4514/FishMarket/pull/1) was merged into main on October 16, 2026 at `a13059baa6f54a063e1a7253b063d9d4db0d5fce`; [main CI](https://github.com/wuyi4514/FishMarket/actions/runs/38845919226) passed. This records verified engineering delivery and user-authorized integration, not a claim of competition submission or product acceptance by the organizer.
+The film-aligned UI is implemented and deployed from `codex/video-ui-cloud-alignment` at `77755e247870bd8257cde2fd613eedcea608e9e5`, revision `fishmarket-00012-cmx`, 100% traffic. [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39142263442) and 80 offline tests/typechecks/builds passed. Real Gemini collaboration/independent review, separate Firestore reads, idempotency, outsider denial, exact deployed assets and all 27 historical room hashes/update times were verified. No PR or main merge has been performed for this update; user acceptance is pending. See [current release details](changes/video-ui-cloud/release.md) and [per-file changes](changes/video-ui-cloud/change-summary.md).
+
+[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) integrated the earlier product version at `a13059b`. The historical snapshots below are retained for traceability, not the current runtime.
 
 [Submission-page text](submission-description.md) is prepared in Chinese and English. No form has been filled or submitted. PPT and video are outside the current documentation work.
 
 ## Running source and infrastructure
 
-- Runtime source commit: 3fc280f7d31e2ef741efa29d57fe100c53c54892.
-- Cloud Run revision: fishmarket-00011-86f, serving 100% of traffic.
+- Runtime source commit: 77755e247870bd8257cde2fd613eedcea608e9e5 (health release tag: 77755e2).
+- Cloud Run revision: fishmarket-00012-cmx, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.
@@ -25,9 +27,9 @@ Implementation, deployment verification and source integration are complete. [PR
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-Main merge `a13059b` has the same application files as this running source; its additional evidence/merge commits do not require redeployment. The historical sections below describe their original release snapshots, not the currently running revision or UI.
+The current UI source differs from main and remains on the independent acceptance branch. The historical sections below describe their original release snapshots, not the currently running revision or UI.
 
-## NeoOrg selected groups and branding (current release, 2026-10-16)
+## NeoOrg selected groups and branding (previous release, 2026-10-16)
 
 NeoOrg original logo/wordmark/browser title; @-only draft-derived routing; no To or profile Message action; plus-only creation with 2–4 selected Agents. Provider and domain both reserve an independent reviewer. Existing rooms, capabilities, checkpoints and historical messages are preserved.
 

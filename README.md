@@ -6,11 +6,12 @@ This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Owners
 
 ## What works
 
-- Persistent groups with a human and 2–4 selected teammates from four stable Agent identities.
+- Persistent groups with a human and 2–5 selected teammates: Delivery - Anchor, Product - Spark, Content - Anemone, Design - Coral and Quality - Puffer. Original groups preserve their original frozen profiles.
 - Named fresh rooms, preserved browser-local room history, switching and reload restoration.
 - Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
 - General chat, @-only member targeting, and Gemini-selected outcome ownership. Removing a mention removes its routing effect; several distinct mentions remain a group message, not multi-dispatch.
-- NeoOrg-aligned chat layout, @ teammate picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
+- Film-aligned three-column layout and original portraits, full-name @ chips/picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
+- Messages, committed milestone Announcements and a Space directory/preview of actual saved deliveries and independent reviews. No mock film content or file-generation tools are installed.
 - Bounded contributor requests, visible professional contributions, owner integration; smaller groups reserve an independent reviewer before delegation.
 - Frozen acceptance criteria, immutable deliveries and independent review.
 - Honest goal attainment, human input gates, and durable checkpoint recovery.
@@ -23,7 +24,7 @@ See the [technical overview and NeoOrg architecture mapping](docs/technical-over
 
 Copy-ready Chinese and English text with the deployed app and repository links is in [the submission description](docs/submission-description.md). It describes actual Gemini/Vertex AI, Cloud Run and Firestore usage; Firebase Hosting and Firebase Authentication are not used.
 
-[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) merged the product iterations into main at `a13059b` on October 16, 2026. Main CI passed. Cloud Run continues to serve the verified runtime source `3fc280f`; its application files match the merged main version. Competition submission has not been performed. PPT/video preparation and submission-page actions are outside this documentation update.
+[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) merged the prior product iterations into main at `a13059b` on October 16, 2026. The film-UI update is deployed from independent branch `codex/video-ui-cloud-alignment`, source `77755e2`, revision `fishmarket-00012-cmx`. Its [source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39142263442), 80 offline tests/typechecks/builds and real Gemini/Firestore gate passed. This update has not created a PR or merged into main; user acceptance remains pending. No competition submission is performed by this update. See the [release record](docs/changes/video-ui-cloud/release.md).
 
 ## Local offline development
 

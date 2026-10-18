@@ -7,8 +7,8 @@ Restore the accepted film's product layout and exact avatars in the working clou
 1. Inspect production boundaries and reference UI — complete.
 2. Add failing Evals; implement compatible five-position room catalog and native-looking shell — complete.
 3. Verify offline contracts, actual browser interactions, desktop/mobile layout — complete (80 tests/typechecks/builds; desktop + 390px actual browser).
-4. Commit, check active runs/history, deploy the exact source and verify cloud assets + live production composition — in progress.
-5. Document per-file changes, rollback and user acceptance entry — pending.
+4. Commit, check active runs/history, deploy the exact source and verify cloud assets + live production composition — complete.
+5. Document per-file changes, rollback and user acceptance entry — complete; user functional acceptance remains pending.
 
 ## Architecture decision
 Retain the room-v1 aggregate, run-v1 checkpoints, owner/contributor/reviewer state machine, engineering-owned membership, exact capability authentication, budgets and idempotent commit/recovery. Existing v1/v2 create commands keep their four-position catalog. A strict create-room-v3 command selects 2–5 film-aligned profiles. Frozen profiles remain the only identity source for both Gemini and UI; old records are not rewritten. Add the fifth bounded member ref at the production Provider boundary, with a new context version for five-member projections. No new tools, external effects or fake file generation.

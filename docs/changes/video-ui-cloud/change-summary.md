@@ -24,6 +24,9 @@
 | scripts/video-ui-cloud-gate.ts | Read-only deployment/history hash checks; separate real Gemini/Firestore/outsider/idempotency/legacy live gate; no logged capabilities |
 | .gcloudignore | Exclude local QA evidence and room hash baselines from source upload |
 | docs/technical-overview.md | Current five-position compatibility and exact UI versus capability boundaries |
+| README.md / docs/release.md | Current release/branch status, new five-position UI and actual cloud verification, clearly separate prior main merge |
+| docs/changes/video-ui-cloud/release.md | Exact runtime commit, revision, image, CI, live/history/asset evidence, acceptance and rollback boundaries |
+| docs/changes/video-ui-cloud/local-browser.jpg | Captured actual desktop UI from the local verification build; offline fixture conversation, not a cloud/live-model screenshot |
 | docs/changes/video-ui-cloud/{task_plan,findings,progress}.md | Scoped architecture decision, actual checks, errors and release progress |
 
 No accepted film, local Alpha service, secret, historical conversation or competition submission was changed. No PR has been created.
