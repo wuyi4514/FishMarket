@@ -8,6 +8,9 @@
 | src/web/App.tsx | Stop passing the deleted presentation-only prop; draft storage and room behavior remain unchanged |
 | src/web/room-features.css | Grid-center the 18px vector icon in the 30px circle with zero padding; retain balanced creation-footer spacing after copy removal |
 | tests/chat-components.test.tsx | Negative copy, member-selection enforcement and accessible SVG click regressions; update current prop contract |
+| README.md | Current source/revision, CI and 85-test verification status |
+| docs/release.md | Update current runtime and presentation-only scope, keeping earlier evidence historical |
+| docs/changes/video-ui-cloud/release.md | Exact new revision/image/build/CI, browser geometry, startup/asset/history checks, limits and rollback; preserve previous snapshots |
 | docs/changes/video-ui-cloud/task_plan.md | Scope, phases and unchanged behavioral boundaries |
 | docs/changes/video-ui-cloud/findings.md | Exact annotation scope and font-metric cause of icon offset |
 | docs/changes/video-ui-cloud/progress.md | Red-first tests, corrected test typing, 85-test full Gate, browser geometry/draft/minimum-member checks and predeploy snapshot |

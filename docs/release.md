@@ -6,7 +6,7 @@ https://fishmarket-893821979623.asia-northeast1.run.app
 
 Public source: https://github.com/wuyi4514/FishMarket
 
-The film-aligned UI cleanup is deployed from `codex/video-ui-cloud-alignment` at `45b8a005e1938f26c9231fc0d9a5bd930d72e9bf`, revision `fishmarket-00013-8fk`, 100% traffic. [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39144632677), 83 offline tests/typechecks/builds and actual local desktop/mobile checks passed. Exact public JS/CSS/logo/avatars match the verified build; all 30 pre-existing room hashes/update times remain unchanged. Unsupported UI entries are hidden and member details closes only through X. No backend/model contracts changed; earlier live-model evidence is retained in the historical record, not claimed as a fresh run. Remote tab attachment timed out, so cloud click interactions are not separately verified. No PR or main merge has been performed; user acceptance is pending. See [current release details](changes/video-ui-cloud/release.md) and [per-file changes](changes/video-ui-cloud/change-summary.md).
+The film-aligned UI refinement is deployed from `codex/video-ui-cloud-alignment` at `78ef020ce74c263f221c59580b6911de9dbce8b3`, revision `fishmarket-00014-8g4`, 100% traffic. [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39146025170), 85 offline tests/typechecks/builds and actual local desktop/mobile checks passed. The creation dialog omits annotated auxiliary copy and the shared vector close icon is centered; selection/draft/dismissal rules are unchanged. Exact public JS/CSS/logo/avatars match the verified build; all 30 pre-existing room hashes/update times remain unchanged. No backend/model contracts changed; earlier live-model evidence is historical, not a fresh run. Remote tab attachment was unavailable, so current cloud click interactions are not separately verified. No PR or main merge has been performed; user acceptance is pending. See [current release details](changes/video-ui-cloud/release.md) and [per-file changes](changes/video-ui-cloud/change-summary.md).
 
 [PR #1](https://github.com/wuyi4514/FishMarket/pull/1) integrated the earlier product version at `a13059b`. The historical snapshots below are retained for traceability, not the current runtime.
 
@@ -14,8 +14,8 @@ The film-aligned UI cleanup is deployed from `codex/video-ui-cloud-alignment` at
 
 ## Running source and infrastructure
 
-- Runtime source commit / health release tag: 45b8a005e1938f26c9231fc0d9a5bd930d72e9bf.
-- Cloud Run revision: fishmarket-00013-8fk, serving 100% of traffic.
+- Runtime source commit / health release tag: 78ef020ce74c263f221c59580b6911de9dbce8b3.
+- Cloud Run revision: fishmarket-00014-8g4, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.

@@ -33,7 +33,7 @@ Boundary: UI-only change. Preserve all contracts, frozen identities, model conte
 1. Add failing actual-component tests for annotated copy and vector icon — complete (red reproduced first).
 2. Remove only annotated creation copy; center the shared close icon without changing dismissal or selection rules — complete.
 3. Full offline Gate and actual desktop/mobile browser geometry/click checks — complete (85 tests, both typechecks/builds; center delta 0,0).
-4. Snapshot rooms/active runs, commit/CI, deploy and verify exact assets/history — pending.
-5. Record per-file release evidence and user acceptance entry; no PR — pending.
+4. Snapshot rooms/active runs, commit/CI, deploy and verify exact assets/history — complete (78ef020, revision 00014; 30 rooms unchanged).
+5. Record per-file release evidence and user acceptance entry; no PR — complete; user acceptance pending.
 
 No server/contract/state changes. Keep required member count enforcement, draft preservation, original avatars and recommendations. Roll back to revision 00013 image if necessary, without data edits or replay.

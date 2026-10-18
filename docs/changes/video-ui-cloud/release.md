@@ -1,4 +1,31 @@
-# Available-controls cleanup — 2026-10-19 (current)
+# Creation dialog refinement — 2026-10-19 (current)
+
+- Entry: https://fishmarket-893821979623.asia-northeast1.run.app
+- Runtime source / health tag: `78ef020ce74c263f221c59580b6911de9dbce8b3`.
+- Revision: `fishmarket-00014-8g4`, Ready/Active, 100% traffic.
+- Resolved image: `sha256:b3e9be3a0a6d08936e7dd5db4409edd5de02a2dfaf1f3b3f9f523cf009c9cd07`.
+- Regional Cloud Build: `752241bc-36b3-499c-9381-5657c318ef5d`, SUCCESS.
+- [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39146025170), success.
+- Same independent branch `codex/video-ui-cloud-alignment`; no PR or main merge; user acceptance pending.
+
+Removed only the annotated creation-dialog copy: selected-count suffix, Always included, independent-review hint and preservation/draft paragraph. Keep the human row, all selectable members, title/intro/name and actions. Minimum two-agent validation and draft preservation remain unchanged. All shared modal close buttons now reuse the existing symmetric SVG with zero-padding grid centering, rather than a font glyph. The prior member-details close-button-only policy is unchanged.
+
+## Verification
+
+1. Red-first actual-component Evals reproduced copy/icon defects. Full `pnpm verify`: 85 tests, both typechecks and both builds passed. No server, contracts, dependency or Dockerfile changes relative to the previous deployed source.
+2. Actual local 1280px and 390px browsers measured button 30×30, icon 18×18 and horizontal/vertical center delta (0,0). The annotated copy is absent; mobile document width remains 390px (356px creation dialog). One selected agent still disables creation. X closes creation and preserves the exact draft. Member profile icon also measures (0,0), while blank/Escape still do not dismiss.
+3. [create-dialog-cleanup.jpg](create-dialog-cleanup.jpg) is the actual local fixture screenshot, not a cloud screenshot. Remote browser clicks were not rerun because the previous remote attachment remained unavailable; cloud asset/control-plane checks are independent evidence. Temporary viewport reset; test tab and local dev processes closed.
+4. Cloud health reports ready, Firestore, Vertex AI, unchanged `gemini-3.5-flash-lite` and the exact source SHA. Revision digest/traffic/runtime account and actual startup log/probe verified: server listens on 8080 and STARTUP TCP probe passed in one attempt.
+5. Public `index-BYr_ZN5L.js` and `index-DhmSfYOb.css`, logo and all six original portraits match the verified build/public bytes exactly.
+6. Read-only predeployment snapshot: 30 rooms, zero running records. After deployment all 30 canonical field hashes and update times are unchanged. No cloud room/message/model QA writes, migrations or historical replay performed. Existing runtime account, data, credentials, limits and model configuration preserved; only image/RELEASE_SHA updated.
+
+Refresh the original URL (Cmd/Ctrl + Shift + R if cached). Rollback image: `sha256:a72ff13e4d6d8ff4ce7c6437bb51d1626e27b475f75504d984e5117a9a96cd04` from revision `fishmarket-00013-8fk`; preserve Firestore and do not replay historical work. Accepted video and Alpha's local deployment are untouched. [Per-file changes](change-summary.md).
+
+---
+
+# Available-controls cleanup — 2026-10-19 (previous snapshot)
+
+The following describes revision 00013, superseded by the creation-dialog refinement above.
 
 ## Running source and scope
 
