@@ -68,7 +68,7 @@ describe("production creation and profile dialogs", () => {
   afterEach(() => vi.restoreAllMocks());
   it("submits exactly selected teammates and prevents creation without a reviewer", () => {
     nativeDialogs(); const create = vi.fn();
-    render(<NewRoomDialog defaultTitle="Pair work" busy={false} error={null} hasDraft onClose={() => {}} onCreate={create}/>);
+    render(<NewRoomDialog defaultTitle="Pair work" busy={false} error={null} onClose={() => {}} onCreate={create}/>);
     fireEvent.click(screen.getByRole("checkbox", { name: "Include Delivery - Anchor" }));
     fireEvent.click(screen.getByRole("checkbox", { name: "Include Quality - Puffer" }));
     fireEvent.click(screen.getByRole("checkbox", { name: "Include Design - Coral" }));
@@ -78,7 +78,24 @@ describe("production creation and profile dialogs", () => {
     expect((screen.getByRole("button", { name: "Create room ↗" }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.submit(screen.getByRole("textbox", { name: "Room name" }).closest("form")!);
     expect(create).toHaveBeenCalledTimes(1);
-    expect(screen.getByText(/Choose at least two agents/)).toBeTruthy();
+    expect(screen.queryByText(/Choose at least two agents/)).toBeNull();
+  });
+  it("omits the annotated member counts and preservation copy without removing member selection", () => {
+    nativeDialogs(); render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} onClose={() => {}} onCreate={() => {}}/>);
+    for (const copy of [/including you/, /Always included/, /Choose at least two agents/, /Your existing rooms/, /Your unsent draft/]) expect(screen.queryByText(copy)).toBeNull();
+    expect(screen.getByRole("group", { name: /^Members$/ })).toBeTruthy();
+    expect(screen.getAllByRole("checkbox")).toHaveLength(5);
+    expect(screen.getByText("You", { exact: true })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Cancel" })).toBeTruthy();
+  });
+  it("uses a symmetric vector close icon instead of a font-dependent multiplication glyph", () => {
+    nativeDialogs(); const close = vi.fn();
+    render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} onClose={close} onCreate={() => {}}/>);
+    const button = screen.getByRole("button", { name: "Close dialog" });
+    expect(button.textContent).toBe("");
+    expect(button.querySelector('svg[viewBox="0 0 24 24"][aria-hidden="true"] path')?.getAttribute("d")).toBe("m6 6 12 12M6 18 18 6");
+    fireEvent.click(button.querySelector("svg")!);
+    expect(close).toHaveBeenCalledTimes(1);
   });
   it("retains position information without any Message action", () => {
     nativeDialogs(); render(<AgentProfileDialog member={MEMBERS[2]!} onClose={() => {}}/>);
@@ -110,7 +127,7 @@ describe("production creation and profile dialogs", () => {
   });
   it("keeps creation dismissal available without treating its blank padding as a backdrop", () => {
     nativeDialogs(); const close = vi.fn();
-    render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} hasDraft={false} onClose={close} onCreate={() => {}}/>);
+    render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} onClose={close} onCreate={() => {}}/>);
     const dialog = screen.getByRole("dialog");
     vi.spyOn(dialog, "getBoundingClientRect").mockReturnValue({ left: 250, right: 850, top: 100, bottom: 700 } as DOMRect);
     fireEvent.click(dialog, { clientX: 270, clientY: 120 });

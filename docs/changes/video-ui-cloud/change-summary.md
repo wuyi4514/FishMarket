@@ -1,5 +1,19 @@
 # Changes by file
 
+## 2026-10-19 follow-up 2
+
+| File | Completed change |
+| --- | --- |
+| src/web/RoomDialogs.tsx | Remove annotated selected-count/Always included/reviewer/preservation copy; remove unused hasDraft presentation prop; reuse existing symmetric close SVG in the shared modal |
+| src/web/App.tsx | Stop passing the deleted presentation-only prop; draft storage and room behavior remain unchanged |
+| src/web/room-features.css | Grid-center the 18px vector icon in the 30px circle with zero padding; retain balanced creation-footer spacing after copy removal |
+| tests/chat-components.test.tsx | Negative copy, member-selection enforcement and accessible SVG click regressions; update current prop contract |
+| docs/changes/video-ui-cloud/task_plan.md | Scope, phases and unchanged behavioral boundaries |
+| docs/changes/video-ui-cloud/findings.md | Exact annotation scope and font-metric cause of icon offset |
+| docs/changes/video-ui-cloud/progress.md | Red-first tests, corrected test typing, 85-test full Gate, browser geometry/draft/minimum-member checks and predeploy snapshot |
+| docs/changes/video-ui-cloud/create-dialog-cleanup.jpg | Actual local desktop fixture screenshot showing concise dialog and centered close icon |
+| docs/changes/video-ui-cloud/change-summary.md | This per-file follow-up record |
+
 ## 2026-10-19 follow-up
 
 | File | Completed change |

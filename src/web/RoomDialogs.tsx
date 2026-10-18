@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { TEAM_CATALOG, type AgentId, type AgentProfile } from "../contracts/group";
-import { Avatar } from "./ChatPrimitives";
+import { Avatar, Icon } from "./ChatPrimitives";
 
 export function Modal({ titleId, onClose, busy = false, children, className = "", dismissal = "standard" }: { titleId: string; onClose: () => void; busy?: boolean; children: ReactNode; className?: string; dismissal?: "standard" | "close-button-only" }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -16,11 +16,11 @@ export function Modal({ titleId, onClose, busy = false, children, className = ""
     const bounds = event.currentTarget.getBoundingClientRect();
     if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) onClose();
   }}>
-    <button className="dialog-close" type="button" aria-label="Close dialog" disabled={busy} onClick={onClose}>×</button>
+    <button className="dialog-close" type="button" aria-label="Close dialog" disabled={busy} onClick={onClose}><Icon type="close"/></button>
     {children}
   </dialog>;
 }
-export function NewRoomDialog({ defaultTitle, busy, error, hasDraft, onClose, onCreate }: { defaultTitle: string; busy: boolean; error: string | null; hasDraft: boolean; onClose: () => void; onCreate: (title: string, members: AgentId[]) => void }) {
+export function NewRoomDialog({ defaultTitle, busy, error, onClose, onCreate }: { defaultTitle: string; busy: boolean; error: string | null; onClose: () => void; onCreate: (title: string, members: AgentId[]) => void }) {
   const [title, setTitle] = useState(defaultTitle);
   const [selected, setSelected] = useState<AgentId[]>(TEAM_CATALOG.map(member => member.id));
   return <Modal titleId="new-room-heading" onClose={onClose} busy={busy} className="create-dialog">
@@ -29,12 +29,10 @@ export function NewRoomDialog({ defaultTitle, busy, error, hasDraft, onClose, on
     <form onSubmit={event => { event.preventDefault(); if (!busy && title.trim() && selected.length >= 2) onCreate(title.trim(), TEAM_CATALOG.filter(member => selected.includes(member.id)).map(member => member.id)); }}>
       <label className="room-title-label" htmlFor="new-room-title">Room name</label>
       <input id="new-room-title" data-initial-focus required maxLength={80} value={title} disabled={busy} onChange={event => setTitle(event.target.value)}/>
-      <fieldset className="room-members-picker" disabled={busy} aria-describedby="room-members-help"><legend>Members <span>{selected.length + 1} including you</span></legend>
-        <div className="included-human"><Avatar id="human" small/><span>You</span><small>Always included</small></div>
+      <fieldset className="room-members-picker" disabled={busy}><legend>Members</legend>
+        <div className="included-human"><Avatar id="human" small/><span>You</span></div>
         <div className="room-member-options">{TEAM_CATALOG.map(member => <label key={member.id} className={"room-member-option" + (selected.includes(member.id) ? " is-selected" : "")}><input type="checkbox" aria-label={"Include " + member.name} checked={selected.includes(member.id)} onChange={event => setSelected(current => event.target.checked ? [...current, member.id] : current.filter(id => id !== member.id))}/><Avatar id={member.id} small/><span><strong>{member.name}</strong><small>{member.role}</small></span></label>)}</div>
-        <p id="room-members-help">Choose at least two agents so each delivery can be independently reviewed.</p>
       </fieldset>
-      <div className="room-preservation"><span>↗</span><p>Your existing rooms and sent messages stay intact. You can return from the workspace list.{hasDraft ? " Your unsent draft stays with the current room in this tab." : ""}</p></div>
       {error && <p className="dialog-error" role="alert">{error}</p>}
       <div className="dialog-actions"><button type="button" className="secondary-action" disabled={busy} onClick={onClose}>Cancel</button><button type="submit" className="primary-action" disabled={busy || !title.trim() || selected.length < 2}>{busy ? "Creating room…" : "Create room ↗"}</button></div>
     </form>

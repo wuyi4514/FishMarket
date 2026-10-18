@@ -11,3 +11,7 @@
 - `Modal` currently equates `event.target === event.currentTarget` with backdrop interaction. Native dialog padding also targets the dialog itself, so a blank sheet area incorrectly dismisses it.
 - Member details requires an explicit close-button-only policy, including ignoring backdrop and Escape. Creation/directory dialogs retain normal dismissal, but creation padding must not count as backdrop.
 - Hide Announcements/Space, the work/team/grid rail entries, the account avatar and uninstalled Skills/Tools tabs. Keep actual Profile/Models, header directory, group search/filters, creation, messaging and recommendations. Hidden delivery-view components need not be deleted or change persisted facts.
+
+## Creation copy / close-icon annotations
+- Remove the selected-count suffix, Always included label, reviewer hint and preservation/draft paragraph. Keep the You row, teammate checkboxes, title/intro/name and actions. Removing prose does not change the two-agent minimum or workspace/draft storage behavior.
+- Shared close button renders the font glyph × in a fixed 30px circle without explicit centering/padding reset. Reuse the existing symmetric close SVG with grid centering and zero padding to avoid font-metric offsets across all native dialogs.

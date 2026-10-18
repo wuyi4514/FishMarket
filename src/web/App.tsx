@@ -186,7 +186,7 @@ export function App() {
       </div>
       </div>
     </main>
-    {showNewRoom && <NewRoomDialog defaultTitle={"Working room " + ((workspace?.rooms.length ?? 0) + 1)} busy={transitioning} error={creationError} hasDraft={!!draft.trim()} onClose={() => setShowNewRoom(false)} onCreate={(title, members) => void newRoom(title, members)}/>}
+    {showNewRoom && <NewRoomDialog defaultTitle={"Working room " + ((workspace?.rooms.length ?? 0) + 1)} busy={transitioning} error={creationError} onClose={() => setShowNewRoom(false)} onCreate={(title, members) => void newRoom(title, members)}/>}
     {showTeam && <TeamDialog members={members} onClose={() => setShowTeam(false)}
       onOpenProfile={id => { setShowTeam(false); setProfileId(id); }}/>}
     {profile && <AgentProfileDialog key={profile.id} member={profile} model={modelName} onClose={() => setProfileId(null)}/>}

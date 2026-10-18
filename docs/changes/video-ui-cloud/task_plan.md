@@ -28,3 +28,12 @@ Rollback: redeploy prior immutable image, preserving Firestore. Since prior soft
 5. Record per-file changes and release evidence; no PR before acceptance — complete; user acceptance pending.
 
 Boundary: UI-only change. Preserve all contracts, frozen identities, model context, storage and recovery. Existing real member/model controls, recommendations and creation remain available. Rollback uses the prior immutable image without database changes.
+
+## 2026-10-19 follow-up 2: concise creation dialog and centered close icon
+1. Add failing actual-component tests for annotated copy and vector icon — complete (red reproduced first).
+2. Remove only annotated creation copy; center the shared close icon without changing dismissal or selection rules — complete.
+3. Full offline Gate and actual desktop/mobile browser geometry/click checks — complete (85 tests, both typechecks/builds; center delta 0,0).
+4. Snapshot rooms/active runs, commit/CI, deploy and verify exact assets/history — pending.
+5. Record per-file release evidence and user acceptance entry; no PR — pending.
+
+No server/contract/state changes. Keep required member count enforcement, draft preservation, original avatars and recommendations. Roll back to revision 00013 image if necessary, without data edits or replay.
