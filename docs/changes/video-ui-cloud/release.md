@@ -1,6 +1,38 @@
-# Film-aligned cloud release — 2026-10-18
+# Available-controls cleanup — 2026-10-19 (current)
 
-## Running deployment
+## Running source and scope
+
+- Entry: https://fishmarket-893821979623.asia-northeast1.run.app
+- Exact runtime source / health tag: `45b8a005e1938f26c9231fc0d9a5bd930d72e9bf`.
+- Branch: `codex/video-ui-cloud-alignment`; no new PR or main merge; user acceptance pending.
+- Revision: `fishmarket-00013-8fk`, Ready, Active, 100% traffic.
+- Resolved image: `sha256:a72ff13e4d6d8ff4ce7c6437bb51d1626e27b475f75504d984e5117a9a96cd04`.
+- Regional Cloud Build: `fea07830-82e4-4410-b640-91e821f10410`, SUCCESS.
+- [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39144632677), success.
+- One container continues to serve web/API. Runtime account remains `fishmarket-runtime@fishmarket-abc-2026-4514.iam.gserviceaccount.com`. Deployment updates image and RELEASE_SHA only; no schema, credentials, permissions or model changes.
+
+Hidden: Announcements, Space, work/member/grid rail shortcuts, account avatar and uninstalled Skills/Tools detail tabs. Kept: Messages, actual Profile/Models, header room directory, group creation, search/filters, mentions and recommendations. Member details only dismisses through X; padding, transparent backdrop and Escape do not dismiss. The duplicate return button is removed. Other dialogs still support normal cancellation, without mistaking internal padding for backdrop.
+
+## Verification and limits
+
+1. Red-first production-render and dialog-event tests reproduced the bug before implementation. Full `pnpm verify`: 83 tests, both typechecks and both builds passed.
+2. Actual local browser at 1280px verified the hidden controls, real Models panel, member padding/outside/Escape no-dismissal, X dismissal and restored trigger focus. Recommendations still fill the composer. New-room padding does not dismiss; backdrop and Escape still cancel. At 390px the member sheet fits without horizontal overflow and blank/Escape do not close it. Temporary viewport reset; test tabs and dev processes stopped.
+3. Local screenshot: [member-details-cleanup.jpg](member-details-cleanup.jpg). It is a fixture preview, not a live-cloud screenshot. Remote tab attachment again timed out; remote click verification is not claimed.
+4. Cloud health independently reports ready, Firestore, Vertex AI, unchanged `gemini-3.5-flash-lite` and the exact full source SHA above. Ready/Active revision, resolved digest, traffic and runtime account verified using Cloud Run control-plane reads.
+5. Public `index-CwAxwY3_.js` and `index-BKESih8d.css`, logo and all six portraits match the verified local build/public assets byte for byte. Source comparison confirms no server/contracts/dependency/Dockerfile changes relative to the previous deployed source.
+6. Before deployment: 30 existing rooms, zero running records. After deployment: all 30 canonical field hashes and update times unchanged. No cloud QA room, inference, message write or historical replay was performed for this UI-only follow-up. The earlier live-model evidence below is historical and was not rerun.
+
+Refresh the existing URL with Cmd/Ctrl + Shift + R if cached. No browser storage or group needs to be deleted. The accepted video and Alpha's local deployment are unchanged. Per-file changes are in [change-summary.md](change-summary.md).
+
+Rollback: redeploy the previous immutable image `sha256:bcf65fdf7553928d136a4d01fbda42a08962f6ef6bea34808690cb25b6a32749` from revision `fishmarket-00012-cmx`, preserving Firestore and credentials. Both versions support the same contracts/checkpoints; do not replay historical work.
+
+---
+
+# Film-aligned cloud release — 2026-10-18 (historical snapshot)
+
+The following evidence describes the previous release, not the current visible controls or runtime.
+
+## Previous deployment
 
 - Entry: https://fishmarket-893821979623.asia-northeast1.run.app
 - Source: `77755e247870bd8257cde2fd613eedcea608e9e5`; health release tag `77755e2`.

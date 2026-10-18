@@ -11,6 +11,8 @@
 | tests/chat-components.test.tsx | Member padding/backdrop/Escape no-dismissal and explicit close; normal creation dismissal and model/profile visibility regression |
 | README.md | Correct currently available UI controls |
 | docs/technical-overview.md | Document visible features and explicit member-sheet dismissal without claiming unavailable capabilities |
+| docs/release.md | Current runtime source/revision, 83-test Gate and verified evidence limits |
+| docs/changes/video-ui-cloud/release.md | Exact cloud digest/build/CI/traffic, unchanged history, rollback and local versus remote browser evidence; preserve prior snapshot |
 | docs/changes/video-ui-cloud/task_plan.md | Follow-up scope, UI-only boundary and phase status |
 | docs/changes/video-ui-cloud/findings.md | Root cause and keep/hide decision |
 | docs/changes/video-ui-cloud/progress.md | Red-first tests, 83-test Gate, actual desktop/mobile evidence and cloud snapshot |

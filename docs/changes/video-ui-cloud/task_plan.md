@@ -24,7 +24,7 @@ Rollback: redeploy prior immutable image, preserving Firestore. Since prior soft
 1. Add production-render and dialog-event regression tests — complete (red reproduced first).
 2. Hide unsupported navigation and Skills/Tools placeholders; make member details close-button-only — complete.
 3. Run focused/full offline Gate and actual desktop/mobile interactions — complete (83 tests, both typechecks/builds; desktop and 390px).
-4. Snapshot existing records, commit, deploy and verify exact assets/history — pending.
-5. Record per-file changes and release evidence; no PR before acceptance — pending.
+4. Snapshot existing records, commit, deploy and verify exact assets/history — complete (45b8a00, revision 00013; 30 records unchanged).
+5. Record per-file changes and release evidence; no PR before acceptance — complete; user acceptance pending.
 
 Boundary: UI-only change. Preserve all contracts, frozen identities, model context, storage and recovery. Existing real member/model controls, recommendations and creation remain available. Rollback uses the prior immutable image without database changes.
