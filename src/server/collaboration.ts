@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { ZodError } from "zod";
 import {
-  MEMBERS, roomMembersSchema, contributionPolicy, admissionSchema, ownerActionSchema, contributionSchema, reviewSchema,
+  MEMBERS, TEAM_CATALOG, roomMembersSchema, teamMembersSchema, contributionPolicy, admissionSchema, ownerActionSchema, contributionSchema, reviewSchema,
   type Room, type Message, type HumanMessageInput, type Outcome, type AgentId,
   type Admission, type OwnerAction, type ContributionResult, type ReviewResult
 } from "../contracts/group.js";
@@ -23,9 +23,10 @@ function reviewerFor(room: Room, outcome: Outcome): AgentId {
 }
 export class Collaboration {
   constructor(readonly store: RoomStore, private model: ModelGateway, private dailyLimit = 300) {}
-  async create(title: string, members: AgentId[] = MEMBERS.map(member => member.id)) {
-    const selected = roomMembersSchema.parse(members);
-    const profiles = structuredClone(MEMBERS.filter(member => selected.includes(member.id)));
+  async create(title: string, members?: AgentId[], catalog: "legacy" | "team" = "legacy") {
+    const selected = (catalog === "team" ? teamMembersSchema : roomMembersSchema).parse(members ?? (catalog === "team" ? TEAM_CATALOG : MEMBERS).map(member => member.id));
+    const profiles = structuredClone((catalog === "team" ? TEAM_CATALOG : MEMBERS).filter(member => selected.includes(member.id)));
+    if (profiles.length !== selected.length) throw new Error("MEMBER_REF_INVALID");
     const id = randomUUID(), token = randomUUID(); const now = new Date().toISOString();
     const room: Room = { contractVersion: "room-v1", id, title, accessHash: hash(token), version: 0, members: profiles.map(member => member.id), agentProfiles: profiles, messages: [], outcomes: [], run: null, receipts: [], totalCalls: 0, createdAt: now, updatedAt: now };
     await this.store.create(room); return { room, token };

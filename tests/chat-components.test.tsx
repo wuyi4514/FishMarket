@@ -69,11 +69,12 @@ describe("production creation and profile dialogs", () => {
   it("submits exactly selected teammates and prevents creation without a reviewer", () => {
     nativeDialogs(); const create = vi.fn();
     render(<NewRoomDialog defaultTitle="Pair work" busy={false} error={null} hasDraft onClose={() => {}} onCreate={create}/>);
-    fireEvent.click(screen.getByRole("checkbox", { name: "Include Harbor" }));
-    fireEvent.click(screen.getByRole("checkbox", { name: "Include Beacon" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Delivery - Anchor" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Quality - Puffer" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Design - Coral" }));
     fireEvent.click(screen.getByRole("button", { name: "Create room ↗" }));
     expect(create).toHaveBeenCalledWith("Pair work", ["reef", "sail"]);
-    fireEvent.click(screen.getByRole("checkbox", { name: "Include Sail" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Content - Anemone" }));
     expect((screen.getByRole("button", { name: "Create room ↗" }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.submit(screen.getByRole("textbox", { name: "Room name" }).closest("form")!);
     expect(create).toHaveBeenCalledTimes(1);

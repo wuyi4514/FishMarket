@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { MEMBERS, type AgentId, type AgentProfile } from "../contracts/group";
+import { TEAM_CATALOG, type AgentId, type AgentProfile } from "../contracts/group";
 import { Avatar } from "./ChatPrimitives";
 
 export function Modal({ titleId, onClose, busy = false, children, className = "" }: { titleId: string; onClose: () => void; busy?: boolean; children: ReactNode; className?: string }) {
@@ -17,16 +17,16 @@ export function Modal({ titleId, onClose, busy = false, children, className = ""
 }
 export function NewRoomDialog({ defaultTitle, busy, error, hasDraft, onClose, onCreate }: { defaultTitle: string; busy: boolean; error: string | null; hasDraft: boolean; onClose: () => void; onCreate: (title: string, members: AgentId[]) => void }) {
   const [title, setTitle] = useState(defaultTitle);
-  const [selected, setSelected] = useState<AgentId[]>(MEMBERS.map(member => member.id));
+  const [selected, setSelected] = useState<AgentId[]>(TEAM_CATALOG.map(member => member.id));
   return <Modal titleId="new-room-heading" onClose={onClose} busy={busy} className="create-dialog">
     <h2 id="new-room-heading">Create a group chat</h2>
     <p className="dialog-intro">Choose your teammates. Start with a clean shared context.</p>
-    <form onSubmit={event => { event.preventDefault(); if (!busy && title.trim() && selected.length >= 2) onCreate(title.trim(), MEMBERS.filter(member => selected.includes(member.id)).map(member => member.id)); }}>
+    <form onSubmit={event => { event.preventDefault(); if (!busy && title.trim() && selected.length >= 2) onCreate(title.trim(), TEAM_CATALOG.filter(member => selected.includes(member.id)).map(member => member.id)); }}>
       <label className="room-title-label" htmlFor="new-room-title">Room name</label>
       <input id="new-room-title" data-initial-focus required maxLength={80} value={title} disabled={busy} onChange={event => setTitle(event.target.value)}/>
       <fieldset className="room-members-picker" disabled={busy} aria-describedby="room-members-help"><legend>Members <span>{selected.length + 1} including you</span></legend>
         <div className="included-human"><Avatar id="human" small/><span>You</span><small>Always included</small></div>
-        <div className="room-member-options">{MEMBERS.map(member => <label key={member.id} className={"room-member-option" + (selected.includes(member.id) ? " is-selected" : "")}><input type="checkbox" aria-label={"Include " + member.name} checked={selected.includes(member.id)} onChange={event => setSelected(current => event.target.checked ? [...current, member.id] : current.filter(id => id !== member.id))}/><Avatar id={member.id} small/><span><strong>{member.name}</strong><small>{member.role}</small></span></label>)}</div>
+        <div className="room-member-options">{TEAM_CATALOG.map(member => <label key={member.id} className={"room-member-option" + (selected.includes(member.id) ? " is-selected" : "")}><input type="checkbox" aria-label={"Include " + member.name} checked={selected.includes(member.id)} onChange={event => setSelected(current => event.target.checked ? [...current, member.id] : current.filter(id => id !== member.id))}/><Avatar id={member.id} small/><span><strong>{member.name}</strong><small>{member.role}</small></span></label>)}</div>
         <p id="room-members-help">Choose at least two agents so each delivery can be independently reviewed.</p>
       </fieldset>
       <div className="room-preservation"><span>↗</span><p>Your existing rooms and sent messages stay intact. You can return from the workspace list.{hasDraft ? " Your unsent draft stays with the current room in this tab." : ""}</p></div>
@@ -35,14 +35,18 @@ export function NewRoomDialog({ defaultTitle, busy, error, hasDraft, onClose, on
     </form>
   </Modal>;
 }
-export function AgentProfileDialog({ member, onClose }: { member: AgentProfile; onClose: () => void }) {
+export function AgentProfileDialog({ member, onClose, model = "Gemini · Vertex AI" }: { member: AgentProfile; onClose: () => void; model?: string }) {
+  const [section, setSection] = useState("Profile");
   return <Modal titleId="agent-profile-heading" onClose={onClose} className="profile-dialog">
-    <p className="eyebrow">MEET YOUR TEAMMATE</p>
-    <div className="profile-heading"><span className="avatar profile-avatar" style={{ background: member.color }}>{member.initials}</span><div><h2 id="agent-profile-heading">{member.name}</h2><span className="profile-position">{member.role}</span></div></div>
+    <p className="profile-panel-title">Member details</p>
+    <div className="profile-heading"><Avatar id={member.id}/><div><h2 id="agent-profile-heading">{member.name}</h2><span className="profile-position">{member.role}</span></div></div>
+    <div className="profile-tabs" role="tablist" aria-label="Member details">{["Profile", "Models", "Skills", "Tools"].map(value => <button key={value} role="tab" aria-selected={section === value} onClick={() => setSection(value)}>{value}</button>)}</div>
+    {section === "Profile" ? <>
     <p className="dialog-intro">{member.capability}</p>
     <section className="profile-section"><h3>Position responsibilities</h3><ol>{member.responsibilities.map((item, index) => <li key={item}><span>0{index + 1}</span><p>{item}</p></li>)}</ol></section>
     <section className="profile-section profile-boundaries"><h3>Capability boundaries</h3><ul>{member.boundaries.map(item => <li key={item}>{item}</li>)}</ul></section>
     <p className="profile-scope">This is a persistent job identity. Outcome owner, contributor and independent reviewer are separate assignments for each goal. No teammate has external tools connected in this prototype.</p>
+    </> : <section className="profile-capabilities"><h3>{section}</h3>{section === "Models" ? <><strong>{model}</strong><p>Responses use the server-configured model. Credentials stay on the server.</p></> : section === "Skills" ? <><strong>Role-guided work</strong><p>The role, responsibilities and boundaries shown in Profile are supplied to the model. This cloud prototype does not install separate Skill packages.</p></> : <><strong>No external tools connected</strong><p>Agents collaborate using the shared conversation and save written deliveries for independent review. Image generation, presentation export and external publishing are not connected.</p></>}</section>}
     <div className="dialog-actions"><button type="button" className="secondary-action" onClick={onClose}>Back to the room</button></div>
   </Modal>;
 }

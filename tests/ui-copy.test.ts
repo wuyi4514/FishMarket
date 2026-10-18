@@ -19,7 +19,7 @@ describe("annotated copy cleanup using the production App", () => {
   });
   it("retains main content, room and member controls, shortcut and the unmarked safety footnote", () => {
     const html = renderToStaticMarkup(createElement(App));
-    for (const kept of ["NeoOrg", "Bring a goal.", "Build an outcome.", "Create a group chat", "Working rooms", "View Harbor profile", "View Reef profile", "View Sail profile", "View Beacon profile", "⌘ / Ctrl + Enter to send", "AI can make mistakes."]) expect(html).toContain(kept);
+    for (const kept of ["NeoOrg", "Start with a shared goal", "Create a group chat", "Working rooms", "View Delivery - Anchor profile", "View Product - Spark profile", "View Content - Anemone profile", "View Design - Coral profile", "View Quality - Puffer profile", "⌘ / Ctrl + Enter to send", "AI can make mistakes."]) expect(html).toContain(kept);
     expect(html).not.toContain("Start a fresh room"); expect(html).not.toContain("Message recipient");
     expect(html).not.toContain("Message the whole team"); expect(html).not.toContain("FishMarket</");
     expect(html).toContain('/brand/neoorg-logo.png');
@@ -30,7 +30,7 @@ describe("annotated copy cleanup using the production App", () => {
     expect(html).toContain('class="example-grid"');
     expect(html).not.toContain('class="welcome-team"'); expect(html).not.toContain('class="welcome-mark"');
     expect(html).toContain('class="brand-icon"'); expect(html).toContain('class="avatar-stack"');
-    expect(html.match(/aria-label="View Reef profile"/g)).toHaveLength(2);
+    expect(html.match(/aria-label="View Product - Spark profile"/g)).toHaveLength(2);
   });
   it("exposes real NeoOrg-aligned group and composer controls without unimplemented actions", () => {
     const html = renderToStaticMarkup(createElement(App));

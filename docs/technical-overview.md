@@ -2,7 +2,7 @@
 
 ## Product and architectural thesis
 
-NeoOrg is a human-and-AI group workspace for turning a shared goal into a reviewed deliverable. Each new group selects 2–4 persistent teammates from a four-Agent catalog; the human is always included. An ordinary question can receive one reply; substantial work has exactly one accountable outcome owner, selective contributions and an independent review.
+NeoOrg is a human-and-AI group workspace for turning a shared goal into a reviewed deliverable. New groups select 2–5 persistent teammates from the film-aligned Delivery, Product, Content, Design and Quality catalog; the human is always included. Original rooms retain their frozen four-Agent identities. An ordinary question can receive one reply; substantial work has exactly one accountable outcome owner, selective contributions and an independent review.
 
 The architecture adopts NeoOrg V3's Outcome Ownership design and its conversation-native interaction patterns. The initial prototype was implemented separately as FishMarket; the current product now uses NeoOrg's name and original logo while retaining existing repository/cloud identifiers and business history. It remains a focused Google Cloud implementation, not the complete NeoOrg platform. The broader design is a reference, not evidence that every proposed capability exists here.
 
@@ -42,7 +42,7 @@ The existing deployment uses project `fishmarket-abc-2026-4514`, Cloud Run / Fir
 
 | NeoOrg V3 principle | Current implementation | Deliberate limit |
 |---|---|---|
-| Group outlives a task | Durable room, selected frozen member profiles, multiple sequential outcomes | 2–4 Agents from a fixed catalog; membership is chosen at creation, not edited later |
+| Group outlives a task | Durable room, selected frozen member profiles, multiple sequential outcomes | 2–5 Agents from a fixed catalog; membership is chosen at creation, not edited later |
 | One outcome, one owner | `Outcome.owner`, validated owner scope, owner retained through revisions and review repair | No owner transfer or owner-assignment epochs |
 | Ordinary chat is not always a task | `reply_only` versus `open_outcome`; linked follow-up can `revise_outcome` | Continuing existing work is selected explicitly in the composer; no general historical outcome search |
 | Selective contribution | Engineering reserves one independent reviewer; maximum contributors = min(2, selected Agents − 2) | Sequential execution; no recursive delegation or parallel worker pool |
@@ -50,7 +50,7 @@ The existing deployment uses project `fishmarket-abc-2026-4514`, Cloud Run / Fir
 | Independent review | Reviewer excludes owner and current contributing authors; every frozen criterion is assessed | One prototype review policy; no separate post-review human-acceptance policy |
 | Human judgment remains distinct | Persistent input gate and explicit follow-up tied to the outcome | No external action approvals, scheduled waits or effect execution |
 | Engineering owns execution facts | Application allocates IDs, versions, order, receipts, fences and transitions | Bounded single-room aggregate rather than V3's proposed independent relational aggregates |
-| Minimal role-specific context | Current production `group-model-context-v3` builder, selected jobs, bounded delegation policy and four mutually exclusive scopes | No authorized on-demand tool search or private long-term Agent memory |
+| Minimal role-specific context | Production context-v3/v4 builder, selected frozen jobs, bounded delegation policy and four mutually exclusive scopes | v4 permits a fifth member; no authorized on-demand tool search or private long-term Agent memory |
 | Recovery is visible | Lease expiry, durable reason/owner/next action, explicit resume and no replay of committed messages | No unattended scheduler or automatic takeover |
 | UI projects authoritative facts | Message roles, owner, criteria, outcome status and recovery come from persisted `RoomView` | No state inferred from “done” or similar text in a message |
 
@@ -98,7 +98,7 @@ Source: [`group.ts`](../src/contracts/group.ts), [`model.ts`](../src/server/mode
 - Browser code has no direct Firestore access and no Gemini credential. Cloud Run uses its attached service account / Application Default Credentials with scoped Firestore and Vertex AI roles. No user-provided API key is needed in the demo browser.
 - Job descriptions do not confer tool permissions. There are no connected external tools, web-search evidence retrieval, mail sending, spending or business-system writes. Supplied evidence is evaluated as supplied, not independently fetched or externally verified.
 - One execution runs per room. Busy responses preserve the draft. The browser fences old-room and old-version responses, and switching rooms retains separate in-tab drafts. Routing is derived from each draft, never retained in hidden recipient state.
-- `create-room-v2` requires 2–4 unique known Agent IDs. The server freezes exactly the selected jobs. Legacy `create-room-v1` deliberately creates all four original members. Both persist as `room-v1`; existing capabilities, profiles and checkpoints need no rewrite. Any explicit out-of-group target is rejected before a message, receipt, budget claim or model invocation, even when continuing an existing outcome.
+- `create-room-v3` requires 2–5 unique known Agent IDs from the film-aligned catalog and freezes their actual job profiles. Legacy `create-room-v2` retains the 2–4 original-position selection, and v1 deliberately creates all four original members. All persist as `room-v1`; existing capabilities, profiles and checkpoints need no rewrite. Any explicit out-of-group target is rejected before a message, receipt, budget claim or model invocation, even when continuing an existing outcome.
 - Current limits include 4,000-character human input, at most two requested contributors per revision, 16 calls per execution, 80 calls per room, and a shared 300-call UTC-day limit. These are call-count limits, not a fixed currency-cost guarantee. Context keeps up to 12 recent messages and a bounded character budget, not the full history.
 - Current Cloud Run configuration allows scale-to-zero with a maximum of two instances. Cold starts and model/provider errors remain possible. Health probes storage readiness; they do not prove a real Gemini inference succeeds.
 - Public-demo users should not enter confidential business information. The application does not claim deletion/export administration, enterprise retention compliance or a production security certification.
@@ -108,6 +108,8 @@ Source: [`http.ts`](../src/server/http.ts), [`room-store.ts`](../src/server/room
 ## Conversation-native UI
 
 The current iteration adapts NeoOrg's compact group header, quiet blue/gray surfaces, right-aligned human bubbles, left-aligned professional Agent messages, role tags, hover/focus message copy, profile side sheets and non-disruptive latest-message navigation.
+
+The film-aligned shell uses the same original sea-creature portraits, narrow icon navigation, inset composite group avatars, group-list filters/search, Messages/Announcements/Space tabs and complete-name mention chips. Announcements projects committed outcome milestones and input requests; Space opens persisted written deliveries and the reviews bound to them. No mock film messages or invented files are seeded. Profile tabs distinguish role guidance, the actual configured model and the absence of separately installed Skills/external Tools. Visual parity does not imply film-only file-generation capabilities.
 
 The `@` picker inserts a visible mention in the body; there is no separate To dropdown or profile Message action. Exactly one distinct current-room mention determines the existing single structured target at send time. No mention or several distinct mentions use group admission, which can choose an appropriate owner; this is not multi-dispatch or a new authorization system. Continuing an existing goal keeps its recorded owner, irrespective of a different teammate mentioned in the draft.
 

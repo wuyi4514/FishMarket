@@ -4,10 +4,10 @@ import { roomProfiles, contributionPolicy, jobIdentitySchema, wireProtocols, ass
 
 const memberContext = jobIdentitySchema.extend({ ref: z.string() }).strict();
 export const modelContextSchema = z.object({
-  contractVersion: z.literal("group-model-context-v3"), scope: z.enum(["admission", "owner", "contributor", "review"]),
+  contractVersion: z.enum(["group-model-context-v3", "group-model-context-v4"]), scope: z.enum(["admission", "owner", "contributor", "review"]),
   identity: jobIdentitySchema,
-  members: z.array(memberContext).max(4),
-  delegation: z.object({ candidateRefs: z.array(z.enum(["M1", "M2", "M3", "M4"])).max(3), limit: z.number().int().min(0).max(2) }).strict(),
+  members: z.array(memberContext).max(5),
+  delegation: z.object({ candidateRefs: z.array(z.enum(["M1", "M2", "M3", "M4", "M5"])).max(4), limit: z.number().int().min(0).max(2) }).strict(),
   history: z.array(z.object({ author: z.string(), role: z.string(), body: z.string().max(4000) }).strict()).max(12),
   goal: z.object({ goal: z.string(), criteria: z.array(z.object({ ref: z.string(), text: z.string() }).strict()).min(1).max(5), constraints: z.array(z.string()) }).strict().nullable(),
   contributionGoal: z.string().nullable(),
@@ -15,7 +15,9 @@ export const modelContextSchema = z.object({
   delivery: z.object({ body: z.string().max(6000), resultKind: z.string() }).strict().nullable(),
   reviewIssues: z.array(z.object({ severity: z.string(), description: z.string() }).strict()).max(5),
   requestedMember: z.string().nullable()
-}).strict();
+}).strict().superRefine((value, context) => {
+  if (value.contractVersion === "group-model-context-v3" && (value.members.length > 4 || value.delegation.candidateRefs.includes("M5"))) context.addIssue({ code: "custom", message: "Context v3 cannot carry a fifth member" });
+});
 export type ModelContext = z.infer<typeof modelContextSchema>;
 export interface ModelGateway { respond<T>(context: ModelContext, schema: z.ZodType<T>): Promise<T>; }
 export function memberRefs(room: Room) { return roomProfiles(room).map((member, index) => ({ ...member, ref: `M${index + 1}` })); }
@@ -34,10 +36,10 @@ export function buildModelContext(room: Room, requestedMember: AgentId | null = 
   const visibleHistory = run.scope === "review" ? room.messages.filter(message => message.author === "human") : room.messages;
   const policy = run.scope === "owner" && outcome ? contributionPolicy(room, outcome) : { candidates: [], limit: 0 };
   const context: ModelContext = {
-    contractVersion: "group-model-context-v3", scope: run.scope,
+    contractVersion: profiles.length > 4 ? "group-model-context-v4" : "group-model-context-v3", scope: run.scope,
     identity: identity(agent),
     members: memberRefs(room).map(member => ({ ref: member.ref, ...identity(member) })),
-    delegation: { candidateRefs: memberRefs(room).filter(member => policy.candidates.includes(member.id)).map(member => member.ref as "M1" | "M2" | "M3" | "M4"), limit: policy.limit },
+    delegation: { candidateRefs: memberRefs(room).filter(member => policy.candidates.includes(member.id)).map(member => member.ref as "M1" | "M2" | "M3" | "M4" | "M5"), limit: policy.limit },
     history: visibleHistory.slice(-12).map(message => ({ author: message.author === "human" ? "Human" : profiles.find(member => member.id === message.author)?.name ?? "System", role: message.role, body: message.body.slice(0, message.author === "human" ? 4000 : 1600) })),
     goal: goal ? { goal: goal.goal, criteria: goal.criteria.map((text, i) => ({ ref: `C${i + 1}`, text })), constraints: goal.constraints } : null,
     contributionGoal: contribution?.goal ?? null,

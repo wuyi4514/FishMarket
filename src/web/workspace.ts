@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MEMBERS, createRoomSchema, type AgentId, type RoomView } from "../contracts/group";
+import { TEAM_CATALOG, createRoomSchema, type AgentId, type RoomView } from "../contracts/group";
 
 export const workspaceKey = "fishmarket.workspace.v1";
 export const legacyRoomKey = "fishmarket.room.v1";
@@ -46,9 +46,9 @@ export class WorkspaceNavigator {
     }
     return this.create("The working room");
   }
-  create(title: string, members: AgentId[] = MEMBERS.map(member => member.id)): Promise<WorkspaceSelection> {
+  create(title: string, members: AgentId[] = TEAM_CATALOG.map(member => member.id)): Promise<WorkspaceSelection> {
     if (this.createPending) return this.createPending;
-    const clean = createRoomSchema.parse({ contractVersion: "create-room-v2", title, members });
+    const clean = createRoomSchema.parse({ contractVersion: "create-room-v3", title, members });
     if ((this.workspace?.rooms.length ?? 0) >= 100) return Promise.reject(new Error("This browser already remembers 100 rooms. Existing room access has been preserved."));
     this.epoch++;
     this.createPending = this.transport.create(clean.title, members).then(created => this.commit({ id: created.room.id, token: created.token }, created.room)).finally(() => { this.createPending = null; });
