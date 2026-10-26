@@ -44,15 +44,7 @@ The workspace uses NeoOrg's original portraits, composite group avatars and high
 
 ### How work moves
 
-```mermaid
-flowchart LR
-    Goal["Your goal"] --> Owner["One accountable owner"]
-    Owner -->|When useful| Team["Specialist contributions"]
-    Team --> Delivery["Owner integrates a delivery"]
-    Owner --> Delivery
-    Delivery --> Review["Independent review"]
-    Review --> Result["Reviewed result"]
-```
+![A shared goal moves through one owner, optional contributions, an integrated delivery and independent review](docs/images/collaboration-flow.svg)
 
 The owner integrates the work. The reviewer is not an author of that delivery. A reviewed plan still needs a human decision before anyone acts on it outside the prototype.
 

@@ -44,15 +44,7 @@ NeoOrg 探索另一种工作方式：人和 AI 同事围绕共享目标共事，
 
 ### 工作如何推进
 
-```mermaid
-flowchart LR
-    Goal["你提出目标"] --> Owner["一位结果负责人"]
-    Owner -->|按需| Team["专业同事贡献"]
-    Team --> Delivery["负责人整合交付"]
-    Owner --> Delivery
-    Delivery --> Review["独立评审"]
-    Review --> Result["已评审结果"]
-```
+![共享目标经由一位负责人、按需专业贡献、整合交付和独立评审形成结果](docs/images/collaboration-flow.zh-CN.svg)
 
 负责人整合工作，评审者不参与这份交付的创作。方案通过评审，并不等于获准在原型之外执行实际业务动作，这仍需由人决定。
 
