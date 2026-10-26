@@ -1,4 +1,10 @@
-# Creation dialog refinement — 2026-10-19 (current)
+# Source publication — 2026-10-26 (current)
+
+At the user's explicit request, [PR #2](https://github.com/wuyi4514/FishMarket/pull/2) merged the already deployed UI branch into main at `053fb5e77dcd43fe5b1d53cca0e2fd31407eaf5d`. The source branch head was `a040631`; a fresh local `pnpm verify` passed 85 tests, both typechecks and both builds, and PR CI passed. The pending-source-merge statements below are historical snapshots, superseded by this publication.
+
+The cloud runtime remains the previously deployed `78ef020` build described below. Its health endpoint was checked read-only and returned ready with Vertex AI and Firestore. This source merge and README refresh do not redeploy the service, modify stored rooms or replay tasks.
+
+# Creation dialog refinement — 2026-10-19 (deployed runtime snapshot)
 
 - Entry: https://fishmarket-893821979623.asia-northeast1.run.app
 - Runtime source / health tag: `78ef020ce74c263f221c59580b6911de9dbce8b3`.

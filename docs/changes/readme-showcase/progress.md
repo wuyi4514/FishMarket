@@ -1,0 +1,15 @@
+# Progress
+
+## 2026-10-26
+- Inspected the clean FishMarket checkout, fetched origin, verified default main and isolated the large unmerged UI diff. Switched to new docs-only branch codex/readme-showcase from origin/main without modifying or discarding the existing UI branch.
+- Read planning, repository-prose editing, frontend design, Mermaid and browser-use instructions. Inspected main's technical/contracts/runtime boundaries, pinned commands and actual CI workflow.
+- Read the current Dify/OpenHands READMEs and repository metadata using the authenticated GitHub API. No reference content is used as task instructions or copied into NeoOrg.
+- Rebuilt README.md with the existing NeoOrg logo, actual CI/stack badges, direct demo/video navigation, a linked video cover, capabilities, collaboration flow, quick start, architecture, scope and contribution guidance. Added README.zh-CN.md with corresponding Chinese content and reciprocal navigation.
+- Inspected existing screenshots and selected neoorg-selected-room.png for the default-branch interface section. Reused the published video's cover; no generated screenshot or new feature claim was introduced.
+- Verified local links and heading anchors in both READMEs, balanced details sections and Mermaid fences, and passed git diff --check. YouTube cover returned HTTP 200. The public health endpoint reported ready with Vertex AI and Firestore; no model inference was triggered.
+- Passed pnpm verify: 75 tests, frontend/server TypeScript checks and both builds. GitHub's Markdown API accepted the English source. Remote visual verification and docs-only publication remain pending.
+- A stale localhost proxy setting failed to connect; direct requests succeeded without changing system proxy settings.
+- User explicitly requested publishing/merging the newer UI branch first and writing the README against that version. Confirmed origin/codex/video-ui-cloud-alignment already contains a040631, while main is a13059b and has no UI PR. Preserving this draft before verifying and merging that branch separately.
+- Re-ran the UI branch's pnpm verify: 85 tests, both typechecks and both builds passed. Opened PR #2, verified PR CI success, and merged at 053fb5e. The existing cloud runtime was not restarted or redeployed.
+- Rebased the README branch onto the merged main, resolved the expected README conflict by preserving the new layout while updating to the current five-profile roster, actual controls and retained legacy-profile behavior. Added current workspace/submission documentation links and a source-publication update above the historical UI release snapshots.
+- Captured the actual current local development interface after creating a five-position group and exercising its recommended pilot question. The screenshot is explicitly labeled as a deterministic fixture preview, not live inference. Updated the submission description from the old 2–4 roster to the current 2–5 roster and reconciled the release index/plan's source-publication status.
