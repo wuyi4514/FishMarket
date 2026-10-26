@@ -9,8 +9,8 @@ The draft started on clean `codex/readme-showcase` from origin/main. The user th
 ## Phases
 1. Inspect main/default README, actual code/docs/media, repository metadata and primary reference READMEs — complete.
 2. Compose original English/Chinese README and choose accurate existing visuals — complete.
-3. Check links/assets/anchors, render the GitHub view and run the repository Gate — local checks complete; remote visual check pending.
-4. Verify and merge the user-authorized video/UI branch, then publish the updated docs through their own GitHub workflow, verify remote main and report exact scope — pending.
+3. Check links/assets/anchors, render the GitHub view and run the repository Gate — complete. Actual GitHub views confirmed both languages, video cover, current interface image and portable SVG diagrams. The verified latest code passes 85 tests, both typechecks and both builds; this README change has no additional application diff.
+4. Merge the user-authorized video/UI branch and publish the README through a separate GitHub workflow — UI merged in PR #2; the README's authoritative publication/check status is tracked in [PR #3](https://github.com/wuyi4514/FishMarket/pull/3) and the default-branch history.
 
 ## Guardrails
 No invented Star/customer/benchmark claims, community links, license badges or unsupported feature promises. Keep NeoOrg's organizational-workspace vision separate from this focused Google Cloud prototype. Preserve truthful fixture versus live mode, browser-local room access and model/storage/security boundaries. After the UI merge, document the latest five-profile groups and actual available controls; preserve legacy groups' frozen profiles.
