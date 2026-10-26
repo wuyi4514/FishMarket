@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { MEMBERS, type AgentId, type RoomView, type Outcome } from "../contracts/group";
+import { TEAM_CATALOG, type AgentId, type AgentProfile, type RoomView, type Outcome } from "../contracts/group";
 import { WorkspaceNavigator, reconcileRoomProjection, type Session, type Workspace, type WorkspaceSelection } from "./workspace";
 import { AgentProfileDialog, NewRoomDialog, TeamDialog } from "./RoomDialogs";
-import { Avatar, Icon } from "./ChatPrimitives";
+import { Avatar, GroupAvatar, Icon } from "./ChatPrimitives";
 import { MessageRow } from "./MessageRow";
 import { ChatComposer } from "./ChatComposer";
 import { useTimeline } from "./useTimeline";
@@ -26,12 +26,15 @@ async function api<T>(path: string, session?: Session, body?: unknown): Promise<
 let workspaceNavigator: WorkspaceNavigator | null = null;
 function navigator() {
   return workspaceNavigator ??= new WorkspaceNavigator(localStorage, {
-    create: (title, members = MEMBERS.map(member => member.id)) => api<{ room: RoomView; token: string }>("/api/rooms", undefined, { contractVersion: "create-room-v2", title, members }),
+    create: (title, members = TEAM_CATALOG.map(member => member.id)) => api<{ room: RoomView; token: string }>("/api/rooms", undefined, { contractVersion: "create-room-v3", title, members }),
     read: session => api<RoomView>("/api/rooms/" + session.id, session)
   });
 }
-const names = Object.fromEntries(MEMBERS.map(member => [member.id, member.name]));
 export function App() {
+  const [filter, setFilter] = useState<"all" | "pending" | "unread">("all");
+  const [searching, setSearching] = useState(false);
+  const [query, setQuery] = useState("");
+  const roomViews = useRef(new Map<string, RoomView>());
   const [session, setSession] = useState<Session | null>(null);
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [room, setRoom] = useState<RoomView | null>(null);
@@ -40,6 +43,7 @@ export function App() {
   const [posting, setPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState("live");
+  const [modelName, setModelName] = useState("Gemini · Vertex AI");
   const [transitioning, setTransitioning] = useState(false);
   const [showNewRoom, setShowNewRoom] = useState(false);
   const [profileId, setProfileId] = useState<AgentId | null>(null);
@@ -53,12 +57,14 @@ export function App() {
   const requestRef = useRef<{ fingerprint: string; key: string } | null>(null);
   function acceptRoom(value: RoomView) {
     if (selectedRoomRef.current !== value.id) return;
+    roomViews.current.set(value.id, value);
     setRoom(current => reconcileRoomProjection(current, value, selectedRoomRef.current));
   }
   function install(value: WorkspaceSelection) {
     if (session) roomDrafts.current.set(session.id, { draft, outcomeId });
     const savedDraft = roomDrafts.current.get(value.session.id);
     selectedRoomRef.current = value.session.id;
+    roomViews.current.set(value.room.id, value.room);
     setSession(value.session); setRoom(value.room); setWorkspace(value.workspace); setPersistenceWarning(value.persistenceWarning);
     setDraft(savedDraft?.draft ?? "");
     setOutcomeId(savedDraft?.outcomeId ?? value.room.outcomes.find(item => item.status === "waiting")?.id ?? null);
@@ -67,7 +73,7 @@ export function App() {
   useEffect(() => {
     let active = true;
     navigator().boot().then(value => { if (active) install(value); }).catch(error => { if (active) setError(error.message); });
-    api<{ mode: string }>("/api/config").then(value => { if (active) setMode(value.mode); }).catch(() => {});
+    api<{ mode: string; model: string }>("/api/config").then(value => { if (active) { setMode(value.mode); setModelName(value.mode === "live" ? value.model + " · Vertex AI" : "Offline development fixture"); } }).catch(() => {});
     return () => { active = false; };
   }, []);
   useEffect(() => {
@@ -80,7 +86,10 @@ export function App() {
   const working = posting || (room?.run?.status === "running" && !room.run.canResume);
   const timeline = useTimeline(room?.id, room?.messages.length ?? 0, !!working);
   const navigationDisabled = !session || !!working || transitioning;
-  const members = room?.agentProfiles ?? MEMBERS;
+  const members = room?.agentProfiles ?? TEAM_CATALOG;
+  const names = Object.fromEntries(members.map(member => [member.id, member.name]));
+  const pendingRooms = new Set([...roomViews.current.values()].filter(value => value.outcomes.some(outcome => outcome.gate?.state === "pending") || value.run?.status === "recovery").map(value => value.id));
+  const visibleRooms = workspace?.rooms.filter(entry => entry.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()) && (filter === "all" || filter === "pending" && pendingRooms.has(entry.id) || filter === "unread" && entry.id === session?.id && timeline.unread > 0)) ?? [];
   const profile = members.find(member => member.id === profileId);
   const activeOutcomes = room?.outcomes.filter(item => item.status !== "satisfied" && item.status !== "not_satisfied") ?? [];
   const currentOutcome = room?.outcomes.find(item => item.id === (outcomeId ?? room.run?.outcomeId)) ?? room?.outcomes.at(-1);
@@ -133,26 +142,33 @@ export function App() {
     return id === "human" || id === "system" ? <Avatar id={id} small={small}/> : <button className="avatar-button" type="button" aria-label={"View " + names[id] + " profile"} onClick={() => setProfileId(id)}><Avatar id={id} small={small}/></button>;
   }
   return <div className="workspace">
+    <nav className="primary-nav" aria-label="NeoOrg navigation">
+      <a className="brand" href="/" aria-label="NeoOrg home"><span className="brand-icon"><img className="brand-logo" src="/brand/neoorg-logo.png" alt="NeoOrg"/></span></a>
+      <a className="nav-icon active" aria-label="Group chats" title="Group chats" href="#panel-messages" aria-current="page"><Icon type="chat"/></a>
+    </nav>
     <aside className="sidebar">
-      <a className="brand" href="/" aria-label="NeoOrg home"><span className="brand-icon"><img className="brand-logo" src="/brand/neoorg-logo.png" alt=""/></span><span>NeoOrg</span></a>
-      <div className="workspace-heading"><p className="side-label">GROUP CHATS</p><button type="button" className="new-room-icon" aria-label="Create a group chat" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/></button></div>
-      <nav className="room-list" aria-label="Working rooms">{workspace?.rooms.map(entry => <button key={entry.id} className={"room-nav" + (entry.id === session?.id ? " active" : "")} aria-current={entry.id === session?.id ? "page" : undefined} disabled={navigationDisabled} onClick={() => void switchRoom(entry.id)}><span className="room-symbol"><Icon type="chat"/></span><span className="room-label">{entry.title}<small>{entry.id === session?.id ? "Current conversation" : "Open conversation"}</small></span>{entry.id === session?.id && <span className="active-dot"/>}</button>)}</nav>
-      <div className="team-section"><p className="side-label">YOUR TEAM</p>
-        <div className="member-row"><Avatar id="human" small/><div>You<small>The human in the loop</small></div><span className="human-tag">Human</span></div>
+      <div className="workspace-heading"><span className="sr-only">GROUP CHATS</span><div className="room-filters">{(["all", "pending", "unread"] as const).map(value => <button key={value} className={filter === value ? "selected" : ""} aria-pressed={filter === value} onClick={() => setFilter(value)}>{value === "all" ? "All" : value === "pending" ? "Pending" : "Unread"} <span>{value === "all" ? workspace?.rooms.length ?? 0 : value === "pending" ? pendingRooms.size : timeline.unread ? 1 : 0}</span></button>)}</div><button className="new-room-icon search-icon" aria-label="Search group chats" onClick={() => setSearching(!searching)}><Icon type="search"/></button><button type="button" className="new-room-icon" aria-label="Create a group chat" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/></button></div>
+      {searching && <input className="room-search" aria-label="Search group chats" autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder="Search groups"/>}
+      <nav className="room-list" aria-label="Working rooms">{visibleRooms.map(entry => <button key={entry.id} className={"room-nav" + (entry.id === session?.id ? " active" : "")} aria-current={entry.id === session?.id ? "page" : undefined} disabled={navigationDisabled} onClick={() => void switchRoom(entry.id)}><GroupAvatar members={roomViews.current.get(entry.id)?.agentProfiles ?? TEAM_CATALOG}/><span className="room-label">{entry.title}<small>{entry.id === session?.id ? "A shared goal and workspace" : "Open conversation"}</small></span></button>)}</nav>
+      {workspace && !visibleRooms.length && <p className="room-list-empty">{query ? "No matching groups" : "No groups in this view"}</p>}
+      <div className="team-section"><p className="side-label">TEAM MEMBERS</p>
+        <div className="member-row"><Avatar id="human" small/><div><strong>You</strong><small>Human decision owner</small></div></div>
         {members.map(member => <button key={member.id} aria-label={"View " + member.name + " profile"} className="member-row member-button" onClick={() => setProfileId(member.id)}>
-          <Avatar id={member.id} small/><div>{member.name}<small>{member.role}</small></div><span className="member-online"/>
+          <Avatar id={member.id} small/><div><strong>{member.name}</strong><small>{member.role}</small></div>
         </button>)}
       </div>
-      <a className="source-link" href="https://github.com/wuyi4514/FishMarket" target="_blank" rel="noreferrer">Open source <span>↗</span></a>
+      <a className="source-link" href="https://github.com/wuyi4514/FishMarket" target="_blank" rel="noreferrer">NeoOrg · Open source <span>↗</span></a>
     </aside>
     <main className="chat-shell">
-      <header className="chat-header"><div className="group-identity"><span className="group-icon"><Icon type="chat"/></span><div className="header-title"><h1>{room?.title ?? "Your workspace"}</h1></div></div>
-        <div className="header-right"><div className="avatar-stack"><Avatar id="human" small/>{members.map(member => <span key={member.id}>{profileAvatar(member.id, true)}</span>)}</div><button type="button" className="member-count" onClick={() => setShowTeam(true)} aria-label="View room members"><Icon type="people"/><span>{members.length + 1} members</span></button></div>
+      <header className="chat-header"><div className="group-identity"><div className="header-title"><h1>{room?.title ?? "Your workspace"}</h1></div></div>
+        <div className="header-right"><div className="avatar-stack">{members.map(member => <span key={member.id}>{profileAvatar(member.id, true)}</span>)}</div><button type="button" className="member-count" onClick={() => setShowTeam(true)} aria-label="View room members"><span>{members.length + 1} members</span></button></div>
       </header>
+      <div className="conversation-tabs" role="tablist" aria-label="Group views"><button id="tab-messages" role="tab" aria-controls="panel-messages" aria-selected="true" className="selected">Messages</button></div>
       <div className="mobile-workspace"><select aria-label="Working room" value={session?.id ?? ""} disabled={navigationDisabled} onChange={event => void switchRoom(event.target.value)}>{workspace?.rooms.map(entry => <option key={entry.id} value={entry.id}>{entry.title}</option>)}</select><button type="button" aria-label="Create a group chat" title="Create a group chat" disabled={navigationDisabled} onClick={openNewRoom}><Icon type="plus"/></button></div>
+      <div className="conversation-panel" id="panel-messages" role="tabpanel" aria-labelledby="tab-messages">
       <div className="conversation-stage"><section ref={timeline.ref} onScroll={timeline.onScroll} className="timeline" aria-label="Group conversation" aria-live="polite">
         {!room?.messages.length ? <div className="welcome">
-          <h2>Bring a goal.<br/><em>Build an outcome.</em></h2>
+          <h2>Start with a shared goal</h2><p>Your AI teammates can work from the context in this group.</p>
           <div className="example-grid">{examples.map((example, i) => <button key={example.title} onClick={() => { setDraft(example.text); draftRef.current?.focus(); }}><span className="example-number">0{i + 1}</span><strong>{example.title}</strong><Icon type="arrow"/></button>)}</div>
         </div> : <div className="messages">
           <div className="timeline-date">{new Date(room.createdAt).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}</div>
@@ -161,21 +177,23 @@ export function App() {
         </div>}
       </section>{timeline.away && <button type="button" className="latest-messages" aria-label="Return to latest messages" onClick={timeline.latest}><Icon type="down"/>{timeline.unread ? `${timeline.unread} new messages` : "Latest messages"}</button>}</div>
       <div className="composer-zone">
-        {currentOutcome && <OutcomeStrip outcome={currentOutcome} onContinue={() => setOutcomeId(currentOutcome.id)}/>}
+        {currentOutcome && <OutcomeStrip outcome={currentOutcome} members={members} onContinue={() => setOutcomeId(currentOutcome.id)}/>}
         {(room?.run?.status === "recovery" || room?.run?.canResume) && <div className="recovery-banner"><div><strong>The work needs attention</strong><p>{room.run.recovery?.nextAction ?? "The last request was interrupted. Resume the saved step."}</p></div>{room.run.canResume && room.run.recovery?.retryable !== false && <button onClick={resume} disabled={posting}>Resume work ↗</button>}</div>}
         {error && <div className="error-banner" role="alert">{error === "ROOM_BUSY" ? "The team is still working. Your message is saved in the composer." : error}</div>}
         {persistenceWarning && <div className="error-banner" role="alert">{persistenceWarning}</div>}
         <ChatComposer key={session?.id ?? "loading"} inputRef={draftRef} draft={draft} onDraft={setDraft} members={members} outcomes={activeOutcomes} outcomeId={outcomeId} onOutcome={setOutcomeId} busy={!!working} disabled={!session || transitioning} blocked={!!blocked} onSend={event => void send(event)}/>
         <p className="composer-footnote">{mode !== "live" ? "Offline preview uses deterministic fixtures. Production uses real Gemini." : "AI can make mistakes. Review the evidence and make the final business decision."}</p>
       </div>
+      </div>
     </main>
-    {showNewRoom && <NewRoomDialog defaultTitle={"Working room " + ((workspace?.rooms.length ?? 0) + 1)} busy={transitioning} error={creationError} hasDraft={!!draft.trim()} onClose={() => setShowNewRoom(false)} onCreate={(title, members) => void newRoom(title, members)}/>}
+    {showNewRoom && <NewRoomDialog defaultTitle={"Working room " + ((workspace?.rooms.length ?? 0) + 1)} busy={transitioning} error={creationError} onClose={() => setShowNewRoom(false)} onCreate={(title, members) => void newRoom(title, members)}/>}
     {showTeam && <TeamDialog members={members} onClose={() => setShowTeam(false)}
       onOpenProfile={id => { setShowTeam(false); setProfileId(id); }}/>}
-    {profile && <AgentProfileDialog member={profile} onClose={() => setProfileId(null)}/>}
+    {profile && <AgentProfileDialog key={profile.id} member={profile} model={modelName} onClose={() => setProfileId(null)}/>}
   </div>;
 }
-function OutcomeStrip({ outcome, onContinue }: { outcome: Outcome; onContinue: () => void }) {
+function OutcomeStrip({ outcome, members, onContinue }: { outcome: Outcome; members: AgentProfile[]; onContinue: () => void }) {
+  const names = Object.fromEntries(members.map(member => [member.id, member.name]));
   const [expanded, setExpanded] = useState(false);
   const labels = { active: "In progress", waiting: "Your input needed", in_review: "Independent review", satisfied: "Reviewed · Goal achieved", not_satisfied: "Reviewed · Goal not fully achieved" };
   const done = outcome.status === "satisfied" || outcome.status === "not_satisfied";

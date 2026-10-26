@@ -6,6 +6,7 @@ import { App } from "./App";
 import "./styles.css";
 import "./room-features.css";
 import "./chat-alignment.css";
+import "./video-alignment.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

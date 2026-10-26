@@ -6,12 +6,16 @@ https://fishmarket-893821979623.asia-northeast1.run.app
 
 Public source: https://github.com/wuyi4514/FishMarket
 
-The implementation/deployment request is complete and ready for user acceptance. This does not represent competition submission or acceptance of the product by the user. PPT and video remain deferred.
+The film-aligned UI refinement is deployed from `codex/video-ui-cloud-alignment` at `78ef020ce74c263f221c59580b6911de9dbce8b3`, revision `fishmarket-00014-8g4`, 100% traffic. [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39146025170), 85 offline tests/typechecks/builds and actual local desktop/mobile checks passed. The creation dialog omits annotated auxiliary copy and the shared vector close icon is centered; selection/draft/dismissal rules are unchanged. Exact public JS/CSS/logo/avatars match the verified build; all 30 pre-existing room hashes/update times remain unchanged. No backend/model contracts changed; earlier live-model evidence is historical, not a fresh run. Remote tab attachment was unavailable, so current cloud click interactions are not separately verified. No PR or main merge has been performed; user acceptance is pending. See [current release details](changes/video-ui-cloud/release.md) and [per-file changes](changes/video-ui-cloud/change-summary.md).
+
+[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) integrated the earlier product version at `a13059b`. The historical snapshots below are retained for traceability, not the current runtime.
+
+[Submission-page text](submission-description.md) is prepared in Chinese and English. No form has been filled or submitted. PPT and video are outside the current documentation work.
 
 ## Running source and infrastructure
 
-- Runtime source commit: 3fc280f7d31e2ef741efa29d57fe100c53c54892.
-- Cloud Run revision: fishmarket-00011-86f, serving 100% of traffic.
+- Runtime source commit / health release tag: 78ef020ce74c263f221c59580b6911de9dbce8b3.
+- Cloud Run revision: fishmarket-00014-8g4, serving 100% of traffic.
 - Project: fishmarket-abc-2026-4514; region: asia-northeast1.
 - One container serves both built web and API; no separate worker checkout.
 - Firestore Native default database in asia-northeast1.
@@ -23,7 +27,9 @@ The implementation/deployment request is complete and ready for user acceptance.
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-## NeoOrg selected groups and branding (current release, 2026-10-16)
+The current UI source differs from main and remains on the independent acceptance branch. The historical sections below describe their original release snapshots, not the currently running revision or UI.
+
+## NeoOrg selected groups and branding (previous release, 2026-10-16)
 
 NeoOrg original logo/wordmark/browser title; @-only draft-derived routing; no To or profile Message action; plus-only creation with 2–4 selected Agents. Provider and domain both reserve an independent reviewer. Existing rooms, capabilities, checkpoints and historical messages are preserved.
 
@@ -32,7 +38,7 @@ NeoOrg original logo/wordmark/browser title; @-only draft-derived routing; no To
 - Image sha256:4aff477de85812dfbf00ab32bbd1a1f0f7e9fbc1ba7cdd8d8c4b30d8e607246a; runtime source and exact JS/CSS/Logo bytes verified.
 - Real Gemini/Firestore Gate passed for four-, two- and three-Agent groups, including independent review, outsider rejection, selected-profile equality, idempotency and room isolation.
 - Historical digest/updateTime and actual public-browser old message bodies remained unchanged.
-- Full evidence, caveats and screenshots: [selected-members release](neoorg-selected-members-release.md). Branch codex/neoorg-room-members; user acceptance pending; no PR/main merge.
+- Full evidence, caveats and screenshots: [selected-members release](neoorg-selected-members-release.md). Development branch codex/neoorg-room-members was merged into main through PR #1 at a13059b.
 
 ## NeoOrg-aligned group chat (previous release, 2026-10-16)
 
@@ -46,7 +52,7 @@ Compact group header, blue/gray conversation, human-right/Agent-left messages, j
 - Real production workflow: Sail owner, Reef/Beacon contributors, Harbor independent reviewer; six messages, achieved/satisfied, 12.578 seconds for this single recorded run (not a benchmark/guarantee). Independent Firestore read, idempotency, room isolation and actual job-identity response passed.
 - Public browser @ selection and Enter triggered a real Reef reply. Refresh restored the same two message bodies, and the original room remained available. Profiles and the 390px production layout were checked and screenshots saved.
 - Historical six-message record still has Firestore updateTime 2026-10-13T09:35:06.430425Z, before this deployment. No migration or historical replay occurred; no running/unexpired executions existed before release.
-- Development branch: codex/neoorg-chat-alignment; no PR/main merge. User acceptance remains pending.
+- Development branch: codex/neoorg-chat-alignment. This earlier iteration is included in the later PR #1 merge into main.
 
 See [iteration evidence and rollback](neoorg-chat-alignment-release.md) and the [English technical overview](technical-overview.md).
 
@@ -62,11 +68,11 @@ Removed the eight originally annotated copy/badge blocks plus the decorative wel
 - Actual desktop/mobile UI checked. Recommended questions still fill the composer; Agent profiles and new-room dialog/cancel work; selected room restores after refresh.
 - Screenshot: docs/screenshots/ui-copy-cleanup.png.
 - Predeploy query found no running/unexpired execution records. Source diff confirms server, contracts, workspace persistence and profile dialog behavior are unchanged. No production model QA call or historical replay was needed for this presentation-only release.
-- Development branch: codex/ui-copy-cleanup. No PR or main merge before user acceptance.
+- Development branch: codex/ui-copy-cleanup. This earlier iteration is included in the later PR #1 merge into main.
 
 ## Named-room / job-profile baseline
 
-The prior feature release added named fresh rooms, preserved browser-local room navigation and clickable permanent Agent job identities consumed by Gemini. See [iteration evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. These capabilities remain unchanged in the current UI-only release.
+The prior feature release added named fresh rooms, browser-local room navigation and permanent Agent job identities consumed by Gemini. See [historical evidence](rooms-agent-profiles-release.md) for its 36-test Gate, source CI, immutable image and real Gemini/Firestore verification. The current release builds on that baseline with selectable membership, reviewer-capacity enforcement, context-v3, @-only routing and NeoOrg branding; it is not a UI-only release.
 
 ## Initial release verification (2026-10-13, source 8f40da1)
 
@@ -94,7 +100,7 @@ One final-release model call returned a real 504 DEADLINE_EXCEEDED and correctly
 
 Implemented: persistent group identities, member targeting, reply-only admission, unique outcome owner, on-demand bounded contributions, human input gate, immutable goal revisions/deliveries, independent review, explicit attainment and durable recovery.
 
-Deferred: owner transfer, external business actions, scheduled waits, staffing, plugins, private long-term agent memory, multiple simultaneous runs in one room, comparative A/B benchmark, deck/video/submission.
+Deferred product capabilities: owner transfer, external business actions, scheduled waits, staffing, plugins, private long-term agent memory, multiple simultaneous runs in one room and comparative A/B benchmarks. Submission text is prepared; PPT/video work, form filling and final competition submission remain outside this documentation phase.
 
 A reviewed report is not proof that the proposed business actions were executed. Visitors receive an isolated capability-protected room without login. This is the limited V3-inspired prototype, not the complete NeoOrg platform.
 

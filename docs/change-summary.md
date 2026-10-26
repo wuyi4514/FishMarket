@@ -1,5 +1,25 @@
 # Implementation changes by file
 
+## Submission description and status reconciliation
+
+Product source is integrated through [PR #1](https://github.com/wuyi4514/FishMarket/pull/1), merged into main at `a13059b`; runtime remains `3fc280f` / `fishmarket-00011-86f`. This documentation-only follow-up is on `codex/submission-description-docs`, not yet merged into main. It changes no application code, deployment, credentials or stored business data and performs no competition submission.
+
+| File | Actual changes |
+|---|---|
+| docs/submission-description.md | Copy-ready Chinese and English project descriptions, submission links, actual Google service usage and explicit Firebase Hosting/Auth boundaries |
+| README.md | Link the submission text and record the completed PR/main integration separately from the deployed runtime |
+| docs/release.md | Replace stale no-PR/no-merge claims with PR #1/main CI, link prepared text and distinguish current release from historical baselines |
+| docs/neoorg-selected-members-release.md | Record actual merge commit/main CI and unchanged runtime; preserve live workflow evidence and the no-submission boundary |
+| docs/neoorg-chat-alignment-release.md | Label the old revision/UI as a historical snapshot, link the current release and record subsequent main integration |
+| docs/rooms-agent-profiles-release.md | Label the old profile Message/recipient behavior and revision as historical; record subsequent main integration |
+| docs/technical-overview.md | Add submission-copy navigation and current source-integration/status links without changing architecture claims |
+| task_plan.md | Add completed integration facts and the documentation-only phase, refresh merged phase statuses and explicit exclusions |
+| progress.md | Record PR/main completion and documentation work; distinguish older session entries from current status |
+| findings.md | Freeze verified merge/runtime/service facts and separate obsolete historical findings from current evidence |
+| docs/change-summary.md | This per-file record and explicit historical headings/status corrections |
+
+The sections below record their own implementation iterations, not a claim that older UI controls or revisions are still current.
+
 ## NeoOrg branding and selected group membership — 2026-10-16
 
 | File | Actual changes |
@@ -39,7 +59,9 @@
 | docs/screenshots/neoorg-member-selection.png | Actual deployed desktop member checklist with Reef/Sail selected |
 | docs/screenshots/neoorg-mobile-member-selection.png | Actual deployed 390px member checklist and creation controls |
 
-Gate passed: 75 tests, frontend/server typechecks/builds, CI, Cloud Build, real Gemini/Firestore four-/two-/three-Agent outcomes, exact deployed source/assets, desktop/mobile interaction and preserved history. Runtime source 3fc280f / fishmarket-00011-86f; user functional acceptance remains required before any PR.
+Gate passed: 75 tests, frontend/server typechecks/builds, CI, Cloud Build, real Gemini/Firestore four-/two-/three-Agent outcomes, exact deployed source/assets, desktop/mobile interaction and preserved history. Runtime source 3fc280f / fishmarket-00011-86f; PR #1 subsequently merged the source into main at a13059b following the user's explicit request.
+
+## Initial implementation snapshot
 
 | File | Completed change |
 |---|---|
@@ -78,7 +100,7 @@ Gate passed: 75 tests, frontend/server typechecks/builds, CI, Cloud Build, real 
 
 Removed uncommitted launch-report scaffold: src/contracts/mission.ts; src/server/ports.ts, store.ts, gemini.ts, orchestrator.ts, app.ts; tests/contracts.test.ts and orchestrator.test.ts; docs/architecture.md; firebase.json and firestore.indexes.json. They were replaced by the independent group implementation and the single-service Cloud Run deployment. No NeoOrg files, data or running services were changed.
 
-## Named rooms and Agent job profiles iteration
+## Named rooms and Agent job profiles historical iteration
 
 | File | Actual changes |
 |---|---|
@@ -104,9 +126,9 @@ Removed uncommitted launch-report scaffold: src/contracts/mission.ts; src/server
 | docs/screenshots/rooms-agent-profile.png | Real deployed desktop Agent position/responsibility/boundary screenshot |
 | docs/screenshots/fresh-room-dialog.png | Real deployed mobile named-room creation prompt screenshot |
 
-Cloud revision fishmarket-00007-czj is deployed; actual browser reload/switch proof and screenshots are recorded in the iteration release document. User acceptance is still pending.
+At this iteration, cloud revision fishmarket-00007-czj was deployed; its browser reload/switch proof and screenshots are recorded in the historical release document. It is now superseded by fishmarket-00011-86f, and its source changes are included in the PR #1 merge into main.
 
-## Annotated copy cleanup
+## Annotated copy cleanup historical iteration
 
 | File | Actual changes |
 |---|---|
@@ -120,9 +142,9 @@ Cloud revision fishmarket-00007-czj is deployed; actual browser reload/switch pr
 | docs/release.md | Final source/revision/image/CI, exact asset verification and retained recommendation/profile/room evidence |
 | docs/screenshots/ui-copy-cleanup.png | Actual final cloud desktop screenshot with recommended questions retained |
 
-No server, contracts, model, workspace persistence or profile dialog behavior changed. Final cloud revision fishmarket-00009-5zq is deployed and verified on source 55a14fa.
+No server, contracts, model, workspace persistence or profile dialog behavior changed in this iteration. Its final cloud revision fishmarket-00009-5zq was verified on source 55a14fa and is now superseded.
 
-## NeoOrg-aligned group chat — 2026-10-16
+## NeoOrg-aligned group chat historical iteration — 2026-10-16
 
 | File | Actual change |
 |---|---|

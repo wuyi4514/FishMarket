@@ -1,5 +1,40 @@
 # Progress
 
+## 2026-10-16 video strategy revision
+
+- User challenged the demonstration-heavy proposal and requested discriminating cases, track/problem/differentiation explanations, tool selection including HyperFrames and clear fictional-content boundaries.
+- Restored prior proposal/planning and original NeoOrg scenario-selection preferences. Current work remains proposal/research only; no product changes, tool installation, media generation or uploads.
+- Verified HeyGen's actual HyperFrames repository/docs, Remotion's own workflow/license, OBS single-window recording, Gemini TTS and ffprobe. Recommending one compositor plus separate recording/narration/verification functions, not combining frameworks by default.
+- Revised docs/video-production-plan.md: explicit Future of Work positioning and mechanism-based differentiation; four-case shortlist and client-delivery recommendation; 70 seconds of real case within a balanced 180-second narrative; separate synthetic case, explanatory graphic, future concept and deployed proof labels.
+- HyperFrames is the preliminary main compositor candidate, Remotion an alternative after the same mixed-media sample test. No local renderer performance/quality claim is made; the trial and actual production remain future work. Gemini narration requires a separate verified TTS setup, not the app's text model endpoint.
+- Document QA passed: five contiguous segments total 180 seconds, demo segment 70 seconds, 18 external-link occurrences parse, current/future labels and all tool roles are present, four changed files are Markdown and git diff --check is clean. No app tests, model calls, media rendering or new deployment were performed.
+
+## 2026-10-16 demo video research and planning
+
+- Restored planning/release history, read research/planning/writing instructions and created codex/video-production-plan from clean documentation commit 67984ac.
+- Current scope is rule research and a proposed narrative/production workflow only. No recording, rendering, real Gemini invocation, product/deployment changes, PPT, upload or form/submission action is performed.
+- Read current official homepage, themes/requirements and FAQ pages; recorded video-duration conflicts instead of silently choosing the obsolete FAQ. Technical/impact/innovation/UX weights are 40/25/25/10. The supplied current submission-page range remains the working video boundary.
+- Public Terms still contains the under-three-minute wording; recorded the conflict and proposed an editable 180-second primary cut with a 175-second alternate, not a claim of harmonized compliance. The provided YouTube fetch was throttled; no fresh transcript is claimed.
+- Inspected production App/OutcomeStrip and current architecture/release evidence. Rechecked /api/health at source 3fc280f with Firestore/Vertex AI; no model request or room mutation was made.
+- Wrote docs/video-production-plan.md with a timed pilot-decision narrative, real human-input rehearsal, English narration/subtitles, authenticity constraints, isolated Remotion production route and exact deliverables/QA. Current Remotion/encoding setup and final voice quality remain prerequisites; no dependencies were installed.
+- Reviewed the proposal against source/UI capabilities and checked all seven contiguous timeline segments total exactly 180 seconds; all eight external-link occurrences parse as URLs and git diff --check passed. The four changed files are Markdown only. No product Gate is re-reported as newly run in this research turn.
+
+## 2026-10-16 submission description and status reconciliation
+
+- User authorized submission-page text and stale-document corrections only; PPT/video, form actions and final submission are excluded.
+- Read write-page/planning instructions and existing documentation, then created codex/submission-description-docs from clean main a13059b. Product files and live deployment remain untouched.
+- Verified GitHub PR #1 is MERGED at a13059baa6f54a063e1a7253b063d9d4db0d5fce; main CI 38845919226 passed. Live health reports Firestore, Vertex AI, Gemini 3.5 Flash-Lite and unchanged runtime 3fc280f.
+- Earlier entries below are historical session records. Their then-pending PR, deployment or material states do not supersede the latest status here.
+- Added docs/submission-description.md: one copy-ready Chinese paragraph (314 characters including punctuation/spaces) and one English paragraph (108 whitespace-separated words), with links and truthful Firebase Hosting/Authentication non-usage.
+- Updated README, current release/selected-members evidence and technical overview with actual integration status and copy navigation. Labelled older chat/profile releases and change-summary sections as historical without replacing their original Gate/source evidence.
+- Final document validation passed: both copy sections contain the actual service disclosures, all 32 local Markdown links resolve, stale current-state assertions are corrected, and git diff --check is clean. All 11 changed files are Markdown; no application, deployment, dependency or credential changes are included.
+- The full offline pnpm verify Gate passed again in this documentation turn: 75 tests, both typechecks and web/server builds. No live model calls, stored room writes, deployment or submission-page actions were performed. Documentation remains on codex/submission-description-docs; this turn creates no new PR or main merge.
+
+## 2026-10-16 main integration completed
+
+- Following the user's explicit PR/merge request, PR #1 was created, attached to the task and merged into main at a13059b after branch/PR CI passed.
+- Verified the merged tree exactly equals 3ca86af; main CI and local pnpm verify passed (75 tests, both typechecks and builds). The deployed application's files match main, so no new deployment or history replay occurred.
+
 ## 2026-10-16 selected groups and NeoOrg branding
 
 - Created clean independent branch codex/neoorg-room-members from e1d7e0b.
@@ -11,7 +46,7 @@
 - Fixed test-environment gaps (jsdom dialog lifecycle polyfill, distinct desktop/mobile selector) and a dev-HMR directory initialization edge case. Initial local-browser navigation preceded server startup and was retried only after readiness.
 - Local Gate: 75 tests, both typechecks and both builds passed. Real desktop/mobile and production-build browser checks passed, including exact message preservation after creating/switching/reloading groups.
 - Predeployment source/config/Firestore checks passed: no running executions, historical digest/updateTime unchanged, service account/model/limits verified. All 21 existing room records passed new invariants without mutation.
-- Source 3fc280f7d31e2ef741efa29d57fe100c53c54892 committed/pushed to codex/neoorg-room-members; source CI 38844706253 passed. Cloud Build 95fc495b-1c73-4dba-9ec4-96e8aa2e19c8 succeeded; fishmarket-00011-86f serves 100% traffic. No PR/main merge.
+- Source 3fc280f7d31e2ef741efa29d57fe100c53c54892 committed/pushed to codex/neoorg-room-members; source CI 38844706253 passed. Cloud Build 95fc495b-1c73-4dba-9ec4-96e8aa2e19c8 succeeded; fishmarket-00011-86f serves 100% traffic. This was the pre-merge deployment; PR #1 was subsequently merged as recorded above.
 - Exact runtime SHA, JS/CSS and original NeoOrg Logo bytes verified. Existing IAM, model, storage, budgets and capacity settings preserved.
 - Full live Gate passed: four-Agent outcome (Sail owner, Reef/Beacon contributors, Harbor review), two-Agent outcome (Reef owner, Beacon review), three-Agent outcome (Harbor owner, Sail contribution, Reef review). Each independently read Firestore and checked exact selected profiles, outsider no-effect rejection and idempotent replay.
 - Actual cloud browser created a Reef/Sail group, showed only selected @ candidates and no To/Message controls; @Sail and a subsequent plain greeting returned Sail and Reef respectively. New four-message history and old two-message room were exactly preserved through reload/switch. Desktop/mobile member picker and cancel were checked, with no 390px horizontal overflow.

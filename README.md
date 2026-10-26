@@ -6,11 +6,12 @@ This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Owners
 
 ## What works
 
-- Persistent groups with a human and 2–4 selected teammates from four stable Agent identities.
+- Persistent groups with a human and 2–5 selected teammates: Delivery - Anchor, Product - Spark, Content - Anemone, Design - Coral and Quality - Puffer. Original groups preserve their original frozen profiles.
 - Named fresh rooms, preserved browser-local room history, switching and reload restoration.
 - Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
 - General chat, @-only member targeting, and Gemini-selected outcome ownership. Removing a mention removes its routing effect; several distinct mentions remain a group message, not multi-dispatch.
-- NeoOrg-aligned chat layout, @ teammate picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
+- Film-aligned three-column layout and original portraits, full-name @ chips/picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
+- Messages, role profiles and actual configured-model details. Unavailable Announcements/Space, account/workspace shortcuts and uninstalled Skills/Tools entries are hidden. Written deliveries and independent reviews remain persisted; no mock film content or file-generation tools are installed.
 - Bounded contributor requests, visible professional contributions, owner integration; smaller groups reserve an independent reviewer before delegation.
 - Frozen acceptance criteria, immutable deliveries and independent review.
 - Honest goal attainment, human input gates, and durable checkpoint recovery.
@@ -18,6 +19,12 @@ This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Owners
 - A single Cloud Run image serving web + API, calling real Gemini through Vertex AI.
 
 See the [technical overview and NeoOrg architecture mapping](docs/technical-overview.md), [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
+
+## Submission text and source status
+
+Copy-ready Chinese and English text with the deployed app and repository links is in [the submission description](docs/submission-description.md). It describes actual Gemini/Vertex AI, Cloud Run and Firestore usage; Firebase Hosting and Firebase Authentication are not used.
+
+[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) merged the prior product iterations into main at `a13059b` on October 16, 2026. The film-UI refinement is deployed from independent branch `codex/video-ui-cloud-alignment`, source `78ef020`, revision `fishmarket-00014-8g4`. Its [source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39146025170), 85 offline tests/typechecks/builds, actual local desktop/mobile checks and exact cloud-asset/history verification passed. Backend/model contracts are unchanged from the earlier live Gemini/Firestore gate. Remote browser attachment previously timed out; no fresh remote click verification is claimed. This update has not created a PR or merged into main; user acceptance remains pending. No competition submission is performed by this update. See the [release record](docs/changes/video-ui-cloud/release.md).
 
 ## Local offline development
 

@@ -68,23 +68,76 @@ describe("production creation and profile dialogs", () => {
   afterEach(() => vi.restoreAllMocks());
   it("submits exactly selected teammates and prevents creation without a reviewer", () => {
     nativeDialogs(); const create = vi.fn();
-    render(<NewRoomDialog defaultTitle="Pair work" busy={false} error={null} hasDraft onClose={() => {}} onCreate={create}/>);
-    fireEvent.click(screen.getByRole("checkbox", { name: "Include Harbor" }));
-    fireEvent.click(screen.getByRole("checkbox", { name: "Include Beacon" }));
+    render(<NewRoomDialog defaultTitle="Pair work" busy={false} error={null} onClose={() => {}} onCreate={create}/>);
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Delivery - Anchor" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Quality - Puffer" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Design - Coral" }));
     fireEvent.click(screen.getByRole("button", { name: "Create room ↗" }));
     expect(create).toHaveBeenCalledWith("Pair work", ["reef", "sail"]);
-    fireEvent.click(screen.getByRole("checkbox", { name: "Include Sail" }));
+    fireEvent.click(screen.getByRole("checkbox", { name: "Include Content - Anemone" }));
     expect((screen.getByRole("button", { name: "Create room ↗" }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.submit(screen.getByRole("textbox", { name: "Room name" }).closest("form")!);
     expect(create).toHaveBeenCalledTimes(1);
-    expect(screen.getByText(/Choose at least two agents/)).toBeTruthy();
+    expect(screen.queryByText(/Choose at least two agents/)).toBeNull();
+  });
+  it("omits the annotated member counts and preservation copy without removing member selection", () => {
+    nativeDialogs(); render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} onClose={() => {}} onCreate={() => {}}/>);
+    for (const copy of [/including you/, /Always included/, /Choose at least two agents/, /Your existing rooms/, /Your unsent draft/]) expect(screen.queryByText(copy)).toBeNull();
+    expect(screen.getByRole("group", { name: /^Members$/ })).toBeTruthy();
+    expect(screen.getAllByRole("checkbox")).toHaveLength(5);
+    expect(screen.getByText("You", { exact: true })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Cancel" })).toBeTruthy();
+  });
+  it("uses a symmetric vector close icon instead of a font-dependent multiplication glyph", () => {
+    nativeDialogs(); const close = vi.fn();
+    render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} onClose={close} onCreate={() => {}}/>);
+    const button = screen.getByRole("button", { name: "Close dialog" });
+    expect(button.textContent).toBe("");
+    expect(button.querySelector('svg[viewBox="0 0 24 24"][aria-hidden="true"] path')?.getAttribute("d")).toBe("m6 6 12 12M6 18 18 6");
+    fireEvent.click(button.querySelector("svg")!);
+    expect(close).toHaveBeenCalledTimes(1);
   });
   it("retains position information without any Message action", () => {
     nativeDialogs(); render(<AgentProfileDialog member={MEMBERS[2]!} onClose={() => {}}/>);
     expect(screen.getByText("Strategy & planning")).toBeTruthy();
     expect(screen.getByText("Position responsibilities")).toBeTruthy();
     expect(screen.queryByRole("button", { name: /Message Sail/ })).toBeNull();
-    expect(screen.getByRole("button", { name: "Back to the room" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Back to the room" })).toBeNull();
+    expect(screen.getByRole("button", { name: "Close dialog" })).toBeTruthy();
+    expect(screen.queryByRole("tab", { name: "Skills" })).toBeNull();
+    expect(screen.queryByRole("tab", { name: "Tools" })).toBeNull();
+    fireEvent.click(screen.getByRole("tab", { name: "Models" }));
+    expect(screen.getByText("Gemini · Vertex AI")).toBeTruthy();
+  });
+  it("only closes member details through its explicit close button", () => {
+    nativeDialogs(); const close = vi.fn();
+    render(<AgentProfileDialog member={MEMBERS[1]!} onClose={close}/>);
+    const dialog = screen.getByRole("dialog");
+    vi.spyOn(dialog, "getBoundingClientRect").mockReturnValue({ left: 850, right: 1280, top: 0, bottom: 800 } as DOMRect);
+    fireEvent.click(dialog, { clientX: 870, clientY: 110 }); // Sheet padding, not a child.
+    fireEvent.click(screen.getByText("Position responsibilities"));
+    fireEvent.click(dialog, { clientX: 300, clientY: 250 }); // Transparent backdrop.
+    const cancellation = new Event("cancel", { cancelable: true });
+    fireEvent(dialog, cancellation); // Native Escape cancellation must also be prevented.
+    expect(cancellation.defaultPrevented).toBe(true);
+    expect(close).not.toHaveBeenCalled();
+    expect(dialog.hasAttribute("open")).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: "Close dialog" }));
+    expect(close).toHaveBeenCalledTimes(1);
+  });
+  it("keeps creation dismissal available without treating its blank padding as a backdrop", () => {
+    nativeDialogs(); const close = vi.fn();
+    render(<NewRoomDialog defaultTitle="New room" busy={false} error={null} onClose={close} onCreate={() => {}}/>);
+    const dialog = screen.getByRole("dialog");
+    vi.spyOn(dialog, "getBoundingClientRect").mockReturnValue({ left: 250, right: 850, top: 100, bottom: 700 } as DOMRect);
+    fireEvent.click(dialog, { clientX: 270, clientY: 120 });
+    expect(close).not.toHaveBeenCalled();
+    fireEvent.click(dialog, { clientX: 200, clientY: 120 });
+    expect(close).toHaveBeenCalledTimes(1);
+    fireEvent(dialog, new Event("cancel", { cancelable: true }));
+    expect(close).toHaveBeenCalledTimes(2);
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    expect(close).toHaveBeenCalledTimes(3);
   });
 });
 

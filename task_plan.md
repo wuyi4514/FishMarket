@@ -1,16 +1,60 @@
-# FishMarket implementation and deployment plan
+# NeoOrg implementation and submission materials plan
 
 ## Authorized goal
 
-Implement one Human and multiple persistent Gemini agents collaborating in a group. Follow the Outcome Ownership V3 design while writing independent code and using official SDKs. Deploy FishMarket and prove the real Gemini / Firestore chain. PPT, video and final competition submission are deferred by the user.
+Maintain the deployed NeoOrg human/Agent group prototype, originally implemented as FishMarket. The current authorized work is competition-rule research and a proposed demo-video production plan. Recording, rendering, PPT, uploads, form actions, competition submission and product/deployment changes are excluded from this planning turn.
 
 ## Current phase
 
-2026-10-16: Apply the user's annotated interaction corrections, rename the visible product to NeoOrg, and support real selected membership. Keep the FishMarket repository/cloud resource identities, saved browser capabilities, old rooms and history intact.
+2026-10-16: Revise the video strategy to balance problem/solution/differentiation/technical explanation with a discriminating case. Compare the actual HyperFrames and Remotion projects using primary sources and distinguish synthetic scenario, illustrative animation, working prototype and future concept. Keep product/deployment/business facts unchanged; no recording or production installation is authorized in this research turn.
+
+## Phase 12: Video positioning, case selection and tool choice
+
+Status: complete
+
+- [x] Restore the previous proposal and user's case-selection preferences; scope the requested revision.
+- [x] Compare four candidate cases for complementary expertise, change/handoff/review and visible common output; select the client-delivery case and document its text-only boundary.
+- [x] Verify primary HyperFrames/Remotion/tool documentation and choose one compositor plus recording, narration and verification without installation.
+- [x] Revise the proposed narrative, authenticity labels and production checks, preserving the video-duration conflict and deployed-capability boundary; validate the five-part 180-second timeline.
+
+The output is a revised proposal. No rendered media, new product function, paid service, new PR/merge, upload or competition submission is included.
+
+## Phase 11: Competition demo video research and proposal
+
+Status: complete
+
+- [x] Restore prior release/material context and read research, planning and writing instructions.
+- [x] Verify the current official video requirements and scoring criteria; record conflicting sources without inventing a resolution.
+- [x] Match the proposed story and visible proof to actual deployed-product capabilities and inspect production-tool availability.
+- [x] Prepare a timed narrative, scenario, production stages, deliverables and quality checks for user review in docs/video-production-plan.md.
+
+Only research and planning are authorized in this phase. No live model scenario, recorded media, synthetic product results, new PR/merge or submission action is included.
+
+## Phase 10: Submission description and documentation status
+
+Status: complete
+
+- [x] Read current product/architecture/release documents and verify PR #1, main CI and deployed health.
+- [x] Write copy-ready Chinese and English descriptions covering actual Gemini/Vertex AI, Cloud Run, Firestore and Firebase usage boundaries.
+- [x] Reconcile current release/integration status and clearly label older release snapshots without rewriting historical evidence.
+- [x] Check copy claims, all 32 local document links, character/word counts and documentation-only Git scope; pass the full offline verification Gate (75 tests, both typechecks and builds).
+
+This phase does not create a new PR or merge, change hosting, consume live inference, prepare PPT/video or operate the submission page.
+
+## Phase 9: User-authorized integration into main
+
+Status: complete
+
+- [x] Create PR #1 from codex/neoorg-room-members and verify its CI.
+- [x] Merge at a13059baa6f54a063e1a7253b063d9d4db0d5fce on 2026-10-16 following the user's explicit request.
+- [x] Verify main CI 38845919226, 75 local tests/typechecks/builds, clean checkout and exact merged-tree equality.
+- [x] Preserve runtime 3fc280f / fishmarket-00011-86f; no redeployment is needed for the merge because application files are identical.
+
+PR evidence: https://github.com/wuyi4514/FishMarket/pull/1. Source integration is complete; competition submission has not been performed.
 
 ## Phase 8: NeoOrg branding and selected group membership
 
-Status: complete_deployed_pending_user_acceptance
+Status: complete_deployed_merged
 
 - [x] Inspect command, model serialization, contributor/reviewer assignment, persistence and UI boundaries.
 - [x] Add failing Evals for selected membership, no outsider execution, reviewer capacity, @-only routing and annotated UI.
@@ -29,7 +73,7 @@ Rollback: redeploy the previous image and retain data; selected groups remain ro
 
 ## Phase 7: NeoOrg-aligned group chat and technical explanation
 
-Status: complete_deployed_pending_user_acceptance
+Status: complete_deployed_merged
 
 - [x] Locate the clean FishMarket checkout and create codex/neoorg-chat-alignment.
 - [x] Inspect NeoOrg group layout, message/composer behavior and V3 architectural reference.
@@ -142,6 +186,11 @@ User's latest correction explicitly keeps the three recommended question cards. 
 
 | Error | Resolution |
 |---|---|
+| A guessed terminal session poll returned Unknown process id during video-tool research | Do not reuse guessed IDs; capture the next search command result and poll only its actual returned session_id 47120, which completed successfully |
+| Read-only /health/ready request returned the SPA fallback rather than JSON readiness | Inspect the application's registered health route and validate structured provider/store/release fields; HTML/200 is not inference evidence |
+| Video-plan inspection assumed OutcomePanel.tsx existed | Listed actual web files and inspected OutcomeStrip inside App.tsx; no source file was created |
+| YouTube Q&A web fetch was throttled | Preserve user-supplied Q&A as supplied evidence; do not claim a fresh transcript |
+| Local video-tool probes found no ffmpeg/ffprobe or Remotion package | Keep installation/encoding and voice sample checks as later production prerequisites; do not install in this planning turn |
 | Initial patch deleted/added the same path | Replaced obsolete architecture document with separately named group-collaboration document |
 | Dependency mirror timeout warnings | Installed from official npm registry and removed unneeded Firebase CLI |
 | Fastify error was unknown; duplicate member ID field | Added type guard and removed redundant property |
@@ -170,4 +219,4 @@ Runtime implementation: source commit 3fc280f7d31e2ef741efa29d57fe100c53c54892, 
 Local Gate: 75 tests + typecheck + web/server build passed. Real Gemini/Firestore four-/two-/three-Agent workflows passed; production asset hashes and no-replay history digest verified. See docs/neoorg-selected-members-release.md.
 Cloud project: fishmarket-abc-2026-4514.
 Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
-Final release evidence is in docs/release.md and docs/rooms-agent-profiles-release.md.
+Current release evidence is in docs/release.md and docs/neoorg-selected-members-release.md; earlier room/profile evidence is historical. PR #1 is merged into main; this documentation phase does not imply competition submission.

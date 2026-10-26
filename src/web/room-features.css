@@ -20,7 +20,8 @@
 .room-dialog { position: fixed; width: min(550px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow: auto; border: 1px solid #dbe2d2; border-radius: 18px; padding: 34px; background: #fafbf7; color: var(--ink); box-shadow: 0 20px 80px #21312830; }
 .room-dialog::backdrop { background: #26352b40; backdrop-filter: blur(4px); }
 .room-dialog[open] { animation: appear .2s ease-out; }
-.dialog-close { position: absolute; right: 15px; top: 12px; width: 30px; height: 30px; border: 0; background: #eaf0e3; border-radius: 50%; color: #718568; font-size: 23px; line-height: 1; }
+.dialog-close { position: absolute; right: 15px; top: 12px; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; background: #eaf0e3; border-radius: 50%; color: #718568; }
+.dialog-close svg { display: block; width: 18px; height: 18px; }
 .room-dialog h2 { font-family: "Newsreader Variable", serif; font-size: 37px; font-weight: 500; letter-spacing: -.7px; margin: 14px 0; line-height: 1.08; }
 .dialog-intro { font-size: 13px; line-height: 1.8; color: #7c8774; margin: 12px 0 23px; }
 .room-title-label { display: block; font-size: 11px; color: #5c7250; margin-bottom: 8px; font-weight: 550; }
@@ -30,6 +31,7 @@
 .room-preservation > span { color: #728b65; font-size: 17px; }
 .room-preservation p { font-size: 11px; line-height: 1.8; margin: 0; }
 .dialog-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--line); padding-top: 20px; margin-top: 10px; }
+.create-dialog .dialog-actions { margin-top: 24px; }
 .primary-action, .secondary-action { font: inherit; font-size: 11px; line-height: 1.5; border-radius: 7px; padding: 11px 14px; }
 .primary-action { color: white; background: var(--green); border: 1px solid var(--green); }
 .secondary-action { color: #78876b; background: transparent; border: 1px solid #dce3d4; }

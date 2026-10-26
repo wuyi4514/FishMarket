@@ -27,7 +27,7 @@ export function buildApp(options: { store?: RoomStore; model?: ModelGateway; ser
   app.get("/api/config", async () => ({ mode: fixture ? "offline-fixture" : "live", model: modelName }));
   app.post("/api/rooms", async (request, reply) => {
     const input = createRoomSchema.parse(request.body);
-    const { room, token } = await collaboration.create(input.title, input.contractVersion === "create-room-v2" ? input.members : undefined);
+    const { room, token } = await collaboration.create(input.title, input.contractVersion !== "create-room-v1" ? input.members : undefined, input.contractVersion === "create-room-v3" ? "team" : "legacy");
     return reply.code(201).send({ room: projectRoom(room), token });
   });
   app.addHook("preHandler", async (request, reply) => {

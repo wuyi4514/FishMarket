@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const agentIdSchema = z.enum(["harbor", "reef", "sail", "beacon"]);
+export const agentIdSchema = z.enum(["harbor", "reef", "sail", "beacon", "coral"]);
 export type AgentId = z.infer<typeof agentIdSchema>;
 export const jobIdentitySchema = z.object({
   name: z.string().min(1).max(80), role: z.string().min(1).max(100), capability: z.string().min(1).max(400),
@@ -27,16 +27,36 @@ export const MEMBERS: AgentProfile[] = [
     responsibilities: ["Check the reasoning, evidence gaps and material risks in a proposed delivery.", "Assess every frozen acceptance criterion when assigned an independent review.", "Explain major blockers and actionable repairs while distinguishing honest limitations from false success."],
     boundaries: ["Independent review is allowed only when Beacon is neither the owner nor an author of the reviewed work.", "A reviewed report does not authorize real-world execution or replace the human's decision."] }
 ];
+// New-room catalog. Stable internal IDs are not display identities: the frozen
+// room profile is authoritative, so original rooms keep their original jobs.
+export const TEAM_CATALOG: AgentProfile[] = [
+  { ...MEMBERS[0]!, name: "Delivery - Anchor", role: "Project Delivery Manager",
+    boundaries: ["The job title does not assign outcome ownership; ownership follows the recorded assignment.", "Do not claim proposed actions were executed or make the human's final business decision."] },
+  { ...MEMBERS[1]!, name: "Product - Spark", role: "Product Lead",
+    capability: "Clarify the work problem, value proposition, scope and acceptance boundaries using supplied context.",
+    responsibilities: ["Clarify user needs and constraints from the shared conversation.", "Define product scope and measurable acceptance criteria.", "Resolve product claims and trade-offs without inventing evidence."] },
+  { ...MEMBERS[2]!, name: "Content - Anemone", role: "Content and Growth Operator",
+    capability: "Turn agreed facts into clear audience-specific product messaging and written launch materials.",
+    responsibilities: ["Define the audience and key message from the supplied brief.", "Write consistent launch copy, presentation outlines and usage guidance.", "Revise content against explicit review feedback while preserving factual boundaries."] },
+  { contractVersion: "agent-profile-v1", id: "coral", name: "Design - Coral", initials: "C", color: "#82bba4", role: "Experience and Visual Designer",
+    capability: "Develop information hierarchy, visual direction and reviewable design specifications in written form.",
+    responsibilities: ["Translate the shared brief into a clear information and interaction hierarchy.", "Specify typography, layout and consistent visual direction.", "Revise design specifications against concrete review feedback."],
+    boundaries: ["This cloud prototype produces written specifications, not generated images or editable presentation files.", "No image-generation, file publishing or external design tools are connected; never claim these actions occurred."] },
+  { ...MEMBERS[3]!, name: "Quality - Puffer", role: "Independent Quality Reviewer",
+    boundaries: ["Independent review is allowed only when the reviewer is neither the owner nor an author of the reviewed work.", "A reviewed report does not authorize real-world execution or replace the human's decision."] }
+];
 export function roomProfiles(room: Pick<Room, "members" | "agentProfiles">): AgentProfile[] {
-  const profiles = z.array(agentProfileSchema).min(1).max(4).parse(room.agentProfiles ?? MEMBERS.filter(member => room.members.includes(member.id)));
+  const profiles = z.array(agentProfileSchema).min(1).max(5).parse(room.agentProfiles ?? MEMBERS.filter(member => room.members.includes(member.id)));
   if (new Set(profiles.map(profile => profile.id)).size !== profiles.length || profiles.length !== room.members.length || profiles.some(profile => !room.members.includes(profile.id))) throw new Error("AGENT_PROFILE_MEMBERSHIP_INVALID");
   return room.members.map(id => profiles.find(profile => profile.id === id)!);
 }
 export const roomMembersSchema = z.array(agentIdSchema).min(2).max(4).refine(ids => new Set(ids).size === ids.length, "Members must be unique");
+export const teamMembersSchema = z.array(agentIdSchema).min(2).max(5).refine(ids => new Set(ids).size === ids.length, "Members must be unique");
 const roomTitle = z.string().trim().min(1).max(80);
 export const createRoomSchema = z.discriminatedUnion("contractVersion", [
   z.object({ contractVersion: z.literal("create-room-v1"), title: roomTitle }).strict(),
-  z.object({ contractVersion: z.literal("create-room-v2"), title: roomTitle, members: roomMembersSchema }).strict()
+  z.object({ contractVersion: z.literal("create-room-v2"), title: roomTitle, members: roomMembersSchema.refine(ids => !ids.includes("coral")) }).strict(),
+  z.object({ contractVersion: z.literal("create-room-v3"), title: roomTitle, members: teamMembersSchema }).strict()
 ]);
 export const sendMessageSchema = z.object({
   contractVersion: z.literal("human-message-v1"),
@@ -48,7 +68,7 @@ export const sendMessageSchema = z.object({
 export type HumanMessageInput = z.infer<typeof sendMessageSchema>;
 
 const body = z.string().trim().min(1).max(6000);
-const refs = z.enum(["M1", "M2", "M3", "M4"]);
+const refs = z.enum(["M1", "M2", "M3", "M4", "M5"]);
 export const goalSchema = z.object({
   goal: z.string().trim().min(4).max(1200),
   criteria: z.array(z.string().trim().min(3).max(300)).min(1).max(5),
