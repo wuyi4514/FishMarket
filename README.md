@@ -1,61 +1,171 @@
+<div align="center">
+
+<img src="public/brand/neoorg-logo.png" alt="NeoOrg logo" width="88" />
+
 # NeoOrg
 
-A human and persistent AI teammates collaborating in one group chat. One outcome has one accountable owner; other members contribute only when needed; an independent reviewer assesses the immutable delivery.
+**An AI-native operating system for organizations.**
 
-This AI Builder Cup 2026 Future of Work prototype adopts NeoOrg's Outcome Ownership design. Initially implemented separately as FishMarket on Google Cloud, it now uses the NeoOrg product name and original logo. Its repository, cloud resource names, public URL and saved room-access keys remain unchanged for continuity. It does not claim to implement the complete NeoOrg platform.
+You decide. Your AI team delivers.
 
-## What works
+[Try the prototype](https://fishmarket-893821979623.asia-northeast1.run.app/) · [Watch the demo](https://youtu.be/3ylBl1l6doA) · [Quick start](#quick-start) · [Architecture](#architecture) · [中文](README.zh-CN.md)
 
-- Persistent groups with a human and 2–5 selected teammates: Delivery - Anchor, Product - Spark, Content - Anemone, Design - Coral and Quality - Puffer. Original groups preserve their original frozen profiles.
-- Named fresh rooms, preserved browser-local room history, switching and reload restoration.
-- Clickable Agent position profiles; room-bound responsibilities and capability boundaries shared with Gemini.
-- General chat, @-only member targeting, and Gemini-selected outcome ownership. Removing a mention removes its routing effect; several distinct mentions remain a group message, not multi-dispatch.
-- Film-aligned three-column layout and original portraits, full-name @ chips/picker, IME-safe Enter sending, message copy and non-disruptive latest-message navigation.
-- Messages, role profiles and actual configured-model details. Unavailable Announcements/Space, account/workspace shortcuts and uninstalled Skills/Tools entries are hidden. Written deliveries and independent reviews remain persisted; no mock film content or file-generation tools are installed.
-- Bounded contributor requests, visible professional contributions, owner integration; smaller groups reserve an independent reviewer before delegation.
-- Frozen acceptance criteria, immutable deliveries and independent review.
-- Honest goal attainment, human input gates, and durable checkpoint recovery.
-- Atomic Firestore state/message persistence, request idempotency, lease fencing and private room capabilities.
-- A single Cloud Run image serving web + API, calling real Gemini through Vertex AI.
+[![Build](https://github.com/wuyi4514/FishMarket/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/wuyi4514/FishMarket/actions/workflows/verify.yml)
+[![Node.js 22.12+](https://img.shields.io/badge/Node.js-22.12%2B-5FA04E?logo=nodedotjs&logoColor=white)](#quick-start)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Gemini on Vertex AI](https://img.shields.io/badge/Gemini-Vertex_AI-4285F4?logo=googlecloud&logoColor=white)](#architecture)
 
-See the [technical overview and NeoOrg architecture mapping](docs/technical-overview.md), [architecture and scope](docs/group-collaboration.md) and [release evidence](docs/release.md).
+</div>
 
-## Submission text and source status
+[![Watch the three-minute NeoOrg product demo](https://img.youtube.com/vi/3ylBl1l6doA/maxresdefault.jpg)](https://youtu.be/3ylBl1l6doA)
 
-Copy-ready Chinese and English text with the deployed app and repository links is in [the submission description](docs/submission-description.md). It describes actual Gemini/Vertex AI, Cloud Run and Firestore usage; Firebase Hosting and Firebase Authentication are not used.
+<p align="center"><sub>Watch the three-minute product story. The video presents the broader NeoOrg vision; this repository contains the focused prototype described below.</sub></p>
 
-[PR #1](https://github.com/wuyi4514/FishMarket/pull/1) merged the prior product iterations into main at `a13059b` on October 16, 2026. The film-UI refinement is deployed from independent branch `codex/video-ui-cloud-alignment`, source `78ef020`, revision `fishmarket-00014-8g4`. Its [source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39146025170), 85 offline tests/typechecks/builds, actual local desktop/mobile checks and exact cloud-asset/history verification passed. Backend/model contracts are unchanged from the earlier live Gemini/Firestore gate. Remote browser attachment previously timed out; no fresh remote click verification is claimed. This update has not created a PR or merged into main; user acceptance remains pending. No competition submission is performed by this update. See the [release record](docs/changes/video-ui-cloud/release.md).
+## Why NeoOrg
 
-## Local offline development
+AI can help with a piece of work. Someone still has to brief each assistant, move results between them and check the final delivery.
 
-Requires Node.js 22.12+ and pnpm 10.33.0.
+NeoOrg explores a different way of working: people and AI colleagues share a goal, with **one agent accountable for carrying it through**. Other teammates contribute when their expertise is useful. The human supplies context and makes the decisions that matter.
+
+This repository implements that collaboration pattern in a group chat, with written deliverables, independent review and recoverable execution. It is a Google Cloud prototype built for AI Builder Cup 2026, not the complete NeoOrg platform.
+
+## What you can do
+
+| Capability | In the prototype |
+| --- | --- |
+| **Work with a persistent team** | Create a named group and select 2–5 teammates across Delivery, Product, Content, Design and Quality. Inspect their responsibilities, capability boundaries and configured model. |
+| **Give one goal to one owner** | Gemini selects an accountable owner who stays with the outcome through contributions and revisions. |
+| **Bring in relevant expertise** | The owner requests bounded contributions while reserving a teammate for independent review. |
+| **Inspect the result** | Review a frozen delivery against agreed acceptance criteria. A partial result is distinguished from an achieved goal. |
+| **Keep human judgment involved** | Answer a persisted request for input, then continue the same goal without losing its owner. |
+| **Pick up interrupted work** | Restore saved groups and messages, or explicitly resume a recoverable checkpoint without replaying committed messages. |
+
+The workspace uses NeoOrg's original portraits, composite group avatars and highlighted full-name mentions. Existing groups retain their original frozen job profiles; new groups use the five-position roster.
+
+### How work moves
+
+![A shared goal moves through one owner, optional contributions, an integrated delivery and independent review](docs/images/collaboration-flow.svg)
+
+The owner integrates the work. The reviewer is not an author of that delivery. A reviewed plan still needs a human decision before anyone acts on it outside the prototype.
+
+### Try a goal
+
+Open the [live prototype](https://fishmarket-893821979623.asia-northeast1.run.app/), choose a recommended question, or bring a goal such as:
+
+```text
+Our eight-person team attends four 45-minute status meetings each week,
+but decisions are not documented. Prepare a two-week improvement experiment
+with a decision log, clear responsibilities, measurable success criteria
+and rollback conditions. Ask for complementary contributions and review
+the final proposal independently.
+```
+
+For a direct question, type `@` and pick a teammate. A single valid mention targets that member; removing it returns to group routing. Several different mentions do not dispatch several parallel requests.
+
+<details>
+<summary><strong>Prototype interface</strong></summary>
+
+![NeoOrg five-position workspace with original portraits and independent review](docs/screenshots/neoorg-workspace-current.jpg)
+
+Actual local preview of the current interface, using deterministic development fixtures. The hosted prototype uses Vertex AI and Firestore. Unavailable features are hidden rather than shown as working controls.
+
+</details>
+
+## Quick start
+
+**Requirements:** Node.js **22.12+** and pnpm **10.33.0**.
 
 ```sh
+git clone https://github.com/wuyi4514/FishMarket.git
+cd FishMarket
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open http://127.0.0.1:4173. This explicitly labelled preview uses an in-memory store and deterministic model fixtures. It is not evidence of live Gemini or Firestore. Production rejects fixture mode.
+Open **http://127.0.0.1:4173**.
+
+The local preview works without a Google Cloud project or API key. It uses deterministic model fixtures and an in-memory store, so it is useful for development but does not represent live model inference or durable cloud storage. Fixture mode is rejected in production.
+
+<details>
+<summary><strong>Development commands</strong></summary>
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Start the local web app and fixture API |
+| `pnpm test` | Run deterministic tests and core collaboration Evals |
+| `pnpm typecheck` | Check frontend and server TypeScript |
+| `pnpm build` | Build web and server |
+| `pnpm verify` | Run tests, typechecks and both builds |
+| `pnpm start` | Serve the production build with your configured backend |
+
+</details>
+
+## Architecture
+
+| Layer | Technology | Responsibility |
+| --- | --- | --- |
+| Web | React, TypeScript, Vite | Group navigation, profiles, mentions and committed-state UI |
+| API | Fastify | Input validation, room access and workflow entry points |
+| Collaboration | TypeScript domain engine | Ownership, contributions, frozen deliveries, review and recovery |
+| Inference | Gemini through Vertex AI, official Google Gen AI SDK | Role-specific reasoning and validated structured intent |
+| Persistence | Firestore Native | Atomic room/message/checkpoint commits, idempotency and execution fencing |
+| Hosting | Cloud Run | One container serving web and API |
+
+**Models make semantic decisions. The application owns execution facts.** IDs, permissions, versions, receipts and transitions are validated and committed by engineering code, not inferred from conversational claims.
+
+This prototype runs a bounded workflow within the HTTP request while the browser polls stored state. It has no separate worker fleet or unattended scheduler. Read the [technical overview](docs/technical-overview.md) for the lifecycle, failure boundaries and mapping to NeoOrg's broader architecture.
+
+<details>
+<summary><strong>Run with Gemini and Firestore</strong></summary>
+
+Provision a Google Cloud project with Vertex AI and a Firestore Native database. Authenticate the runtime with Application Default Credentials or an attached service account, granting `roles/aiplatform.user` and `roles/datastore.user`.
+
+Set your actual project ID and a Gemini model available to that project:
 
 ```sh
-pnpm verify
-```
+export GOOGLE_CLOUD_PROJECT="your-project-id"
+export ROOM_STORE="firestore"
+export GEMINI_MODEL="gemini-3.5-flash-lite"
+export RELEASE_SHA="$(git rev-parse HEAD)"
+export NODE_ENV="production"
 
-## Production
-
-Set GOOGLE_CLOUD_PROJECT, ROOM_STORE=firestore, GEMINI_MODEL to a supported model, and RELEASE_SHA. The service account needs roles/datastore.user and roles/aiplatform.user. No API key or credentials are committed or sent to the browser.
-
-```sh
 pnpm build
 pnpm start
 ```
 
-A long-running HTTP message request drives the workflow while the browser polls committed room state. Refreshing only retrieves state. If execution is interrupted, the lease expires; the explicit Resume action continues the persisted checkpoint without repeating committed messages.
+The API listens on port `8080` by default. `/api/health` returns structured store/provider/release information. Model calls require valid Google Cloud access and can incur charges. Credentials stay on the server; never put a service-account key in the repository or browser.
 
-Anonymous visitors can create their own room. Each room has an unguessable capability stored in that browser. Do not enter private business data into a public demo.
+</details>
 
-The workspace list is remembered only in this browser, not synchronized across devices. Creating a fresh room keeps previous rooms and their sent messages; unsent drafts stay separately in the current tab. Clearing browser storage can lose room access. Fresh rooms do not reset the project-wide daily model-call limit.
+## Scope and privacy
 
-## Deliberately deferred
+> [!IMPORTANT]
+> The public demo is for non-sensitive example data. Room access is stored in your browser, not in a cross-device user account.
 
-External business actions, owner transfer, dynamic staffing, plugins, long-term private memory, scheduled waits and simultaneous runs in the same room. A proposed business plan is not proof that its actions have been executed. Deck/video are outside this implementation request.
+- **Available here:** text/Markdown collaboration, selected stable teammates, one owner per outcome, independent review, human input and explicit recovery.
+- **Outside this prototype:** image generation, editable slide export, external business actions, installed plugins/Skills, private long-term memory, owner transfer, scheduled work and simultaneous runs in one room.
+- **Room history:** new rooms keep previous rooms and sent messages. Unsent drafts stay in the current tab. Clearing browser storage can lose access; fresh rooms do not reset project-wide model limits.
+- **Broader product:** the complete NeoOrg platform remains in development. The video, default-branch source and limited hosted preview have different scopes; do not assume every illustrated capability exists in this repository.
+
+The repository and cloud URL retain the original **FishMarket** identifier for continuity. The product name is **NeoOrg**.
+
+## Documentation
+
+| Guide | What it covers |
+| --- | --- |
+| [Technical overview](docs/technical-overview.md) | Architecture, production composition and NeoOrg design mapping |
+| [Collaboration model](docs/group-collaboration.md) | Contracts, ownership, contribution and review rules |
+| [Release evidence](docs/release.md) | Recorded tests, deployed baselines and verification scope |
+| [Selected-team release](docs/neoorg-selected-members-release.md) | Membership, reviewer capacity and browser interactions |
+| [Current workspace release](docs/changes/video-ui-cloud/release.md) | Original portraits, five-position roster, available controls and recorded cloud checks |
+| [Submission description](docs/submission-description.md) | Concise project description and competition links |
+
+## Contributing
+
+Feedback on the collaboration model, reproducible bugs and focused documentation improvements is welcome.
+
+1. [Open an issue](https://github.com/wuyi4514/FishMarket/issues) with the goal, expected result and reproduction steps. Remove secrets and private chat content.
+2. Discuss substantial behavior or architecture changes before implementing them.
+3. Keep changes focused and run `pnpm verify` before proposing a pull request. Changes to model contracts, ownership, persistence or recovery need corresponding regression coverage.
+
+Explore the prototype, read the implementation, and help shape how humans and AI work together.

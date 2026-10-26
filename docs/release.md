@@ -6,7 +6,9 @@ https://fishmarket-893821979623.asia-northeast1.run.app
 
 Public source: https://github.com/wuyi4514/FishMarket
 
-The film-aligned UI refinement is deployed from `codex/video-ui-cloud-alignment` at `78ef020ce74c263f221c59580b6911de9dbce8b3`, revision `fishmarket-00014-8g4`, 100% traffic. [Source CI](https://github.com/wuyi4514/FishMarket/actions/runs/39146025170), 85 offline tests/typechecks/builds and actual local desktop/mobile checks passed. The creation dialog omits annotated auxiliary copy and the shared vector close icon is centered; selection/draft/dismissal rules are unchanged. Exact public JS/CSS/logo/avatars match the verified build; all 30 pre-existing room hashes/update times remain unchanged. No backend/model contracts changed; earlier live-model evidence is historical, not a fresh run. Remote tab attachment was unavailable, so current cloud click interactions are not separately verified. No PR or main merge has been performed; user acceptance is pending. See [current release details](changes/video-ui-cloud/release.md) and [per-file changes](changes/video-ui-cloud/change-summary.md).
+The film-aligned UI refinement is deployed at source `78ef020ce74c263f221c59580b6911de9dbce8b3`, revision `fishmarket-00014-8g4`. Its previously recorded release Gate covered 85 offline tests/typechecks/builds, actual local desktop/mobile checks, exact public asset parity and preserved room hashes. The creation dialog omits annotated auxiliary copy and uses a centered vector close icon. Earlier live-model evidence and cloud control-plane checks are historical; remote browser attachment was unavailable at that release, so cloud click interactions are not separately claimed. See [release details](changes/video-ui-cloud/release.md) and [per-file changes](changes/video-ui-cloud/change-summary.md).
+
+On October 26, 2026, [PR #2](https://github.com/wuyi4514/FishMarket/pull/2) merged the complete UI branch into main at `053fb5e`, following the user's explicit publication request. A fresh local Gate passed 85 tests, both typechecks and both builds, and PR CI passed. Read-only public health still reports the deployed source above, ready with Vertex AI and Firestore. This publication does not redeploy, modify stored rooms or replay tasks.
 
 [PR #1](https://github.com/wuyi4514/FishMarket/pull/1) integrated the earlier product version at `a13059b`. The historical snapshots below are retained for traceability, not the current runtime.
 
@@ -27,7 +29,7 @@ The film-aligned UI refinement is deployed from `codex/video-ui-cloud-alignment`
 
 Documentation/QA-only commits after this runtime source do not change the deployed src, dependencies, build configuration or Dockerfile.
 
-The current UI source differs from main and remains on the independent acceptance branch. The historical sections below describe their original release snapshots, not the currently running revision or UI.
+The current UI source is included in main. The historical sections below describe their original release snapshots, not the currently running revision or UI.
 
 ## NeoOrg selected groups and branding (previous release, 2026-10-16)
 

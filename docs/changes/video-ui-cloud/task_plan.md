@@ -37,3 +37,7 @@ Boundary: UI-only change. Preserve all contracts, frozen identities, model conte
 5. Record per-file release evidence and user acceptance entry; no PR — complete; user acceptance pending.
 
 No server/contract/state changes. Keep required member count enforcement, draft preservation, original avatars and recommendations. Roll back to revision 00013 image if necessary, without data edits or replay.
+# Publication update — 2026-10-26
+
+The user explicitly requested merging the latest deployed UI branch. PR #2 merged at `053fb5e` after the fresh 85-test/typecheck/build Gate and PR CI passed. Pending-acceptance/no-PR notes in the implementation steps below describe their original milestones and are superseded for source publication. Cloud runtime remains `78ef020`; no redeployment or historical replay was performed.
+
