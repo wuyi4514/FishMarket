@@ -8,7 +8,7 @@
 
 你作决定，你的 AI 团队负责交付。
 
-[体验原型](https://fishmarket-893821979623.asia-northeast1.run.app/) · [观看演示](https://youtu.be/3ylBl1l6doA) · [快速开始](#快速开始) · [技术架构](#技术架构) · [English](README.md)
+[观看产品视频](https://youtu.be/3ylBl1l6doA) · [快速开始](#快速开始) · [技术架构](#技术架构) · [English](README.md)
 
 [![构建状态](https://github.com/wuyi4514/FishMarket/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/wuyi4514/FishMarket/actions/workflows/verify.yml)
 [![Node.js 22.12+](https://img.shields.io/badge/Node.js-22.12%2B-5FA04E?logo=nodedotjs&logoColor=white)](#快速开始)
@@ -48,9 +48,9 @@ NeoOrg 探索另一种工作方式：人和 AI 同事围绕共享目标共事，
 
 负责人整合工作，评审者不参与这份交付的创作。方案通过评审，并不等于获准在原型之外执行实际业务动作，这仍需由人决定。
 
-### 试着提出一个目标
+### 在本地提出一个目标
 
-打开[在线原型](https://fishmarket-893821979623.asia-northeast1.run.app/)，选择一个推荐问题，或者提出这样的目标：
+按照[快速开始](#快速开始)运行本地预览，选择一个推荐问题，或者提出这样的目标：
 
 ```text
 我们团队有 8 个人，每周参加 4 场、每场 45 分钟的状态会议，
@@ -139,7 +139,7 @@ API 默认监听 `8080` 端口，`/api/health` 返回结构化的存储、Provid
 ## 范围与隐私
 
 > [!IMPORTANT]
-> 公开演示请只使用非敏感示例数据。群组访问凭据保存在当前浏览器中，不是跨设备同步的用户账号。
+> 云端评审环境仅供赛事评审，访问链接单独提供；公开体验请使用本地预览。群组访问凭据保存在当前浏览器中，不是跨设备同步的用户账号。
 
 - **当前可用：** 文本/Markdown 协作、选择固定岗位成员、一个结果一位负责人、独立评审、人的补充输入和明确的恢复操作。
 - **不在本原型内：** 图片生成、可编辑 PPT 导出、外部业务动作、已安装的插件/Skill、私有长期记忆、负责人转移、定时任务和同群并发执行。

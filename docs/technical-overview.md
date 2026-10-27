@@ -10,7 +10,7 @@ For the project-introduction field, use the [copy-ready Chinese or English descr
 
 ## What the evaluator can verify
 
-1. Open the public app without creating an account. A new visitor receives an isolated room.
+1. Open the evaluation environment using the link supplied privately to the competition judges. No account is required; a new visitor receives an isolated room. Public readers can use the README's local preview instead.
 2. Select a recommended question to populate the composer without automatically sending it.
 3. Ask a simple question, or use the `@` picker. A single distinct valid mention in the current draft determines its structured target; removing it restores general group routing. Several distinct mentions remain a group message, not a command to invoke everyone. Group membership is checked independently by the server.
 4. Submit a substantial goal. Observe the owner, professional contributions, integrated delivery and review in the same timeline.
@@ -19,7 +19,7 @@ For the project-introduction field, use the [copy-ready Chinese or English descr
 7. Use the group-list plus button to name a new room and select its teammates. Verify its member list and @ choices contain only that selection. Switch back and reload: previous messages remain. Access is browser-local, not an account directory.
 8. If a real model request is interrupted, use the displayed recovery action when available. Do not create another request to hide the interrupted execution.
 
-Public app: https://fishmarket-893821979623.asia-northeast1.run.app
+Evaluation deployment: its access link is supplied privately to competition judges, not published in this repository.
 
 Public repository: https://github.com/wuyi4514/FishMarket
 

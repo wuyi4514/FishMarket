@@ -11,7 +11,7 @@ NeoOrg is a human-and-AI group workspace for the future of work. Users choose 2�
 ## 提交链接
 
 - 作品名称：NeoOrg
-- 已部署原型：https://fishmarket-893821979623.asia-northeast1.run.app/
+- 已部署原型：评审链接单独提供给赛事方，不在公开仓库展示。
 - GitHub 代码库：https://github.com/wuyi4514/FishMarket
 - 技术说明：https://github.com/wuyi4514/FishMarket/blob/main/docs/technical-overview.md
 

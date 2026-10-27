@@ -1,8 +1,8 @@
 # NeoOrg verified release
 
-## Public entry
+## Evaluation deployment and public source
 
-https://fishmarket-893821979623.asia-northeast1.run.app
+The hosted evaluation environment is reserved for competition review. Its access link is supplied privately; public readers should use the README's local preview.
 
 Public source: https://github.com/wuyi4514/FishMarket
 
@@ -109,10 +109,10 @@ A reviewed report is not proof that the proposed business actions were executed.
 ## Reproduce the production Gate
 
 ```sh
-FISHMARKET_URL=https://fishmarket-893821979623.asia-northeast1.run.app pnpm smoke:production
+FISHMARKET_URL="https://your-deployment.example" pnpm smoke:production
 ```
 
-Uses the public API, real deployed model adapter and independent Firestore read. Run from a developer environment with authorized gcloud access. Tokens are neither logged nor saved.
+Replace the example URL with an authorized deployment address supplied privately. Uses that deployment's API, real model adapter and independent Firestore read. Run from a developer environment with authorized gcloud access. Tokens are neither logged nor saved.
 
 ## Deploy from a committed source
 

@@ -218,5 +218,5 @@ User's latest correction explicitly keeps the three recommended question cards. 
 Runtime implementation: source commit 3fc280f7d31e2ef741efa29d57fe100c53c54892, Cloud Run fishmarket-00011-86f (prior chat baseline 138ee5e, cleanup source 55a14fa, feature source 8816155).
 Local Gate: 75 tests + typecheck + web/server build passed. Real Gemini/Firestore four-/two-/three-Agent workflows passed; production asset hashes and no-replay history digest verified. See docs/neoorg-selected-members-release.md.
 Cloud project: fishmarket-abc-2026-4514.
-Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
+Evaluation deployment: access link supplied privately to competition judges.
 Current release evidence is in docs/release.md and docs/neoorg-selected-members-release.md; earlier room/profile evidence is historical. PR #1 is merged into main; this documentation phase does not imply competition submission.

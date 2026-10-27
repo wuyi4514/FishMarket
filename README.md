@@ -8,7 +8,7 @@
 
 You decide. Your AI team delivers.
 
-[Try the prototype](https://fishmarket-893821979623.asia-northeast1.run.app/) · [Watch the demo](https://youtu.be/3ylBl1l6doA) · [Quick start](#quick-start) · [Architecture](#architecture) · [中文](README.zh-CN.md)
+[Watch the product video](https://youtu.be/3ylBl1l6doA) · [Quick start](#quick-start) · [Architecture](#architecture) · [中文](README.zh-CN.md)
 
 [![Build](https://github.com/wuyi4514/FishMarket/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/wuyi4514/FishMarket/actions/workflows/verify.yml)
 [![Node.js 22.12+](https://img.shields.io/badge/Node.js-22.12%2B-5FA04E?logo=nodedotjs&logoColor=white)](#quick-start)
@@ -48,9 +48,9 @@ The workspace uses NeoOrg's original portraits, composite group avatars and high
 
 The owner integrates the work. The reviewer is not an author of that delivery. A reviewed plan still needs a human decision before anyone acts on it outside the prototype.
 
-### Try a goal
+### Try a goal locally
 
-Open the [live prototype](https://fishmarket-893821979623.asia-northeast1.run.app/), choose a recommended question, or bring a goal such as:
+Follow the [quick start](#quick-start) to run the local preview, choose a recommended question, or bring a goal such as:
 
 ```text
 Our eight-person team attends four 45-minute status meetings each week,
@@ -140,7 +140,7 @@ The API listens on port `8080` by default. `/api/health` returns structured stor
 ## Scope and privacy
 
 > [!IMPORTANT]
-> The public demo is for non-sensitive example data. Room access is stored in your browser, not in a cross-device user account.
+> The hosted evaluation environment is reserved for competition review, with its link shared privately. Use the local preview to explore this repository. Room access is stored in your browser, not in a cross-device user account.
 
 - **Available here:** text/Markdown collaboration, selected stable teammates, one owner per outcome, independent review, human input and explicit recovery.
 - **Outside this prototype:** image generation, editable slide export, external business actions, installed plugins/Skills, private long-term memory, owner transfer, scheduled work and simultaneous runs in one room.
