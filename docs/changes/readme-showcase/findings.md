@@ -17,3 +17,7 @@ The product video at https://youtu.be/3ylBl1l6doA presents the broader NeoOrg st
 ## Updated source baseline after user steering
 - User explicitly requested merging the deployed UI branch and basing the README on the latest source. PR #2 merged at 053fb5e on 2026-10-26. The earlier four-profile finding describes only the initial inspection; current main has 2–5 selected teammates, original portraits, composite group avatars and highlighted full-name mentions.
 - Current details expose Profile and the actual configured Models tab. Unavailable navigation and uninstalled Skills/Tools entries are hidden. Legacy rooms preserve their frozen profiles. README copy and screenshots must reflect this version.
+
+## Evaluation-entry follow-up — 2026-10-27
+- The user reserves the hosted environment for competition judges to control model usage. Public discovery should lead to the product video and credential-free local preview, not the hosted endpoint.
+- Both READMEs, linked technical/submission/release documents, a historical plan and the QA script default exposed the same address. Remove the literal endpoint from the current tracked tree, rather than only hiding the README's primary button. Git history and the service's access policy are outside this documentation change.

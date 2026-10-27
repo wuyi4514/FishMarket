@@ -4,7 +4,7 @@ Historical release snapshot for source `8816155` / revision `fishmarket-00007-cz
 
 ## Release snapshot
 
-- Public entry: https://fishmarket-893821979623.asia-northeast1.run.app
+- Evaluation deployment: access link supplied privately to competition judges.
 - Source: 8816155b922e10c0fc1d341a64ebb58099b1d5b9 (health release: 8816155).
 - Development branch: codex/rooms-agent-profiles; subsequently included in the PR #1 merge into main.
 - Cloud Run revision at this release: fishmarket-00007-czj; then 100% traffic, now superseded.

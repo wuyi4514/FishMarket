@@ -6,7 +6,7 @@ The cloud runtime remains the previously deployed `78ef020` build described belo
 
 # Creation dialog refinement — 2026-10-19 (deployed runtime snapshot)
 
-- Entry: https://fishmarket-893821979623.asia-northeast1.run.app
+- Evaluation deployment: access link supplied privately to competition judges.
 - Runtime source / health tag: `78ef020ce74c263f221c59580b6911de9dbce8b3`.
 - Revision: `fishmarket-00014-8g4`, Ready/Active, 100% traffic.
 - Resolved image: `sha256:b3e9be3a0a6d08936e7dd5db4409edd5de02a2dfaf1f3b3f9f523cf009c9cd07`.
@@ -35,7 +35,7 @@ The following describes revision 00013, superseded by the creation-dialog refine
 
 ## Running source and scope
 
-- Entry: https://fishmarket-893821979623.asia-northeast1.run.app
+- Evaluation deployment: access link supplied privately to competition judges.
 - Exact runtime source / health tag: `45b8a005e1938f26c9231fc0d9a5bd930d72e9bf`.
 - Branch: `codex/video-ui-cloud-alignment`; no new PR or main merge; user acceptance pending.
 - Revision: `fishmarket-00013-8fk`, Ready, Active, 100% traffic.
@@ -67,7 +67,7 @@ The following evidence describes the previous release, not the current visible c
 
 ## Previous deployment
 
-- Entry: https://fishmarket-893821979623.asia-northeast1.run.app
+- Evaluation deployment: access link supplied privately to competition judges.
 - Source: `77755e247870bd8257cde2fd613eedcea608e9e5`; health release tag `77755e2`.
 - Branch: `codex/video-ui-cloud-alignment`; no new PR or main merge; user acceptance pending.
 - Revision: `fishmarket-00012-cmx`, 100% traffic.

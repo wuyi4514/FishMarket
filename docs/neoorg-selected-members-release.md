@@ -2,7 +2,7 @@
 
 ## Running version
 
-- Public application: https://fishmarket-893821979623.asia-northeast1.run.app
+- Evaluation deployment: access link supplied privately to competition judges.
 - Source: `3fc280f7d31e2ef741efa29d57fe100c53c54892`, branch `codex/neoorg-room-members`.
 - Cloud Run revision: `fishmarket-00011-86f`, 100% traffic.
 - Cloud Build: `95fc495b-1c73-4dba-9ec4-96e8aa2e19c8`, success.

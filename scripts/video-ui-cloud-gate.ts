@@ -4,7 +4,8 @@ import { createHash, randomUUID } from "node:crypto";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { TEAM_CATALOG, type RoomView } from "../src/contracts/group.js";
 
-const base = process.env.FISHMARKET_URL ?? "https://fishmarket-893821979623.asia-northeast1.run.app";
+const base = process.env.FISHMARKET_URL?.trim() ?? "";
+if (process.argv[2] === "live") assert.ok(base, "Set FISHMARKET_URL to an authorized evaluation deployment before running the live Gate");
 const cli = process.env.GCLOUD_BIN ?? "/Users/xiewuyi1/.local/google-cloud-sdk/bin/gcloud";
 const token = execFileSync(cli, ["auth", "print-access-token"], { encoding: "utf8" }).trim();
 const endpoint = "https://firestore.googleapis.com/v1/projects/fishmarket-abc-2026-4514/databases/(default)/documents";
